@@ -1,0 +1,51 @@
+.inspect-container {
+  border: 2px solid #ffffff;
+  padding: 20px;
+  background-color: #161c1c;
+  color: #ffffff;
+  width: 600px;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+
+.inspect-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.inspect-content {
+  display: flex;
+  gap: 20px;
+}
+
+.inspect-photo img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+}
+
+.inspect-info p {
+  margin: 5px 0;
+}
+
+.nav-button {
+  color: #ffa500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.nav-button:hover {
+  text-decoration: underline;
+}
+
+.inspect-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}

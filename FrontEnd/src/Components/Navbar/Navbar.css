@@ -1,0 +1,12 @@
+.main-container{
+    border: solid;
+    border-color: beige;
+    display: flex;
+    flex-direction: column;
+}
+.main-header{
+    display: flex;
+}
+.nav-bar{
+    display: flex;
+}
