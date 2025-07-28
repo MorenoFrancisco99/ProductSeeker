@@ -34,6 +34,24 @@ namespace ProductSeeker.Controllers
             return Ok(products);
         }
 
+        // GET: api/product/user-products
+        [Authorize]
+        [HttpGet("user-products")]
+        public async Task<ActionResult<List<ProductDTO>>> GetUserProducts()
+        {
+            var username = User.GetUsername();
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+            var products = await _productService.GetUserProductsAsync(user);
+            return Ok(products);
+        }
+
+
+
+
         // POST: api/product
         [HttpPost]
         [Authorize]

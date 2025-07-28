@@ -172,3 +172,4 @@ C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\bin\
 C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\bin\Debug\net9.0\Frontend\package-lock.json
 C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\bin\Debug\net9.0\Frontend\package.json
 C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\ProductSeeker.sourcelink.json

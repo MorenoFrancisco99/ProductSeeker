@@ -59,7 +59,28 @@ namespace ProductSeeker.Data.Services
         {
             throw new NotImplementedException();
         }
-        // Implement methods for product management here
+
+        Task<ProductDTO?> IProductService.CreateProductAsync(POSTProductDTO product, AppUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<List<ProductDTO>> IProductService.GetAllProductsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<ProductDTO> IProductService.GetProductByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<ProductDTO>> GetUserProductsAsync(AppUser user)
+        {
+            var userProducts = await  _appUserProductRepository.GetUserProductsAsync(user);
+            var userProductsDTO =  userProducts.Select(p => p.toProductDTO()).ToList();
+            return userProductsDTO;
+        }
 
 
     }

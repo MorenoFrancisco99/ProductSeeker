@@ -1,4 +1,5 @@
-﻿using ProductSeeker.Data.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductSeeker.Data.Context;
 using ProductSeeker.Data.Interfaces;
 using ProductSeeker.Data.Models;
 
@@ -14,7 +15,11 @@ namespace ProductSeeker.Data.Repositories
         }
         public async Task<List<ProductModel>> GetUserProductsAsync(AppUser user)
         {
-            throw new NotImplementedException("This method is not implemented yet. Please implement it in the future.");
+            var products = await _context.AppUserProducts
+                .Where(up => up.AppUserId == user.Id)
+                .Select(up => up.ProductModel)
+                .ToListAsync();
+            return products;
         }
 
         public async Task<AppUserProduct?> PostUserProductAsync(AppUser user, ProductModel model)

@@ -17,5 +17,6 @@ namespace ProductSeeker.Data.Interfaces
         /// <returns>A list of all products.</returns>
         Task<List<ProductDTO>> GetAllProductsAsync();
         Task<ProductDTO?> CreateProductAsync(POSTProductDTO product, AppUser user);
+        Task<List<ProductDTO>> GetUserProductsAsync(AppUser user);
     }
 }

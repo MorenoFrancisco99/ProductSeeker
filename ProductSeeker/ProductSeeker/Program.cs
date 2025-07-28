@@ -62,6 +62,7 @@ namespace ProductSeeker
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
+                    //Agregar ValidateLifetime
                     ValidateIssuer = true,
                     ValidIssuer = builder.Configuration["JWT:Issuer"],
                     ValidateAudience = true,

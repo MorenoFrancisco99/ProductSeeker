@@ -3,28 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\repositories\\appuserstorerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\repositories\\appuserstorerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\context\\aplicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\context\\aplicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\models\\appuserstore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\models\\appuserstore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\repositories\\storerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\repositories\\storerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\services\\storeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\services\\storeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\models\\appuserproduct.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\models\\appuserproduct.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -39,24 +19,40 @@
       "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\repositories\\appuserproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\repositories\\appuserproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\repositories\\appuserstorerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\repositories\\appuserstorerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\services\\storeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\services\\storeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\utils\\extensions\\claimextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\utils\\extensions\\claimextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\interfaces\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\interfaces\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\interfaces\\istoreservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\interfaces\\istoreservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\utils\\mappers\\productmappers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\utils\\mappers\\productmappers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\dtos\\postproductdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\dtos\\postproductdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\data\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\data\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\controllers\\storecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|solutionrelative:productseeker\\controllers\\storecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{48CE52E1-E2C8-4E49-946A-8850D600BCE2}|ProductSeeker\\ProductSeeker.csproj|c:\\users\\francisco\\documents\\proj\\productseeker\\productseeker\\productseeker\\controllers\\.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -70,17 +66,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 192,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Program.cs",
               "RelativeDocumentMoniker": "ProductSeeker\\Program.cs",
               "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Program.cs",
               "RelativeToolTip": "ProductSeeker\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHsAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAGoAAAAAAAAAAAAgwEkAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-16T21:54:29.473Z",
               "IsPinned": true,
@@ -88,7 +84,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 13,
               "Title": ".cs",
               "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Controllers\\.cs",
               "RelativeDocumentMoniker": "ProductSeeker\\Controllers\\.cs",
@@ -101,172 +97,163 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AplicationDBContext.cs",
-              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Context\\AplicationDBContext.cs",
-              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Context\\AplicationDBContext.cs",
-              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Context\\AplicationDBContext.cs",
-              "RelativeToolTip": "ProductSeeker\\Data\\Context\\AplicationDBContext.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAmwDUAAAAuAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "AppUserProduct.cs",
+              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Models\\AppUserProduct.cs",
+              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Models\\AppUserProduct.cs",
+              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Models\\AppUserProduct.cs",
+              "RelativeToolTip": "ProductSeeker\\Data\\Models\\AppUserProduct.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T14:47:00.982Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AppUserStore.cs",
-              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Models\\AppUserStore.cs",
-              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Models\\AppUserStore.cs",
-              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Models\\AppUserStore.cs",
-              "RelativeToolTip": "ProductSeeker\\Data\\Models\\AppUserStore.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T14:46:07.846Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "StoreRepository.cs",
-              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Repositories\\StoreRepository.cs",
-              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Repositories\\StoreRepository.cs",
-              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Repositories\\StoreRepository.cs",
-              "RelativeToolTip": "ProductSeeker\\Data\\Repositories\\StoreRepository.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T14:36:49.238Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "StoreService.cs",
-              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Services\\StoreService.cs",
-              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Services\\StoreService.cs",
-              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Services\\StoreService.cs",
-              "RelativeToolTip": "ProductSeeker\\Data\\Services\\StoreService.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAwwCwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T14:35:57.003Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ProductService.cs",
-              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Services\\ProductService.cs",
-              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Services\\ProductService.cs",
-              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Services\\ProductService.cs",
-              "RelativeToolTip": "ProductSeeker\\Data\\Services\\ProductService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-23T19:22:07.604Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "IProductRepository.cs",
-              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Interfaces\\IProductRepository.cs",
-              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Interfaces\\IProductRepository.cs",
-              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Interfaces\\IProductRepository.cs",
-              "RelativeToolTip": "ProductSeeker\\Data\\Interfaces\\IProductRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-23T19:21:09.112Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "IProductService.cs",
-              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Interfaces\\IProductService.cs",
-              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Interfaces\\IProductService.cs",
-              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Interfaces\\IProductService.cs",
-              "RelativeToolTip": "ProductSeeker\\Data\\Interfaces\\IProductService.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAowAwAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-22T23:24:17.923Z",
+              "WhenOpened": "2025-07-28T01:50:53.854Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ProductRepository.cs",
-              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Repositories\\ProductRepository.cs",
-              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Repositories\\ProductRepository.cs",
-              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Repositories\\ProductRepository.cs",
-              "RelativeToolTip": "ProductSeeker\\Data\\Repositories\\ProductRepository.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAwwCsAAAAJAAAAAAAAAA==",
+              "Title": "IProductService.cs",
+              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Interfaces\\IProductService.cs",
+              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Interfaces\\IProductService.cs",
+              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Interfaces\\IProductService.cs",
+              "RelativeToolTip": "ProductSeeker\\Data\\Interfaces\\IProductService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-23T19:15:13.915Z",
+              "WhenOpened": "2025-07-28T01:40:47.732Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
+              "Title": "ProductService.cs",
+              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Services\\ProductService.cs",
+              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Services\\ProductService.cs",
+              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Services\\ProductService.cs",
+              "RelativeToolTip": "ProductSeeker\\Data\\Services\\ProductService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T01:15:14.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "AppUserStoreRepository.cs",
               "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Repositories\\AppUserStoreRepository.cs",
               "RelativeDocumentMoniker": "ProductSeeker\\Data\\Repositories\\AppUserStoreRepository.cs",
               "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Repositories\\AppUserStoreRepository.cs",
               "RelativeToolTip": "ProductSeeker\\Data\\Repositories\\AppUserStoreRepository.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAowCYAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAA5wAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-23T15:13:50.427Z",
+              "WhenOpened": "2025-07-28T01:34:19.488Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "POSTProductDTO.cs",
-              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\DTOs\\POSTProductDTO.cs",
-              "RelativeDocumentMoniker": "ProductSeeker\\Data\\DTOs\\POSTProductDTO.cs",
-              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\DTOs\\POSTProductDTO.cs",
-              "RelativeToolTip": "ProductSeeker\\Data\\DTOs\\POSTProductDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA3AAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "AppUserProductRepository.cs",
+              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Repositories\\AppUserProductRepository.cs",
+              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Repositories\\AppUserProductRepository.cs",
+              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Repositories\\AppUserProductRepository.cs",
+              "RelativeToolTip": "ProductSeeker\\Data\\Repositories\\AppUserProductRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-23T14:21:15.125Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "ProductDTO.cs",
-              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\DTOs\\ProductDTO.cs",
-              "RelativeDocumentMoniker": "ProductSeeker\\Data\\DTOs\\ProductDTO.cs",
-              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\DTOs\\ProductDTO.cs",
-              "RelativeToolTip": "ProductSeeker\\Data\\DTOs\\ProductDTO.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAkAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-23T13:50:45.785Z"
+              "WhenOpened": "2025-07-28T01:31:55.742Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "ProductController.cs",
-              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Controllers\\ProductController.cs",
-              "RelativeDocumentMoniker": "ProductSeeker\\Controllers\\ProductController.cs",
-              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Controllers\\ProductController.cs",
-              "RelativeToolTip": "ProductSeeker\\Controllers\\ProductController.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAowDEAAAAqAAAAAAAAAA==",
+              "Title": "StoreService.cs",
+              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Services\\StoreService.cs",
+              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Services\\StoreService.cs",
+              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Services\\StoreService.cs",
+              "RelativeToolTip": "ProductSeeker\\Data\\Services\\StoreService.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwCYAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-22T23:23:20.185Z",
+              "WhenOpened": "2025-07-28T01:29:29.445Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TokenService.cs",
+              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Services\\TokenService.cs",
+              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Services\\TokenService.cs",
+              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Services\\TokenService.cs",
+              "RelativeToolTip": "ProductSeeker\\Data\\Services\\TokenService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAkAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T01:27:47.375Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "ProductSeeker\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "ProductSeeker\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAAAwwCMAAABjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T01:23:37.049Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
-              "Title": "ProductMappers.cs",
-              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Utils\\Mappers\\ProductMappers.cs",
-              "RelativeDocumentMoniker": "ProductSeeker\\Utils\\Mappers\\ProductMappers.cs",
-              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Utils\\Mappers\\ProductMappers.cs",
-              "RelativeToolTip": "ProductSeeker\\Utils\\Mappers\\ProductMappers.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAgwA4AAAANAAAAAAAAAA==",
+              "Title": "IStoreService.cs",
+              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Interfaces\\IStoreService.cs",
+              "RelativeDocumentMoniker": "ProductSeeker\\Data\\Interfaces\\IStoreService.cs",
+              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Data\\Interfaces\\IStoreService.cs",
+              "RelativeToolTip": "ProductSeeker\\Data\\Interfaces\\IStoreService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-23T13:50:58.776Z"
+              "WhenOpened": "2025-07-28T01:02:11.827Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ClaimExtensions.cs",
+              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Utils\\Extensions\\ClaimExtensions.cs",
+              "RelativeDocumentMoniker": "ProductSeeker\\Utils\\Extensions\\ClaimExtensions.cs",
+              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Utils\\Extensions\\ClaimExtensions.cs",
+              "RelativeToolTip": "ProductSeeker\\Utils\\Extensions\\ClaimExtensions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-27T19:23:45.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "ProductSeeker\\Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "ProductSeeker\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-27T19:17:49.397Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "StoreController.cs",
+              "DocumentMoniker": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Controllers\\StoreController.cs",
+              "RelativeDocumentMoniker": "ProductSeeker\\Controllers\\StoreController.cs",
+              "ToolTip": "C:\\Users\\FRANCISCO\\Documents\\Proj\\ProductSeeker\\ProductSeeker\\ProductSeeker\\Controllers\\StoreController.cs",
+              "RelativeToolTip": "ProductSeeker\\Controllers\\StoreController.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-27T19:17:39.307Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             }
           ]
         }
