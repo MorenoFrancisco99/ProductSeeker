@@ -23,6 +23,9 @@ namespace ProductSeeker.Data.Services
             _appUserProductRepository = appUserProductRepository;
         }
 
+
+
+
         public async Task<ProductDTO?> CreateProductAsync(POSTProductDTO product, AppUser user)
         {
             try
@@ -48,32 +51,29 @@ namespace ProductSeeker.Data.Services
             }
         }
 
+
+
+
         public async Task<List<ProductDTO>> GetAllProductsAsync()
         {
             var products = await _productRepository.GetProductsAsync();
             var productDTOs = products.Select(products => products.toProductDTO()).ToList();
             return productDTOs;
         }
+     
+  
 
-        public Task<ProductDTO> GetProductByIdAsync(int id)
+
+        public async Task<ProductDTO?> GetProductByIdAsync(AppUser user, int id)
         {
-            throw new NotImplementedException();
+           var product = await _appUserProductRepository.GetProductByIdAsync(user, id);
+    
+           return product?.toProductDTO();
+
         }
 
-        Task<ProductDTO?> IProductService.CreateProductAsync(POSTProductDTO product, AppUser user)
-        {
-            throw new NotImplementedException();
-        }
 
-        Task<List<ProductDTO>> IProductService.GetAllProductsAsync()
-        {
-            throw new NotImplementedException();
-        }
 
-        Task<ProductDTO> IProductService.GetProductByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<List<ProductDTO>> GetUserProductsAsync(AppUser user)
         {
@@ -83,5 +83,50 @@ namespace ProductSeeker.Data.Services
         }
 
 
+
+
+        public async Task<ProductDTO?> UpdateProductAsync(int id, PUTProductDTO product, AppUser user)
+        {
+            try
+            {
+                var productExisting = await _appUserProductRepository.GetProductByIdAsync(user, id);
+                if (productExisting == null)
+                {
+                    return null;
+                }
+                var productModel = await _productRepository.PutProductAsync(id, product);
+                return productModel?.toProductDTO();
+
+
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (not implemented here)
+                return null;
+            }
+
+        }
+
+
+
+
+        public async Task<List<ProductHistoryDTO?>?> GetProductHistoryAsync(AppUser user, int id)
+        {
+            try
+            {
+                var productExists = await _appUserProductRepository.GetProductByIdAsync(user, id);
+                if (productExists == null)
+                {
+                    return null;
+                }
+                var productHistory = await _productRepository.GetAllProductHistoryAsync(id);
+                return productHistory;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (not implemented here)
+                return null;
+            }
+        }
     }
 }

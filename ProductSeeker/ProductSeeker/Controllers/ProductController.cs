@@ -59,7 +59,8 @@ namespace ProductSeeker.Controllers
         {
             /*
              TODO: The asociated store comes in the DTO in form of an ID. 
-             Later change to a full StoreDTO or param(not ID) to associate the correct store.
+             Later change to a full StoreDTO or another param(maybe standalone ID) to associate the correct store.
+             Or maybe not. IDK im not your mother
              */
             if (productDto == null)
             {
@@ -81,6 +82,71 @@ namespace ProductSeeker.Controllers
             return Ok(createdProduct);
         }
 
+        // GET: api/product/{id}
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ProductDTO>> GetProductById(int id)
+        {
+            var username = User.GetUsername();
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+            var product = await _productService.GetProductByIdAsync(user, id); 
+            if (product == null)
+            {
+                return NotFound("Product does not exist or it doesn't belong to the user");
+            }
+            return Ok(product);
+
+        }
+
+        //PUT : api/product/{id}
+        [Authorize]
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ProductDTO>> UpdateProduct(int id, [FromBody] PUTProductDTO productDto)
+        {
+            if (productDto == null)
+            {
+                return BadRequest("Product data is null");
+            }
+            var username = User.GetUsername();
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+            var updatedProduct = await _productService.UpdateProductAsync(id, productDto, user);
+            if (updatedProduct == null)
+            {
+                return NotFound("Product not found or update failed");
+            }
+            return Ok(updatedProduct);
+        }
+
+        // GET: api/product/product-history/{id}
+        [Authorize]
+        [HttpGet("product-history/{id}")]
+        public async Task<ActionResult<List<ProductHistoryDTO>>> GetProductHistory(int id)
+        {
+            try
+            {
+                var username = User.GetUsername();
+                var user = await _userManager.FindByNameAsync(username);
+                if (user == null)
+                {
+                    return NotFound("User not found");
+                }
+                var productHistory = await _productService.GetProductHistoryAsync(user, id);
+                return Ok(productHistory);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+        }
     }
 
 

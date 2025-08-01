@@ -10,7 +10,7 @@ namespace ProductSeeker.Data.Interfaces
         /// </summary>
         /// <param name="id">The product ID.</param>
         /// <returns>The product with the specified ID.</returns>
-        Task<ProductDTO> GetProductByIdAsync(int id);
+        Task<ProductDTO?> GetProductByIdAsync(AppUser user, int id);
         /// <summary>
         /// Gets all products.
         /// </summary>
@@ -18,5 +18,10 @@ namespace ProductSeeker.Data.Interfaces
         Task<List<ProductDTO>> GetAllProductsAsync();
         Task<ProductDTO?> CreateProductAsync(POSTProductDTO product, AppUser user);
         Task<List<ProductDTO>> GetUserProductsAsync(AppUser user);
+
+        Task<ProductDTO?> UpdateProductAsync(int id, PUTProductDTO product, AppUser user);
+
+
+        Task<List<ProductHistoryDTO?>?> GetProductHistoryAsync(AppUser user, int id);
     }
 }

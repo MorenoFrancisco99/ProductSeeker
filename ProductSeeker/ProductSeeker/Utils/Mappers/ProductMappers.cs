@@ -52,5 +52,7 @@ namespace ProductSeeker.Services.Mappers
 
             };
         }
+
+     
     }
 }

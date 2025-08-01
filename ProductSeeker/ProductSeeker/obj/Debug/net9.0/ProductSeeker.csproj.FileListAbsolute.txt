@@ -142,12 +142,6 @@ C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\
 C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\staticwebassets.development.json
 C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\staticwebassets\msbuild.ProductSeeker.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\staticwebassets\msbuild.ProductSeeker.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\staticwebassets\msbuild.build.ProductSeeker.props
-C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.ProductSeeker.props
-C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.ProductSeeker.props
-C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\staticwebassets.pack.json
 C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\ProductS.673F623A.Up2Date
 C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\ProductSeeker.dll
 C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\refint\ProductSeeker.dll
@@ -171,5 +165,10 @@ C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\bin\
 C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
 C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\bin\Debug\net9.0\Frontend\package-lock.json
 C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\bin\Debug\net9.0\Frontend\package.json
-C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\ProductSeeker.sourcelink.json
+C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\rjimswa.dswa.cache.json
+C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\staticwebassets.build.json.cache
+C:\Users\FRANCISCO\Documents\Proj\ProductSeeker\ProductSeeker\ProductSeeker\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

@@ -292,7 +292,7 @@ namespace ProductSeeker.Migrations
                     b.Property<float>("Quantity")
                         .HasColumnType("real");
 
-                    b.Property<int>("StoreID")
+                    b.Property<int>("StoreId")
                         .HasColumnType("int");
 
                     b.Property<float?>("SubUnitAmount")
@@ -308,11 +308,32 @@ namespace ProductSeeker.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("ValidFrom")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ValidFrom");
+
+                    b.Property<DateTime>("ValidTo")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ValidTo");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("StoreID");
+                    b.HasIndex("StoreId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                            {
+                                ttb.UseHistoryTable("ProductsHistory");
+                                ttb
+                                    .HasPeriodStart("ValidFrom")
+                                    .HasColumnName("ValidFrom");
+                                ttb
+                                    .HasPeriodEnd("ValidTo")
+                                    .HasColumnName("ValidTo");
+                            }));
                 });
 
             modelBuilder.Entity("ProductSeeker.Data.Models.StoreModel", b =>
@@ -452,7 +473,7 @@ namespace ProductSeeker.Migrations
                 {
                     b.HasOne("ProductSeeker.Data.Models.StoreModel", "Store")
                         .WithMany("ProductList")
-                        .HasForeignKey("StoreID")
+                        .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

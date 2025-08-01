@@ -13,6 +13,16 @@ namespace ProductSeeker.Data.Repositories
         {
             _context = context;
         }
+
+        public async Task<ProductModel?> GetProductByIdAsync(AppUser user, int id)
+        {
+            var product = await _context.AppUserProducts
+                .Where(up => up.AppUserId == user.Id && up.ProductId == id)
+                .Select(up => up.ProductModel)
+                .FirstOrDefaultAsync();
+            return product;
+        }
+
         public async Task<List<ProductModel>> GetUserProductsAsync(AppUser user)
         {
             var products = await _context.AppUserProducts

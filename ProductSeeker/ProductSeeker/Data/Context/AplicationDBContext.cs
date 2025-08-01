@@ -41,6 +41,18 @@ namespace ProductSeeker.Data.Context
             };
             builder.Entity<IdentityRole>().HasData(roles);
 
+            // Tomado de: https://learn.microsoft.com/en-us/ef/core/providers/sql-server/temporal-tables
+            builder.Entity<ProductModel>()
+                .ToTable("Products", b => b.IsTemporal(
+                    b =>
+                    {
+                        b.UseHistoryTable("ProductsHistory");
+                        b.HasPeriodStart("ValidFrom");
+                        b.HasPeriodEnd("ValidTo");
+                    }));
+        
+
+
 
             builder.Entity<AppUserStore>()
                 .HasKey(x => new { x.AppUserId, x.StoreId });

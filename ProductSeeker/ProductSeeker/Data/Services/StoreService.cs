@@ -23,7 +23,7 @@ namespace ProductSeeker.Data.Services
 
             return storeDTOs;
         }
-        public async Task<StoreModel?> CreateStoreAsync(AppUser user, PostStoreDTO userStore)
+        public async Task<StoreDTO?> CreateStoreAsync(AppUser user, PostStoreDTO userStore)
         {
             var storeModel = userStore.ToStoreModel();
             var store = await _storeRepository.PostStoreAsync(storeModel);
@@ -39,7 +39,7 @@ namespace ProductSeeker.Data.Services
                 await _storeRepository.DeleteStoreByIDAsync(store.Id);
                 return null;
             }
-            return store; 
+            return store.ToStoreDTO(); 
 
         }
 

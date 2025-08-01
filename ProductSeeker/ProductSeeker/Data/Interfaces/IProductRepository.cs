@@ -11,5 +11,15 @@ namespace ProductSeeker.Data.Interfaces
         Task<ProductModel?> PutProductAsync(int id, PUTProductDTO productDTO);
         Task<List<ProductModel>> DeleteAllProductsAsync();
         Task<ProductModel?> DeleteByIDAsync(int id);
+
+        /// <summary>
+        /// Retrieves the full history of a product by its ID.
+        /// </summary>
+        /// <remarks>
+        ///    
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<List<ProductHistoryDTO>?> GetAllProductHistoryAsync(int id);
     }
 }
