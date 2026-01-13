@@ -1,0 +1,22 @@
+{
+  "Version" : 1,
+  "Categories": {
+    "Food": {
+      "Attributes": {
+        "Net-Content": {
+          "DataType": "int",
+          "IsRequired": true
+        },
+        "Unit-Of-Measure": {
+          "DataType": "int",
+          "IsRequired": true
+        },
+        "TAAC": {
+          "DataType": "bool",
+          "IsRequired": false
+        }
+      }
+    },
+    "Clothing": {}
+  }
+}

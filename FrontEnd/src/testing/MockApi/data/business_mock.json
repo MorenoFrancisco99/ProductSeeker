@@ -1,0 +1,102 @@
+[
+  {
+    "Id": 1,
+    "Name": "Café Aroma",
+    "Category": "Cafetería",
+    "BussinesDays": "08-20",
+    "Rating": 4.5,
+    "ExtraInfo": "Ofrecemos café artesanal y repostería casera.",
+    "Img": null,
+    "Location": "40.7128/-74.0060"
+  },
+  {
+    "Id": 2,
+    "Name": "Tienda Verde",
+    "Category": "Tienda de abarrotes",
+    "BussinesDays": "09-21",
+    "Rating": 4.2,
+    "ExtraInfo": "Productos ecológicos y locales.",
+    "Img": "https://example.com/img/tienda_verde.jpg",
+    "Location": "34.0522/-118.2437"
+  },
+  {
+    "Id": 3,
+    "Name": "TechWorld",
+    "Category": "Electrónica",
+    "BussinesDays": "10-22",
+    "Rating": 3.8,
+    "ExtraInfo": "Últimos gadgets y accesorios.",
+    "Img": "https://example.com/img/techworld.jpg",
+    "Location": "37.7749/-122.4194"
+  },
+  {
+    "Id": 4,
+    "Name": "Panadería San Juan",
+    "Category": "Panadería",
+    "BussinesDays": "06-18",
+    "Rating": 4.7,
+    "ExtraInfo": "Pan fresco todos los días.",
+    "Img": "https://example.com/img/panaderia_sanjuan.jpg",
+    "Location": "48.8566/2.3522"
+  },
+  {
+    "Id": 5,
+    "Name": "Restaurante El Buen Sabor",
+    "Category": "Restaurante",
+    "BussinesDays": "11-23",
+    "Rating": 4.9,
+    "ExtraInfo": "Especialidad en comida mexicana.",
+    "Img": "https://example.com/img/el_buen_sabor.jpg",
+    "Location": "19.4326/-99.1332"
+  },
+  {
+    "Id": 6,
+    "Name": "Moda Total",
+    "Category": "Ropa",
+    "BussinesDays": "10-20",
+    "Rating": 4.0,
+    "ExtraInfo": "Ropa de moda para toda ocasión.",
+    "Img": "https://example.com/img/moda_total.jpg",
+    "Location": "51.5074/-0.1278"
+  },
+  {
+    "Id": 7,
+    "Name": "Pet House",
+    "Category": "Tienda de mascotas",
+    "BussinesDays": "09-19",
+    "Rating": 3.9,
+    "ExtraInfo": "Alimentos y accesorios para tu mascota.",
+    "Img": "https://example.com/img/pet_house.jpg",
+    "Location": "41.9028/12.4964"
+  },
+  {
+    "Id": 8,
+    "Name": "Librería Central",
+    "Category": "Librería",
+    "BussinesDays": "10-19",
+    "Rating": 4.6,
+    "ExtraInfo": "Gran variedad de libros y revistas.",
+    "Img": "https://example.com/img/libreria_central.jpg",
+    "Location": "35.6895/139.6917"
+  },
+  {
+    "Id": 9,
+    "Name": "Supermercado Ahorro",
+    "Category": "Supermercado",
+    "BussinesDays": "07-23",
+    "Rating": 4.1,
+    "ExtraInfo": "Descuentos todos los días.",
+    "Img": "https://example.com/img/super_ahorro.jpg",
+    "Location": "55.7558/37.6173"
+  },
+  {
+    "Id": 10,
+    "Name": "Gimnasio FitLife",
+    "Category": "Gimnasio",
+    "BussinesDays": "06-22",
+    "Rating": 4.3,
+    "ExtraInfo": "Entrenadores personales y clases grupales.",
+    "Img": "https://example.com/img/gimnasio_fitlife.jpg",
+    "Location": "52.5200/13.4050"
+  }
+]
