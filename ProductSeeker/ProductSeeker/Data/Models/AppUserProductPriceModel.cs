@@ -15,7 +15,9 @@ public class AppUserProductPriceModel :BaseEntity
     
     [Required, Precision(18,4)]
     public required decimal Price { get; set; }
-    
+
+    public required string Currency = "ARS";
+        
     [Required]
     public required int ProductSpecId { get; set; }
     [Required]
@@ -24,7 +26,7 @@ public class AppUserProductPriceModel :BaseEntity
     [Required]
     public required int StoreId  { get; set; }
     [Required]
-    public required StoreSpecModel StoreSpec {get; set;}
+    public required StoreCoreModel StoreSpec {get; set;}
     
     [Required]
     public required DateTime ValidFrom { get; set; }
@@ -34,6 +36,4 @@ public class AppUserProductPriceModel :BaseEntity
     [Required]
     public required DateTime PriceCreationDate {get ; set;}
 
-    [Required] 
-    public required bool IsActive { get; set; } 
 }

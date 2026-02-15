@@ -1,27 +1,11 @@
-﻿using ProductSeeker.Data.DTOs;
-using ProductSeeker.Data.OldModels;
+﻿using ProductSeeker.Data.Models;
 
-namespace ProductSeeker.Data.Interfaces
+namespace ProductSeeker;
+
+public interface IProductService
 {
-    public interface IProductService
-    {
-        /// <summary>
-        /// Gets the product by its ID.
-        /// </summary>
-        /// <param name="id">The product ID.</param>
-        /// <returns>The product with the specified ID.</returns>
-        Task<ProductDTO?> GetProductByIdAsync(AppUser user, int id);
-        /// <summary>
-        /// Gets all products.
-        /// </summary>
-        /// <returns>A list of all products.</returns>
-        Task<List<ProductDTO>> GetAllProductsAsync();
-        Task<ProductDTO?> CreateProductAsync(POSTProductDTO product, AppUser user);
-        Task<List<ProductDTO>> GetUserProductsAsync(AppUser user);
+    Task<IEnumerable<ProductCoreModel>> GetAllProducts();
+    Task<ProductCoreModel?> GetByID(int id);
+    Task<ProductCoreModel?> CreateNewProduct( ProductCoreModel productCore);
 
-        Task<ProductDTO?> UpdateProductAsync(int id, PUTProductDTO product, AppUser user);
-
-
-        Task<List<ProductHistoryDTO?>?> GetProductHistoryAsync(AppUser user, int id);
-    }
 }

@@ -11,7 +11,7 @@ public class AppUserStoreCoreModel : BaseEntity
     [Required]
     public required int StoreId { get; set; }
     [Required]
-    public required StoreCore StoreCore { get; set; }
+    public required StoreCoreModel StoreCore { get; set; }
     
     [Required]
     public bool? UserRating { get; set; }

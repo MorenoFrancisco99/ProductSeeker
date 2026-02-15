@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using ProductSeeker.Data;
 using ProductSeeker.Data.Context;
 using ProductSeeker.Data.Interfaces;
-using ProductSeeker.Data.OldModels;
+using ProductSeeker.Data.Models;
 using ProductSeeker.Data.Repositories;
 using ProductSeeker.Data.Services;
 
@@ -109,13 +108,16 @@ namespace ProductSeeker
         }
     });
             });
-            builder.Services.AddScoped<IProductRepository, ProductRepository>();
-            builder.Services.AddScoped<IStoreRepository, StoreRepository>();
-            builder.Services.AddScoped<IAppUserStoreRepository, AppUserStoreRepository>();
-            builder.Services.AddScoped<IAppUserProductRepository, AppUserProductRepository>();
-            builder.Services.AddScoped<ITokenService, TokenService>();
-            builder.Services.AddScoped<IStoreService, StoreService>();
+
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped<IProductService, ProductService>();
+            // builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            // builder.Services.AddScoped<IStoreRepository, StoreRepository>();
+            // // builder.Services.AddScoped<IAppUserStoreRepository, AppUserStoreRepository>();
+            // // builder.Services.AddScoped<IAppUserProductRepository, AppUserProductRepository>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
+            // // builder.Services.AddScoped<IStoreService, StoreService>();
+            // builder.Services.AddScoped<IProductService, ProductService>();
 
             var app = builder.Build();
 

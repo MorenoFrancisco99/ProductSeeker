@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProductSeeker.Services.Mappers;
-using ProductSeeker.Data.Interfaces;
-using ProductSeeker.Data.OldModels;
 using ProductSeeker.Data.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using ProductSeeker.Services.Extensions;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
+using ProductSeeker.Data.Models;
 
 namespace ProductSeeker.Controllers
 {
@@ -29,7 +26,7 @@ namespace ProductSeeker.Controllers
         [Authorize]
         public async Task<ActionResult<List<ProductDTO>>> GetAllProducts()
         {
-            var products = await _productService.GetAllProductsAsync();
+            var products = await _productService.GetAllProducts();
           
             return Ok(products);
         }
@@ -39,14 +36,7 @@ namespace ProductSeeker.Controllers
         [HttpGet("user-products")]
         public async Task<ActionResult<List<ProductDTO>>> GetUserProducts()
         {
-            var username = User.GetUsername();
-            var user = await _userManager.FindByNameAsync(username);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-            var products = await _productService.GetUserProductsAsync(user);
-            return Ok(products);
+           throw new NotImplementedException();
         }
 
 
@@ -55,7 +45,7 @@ namespace ProductSeeker.Controllers
         // POST: api/product
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<ProductDTO>> CreateProduct([FromBody] POSTProductDTO productDto)
+        public async Task<ActionResult<ProductDTO>> CreateProduct([FromBody] ProductCoreModel productDto)
         {
             /*
              TODO: The asociated store comes in the DTO in form of an ID. 
@@ -73,7 +63,7 @@ namespace ProductSeeker.Controllers
                 return NotFound("User not found");
             }
 
-            var createdProduct = await _productService.CreateProductAsync(productDto, user);
+            var createdProduct = await _productService.CreateNewProduct(productDto);
             
             if (createdProduct == null)
             {
@@ -93,7 +83,7 @@ namespace ProductSeeker.Controllers
             {
                 return NotFound("User not found");
             }
-            var product = await _productService.GetProductByIdAsync(user, id); 
+            var product = await _productService.GetByID(id); 
             if (product == null)
             {
                 return NotFound("Product does not exist or it doesn't belong to the user");
@@ -107,22 +97,7 @@ namespace ProductSeeker.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<ProductDTO>> UpdateProduct(int id, [FromBody] PUTProductDTO productDto)
         {
-            if (productDto == null)
-            {
-                return BadRequest("Product data is null");
-            }
-            var username = User.GetUsername();
-            var user = await _userManager.FindByNameAsync(username);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-            var updatedProduct = await _productService.UpdateProductAsync(id, productDto, user);
-            if (updatedProduct == null)
-            {
-                return NotFound("Product not found or update failed");
-            }
-            return Ok(updatedProduct);
+           throw new NotImplementedException();
         }
 
         // GET: api/product/product-history/{id}
@@ -130,22 +105,7 @@ namespace ProductSeeker.Controllers
         [HttpGet("product-history/{id}")]
         public async Task<ActionResult<List<ProductHistoryDTO>>> GetProductHistory(int id)
         {
-            try
-            {
-                var username = User.GetUsername();
-                var user = await _userManager.FindByNameAsync(username);
-                if (user == null)
-                {
-                    return NotFound("User not found");
-                }
-                var productHistory = await _productService.GetProductHistoryAsync(user, id);
-                return Ok(productHistory);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            
+            throw new NotImplementedException();
         }
     }
 

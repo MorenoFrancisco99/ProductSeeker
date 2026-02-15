@@ -16,7 +16,15 @@ namespace ProductSeeker.Data.Context
         // public DbSet<ProductSeeker.Data.OldModels.StoreModel> Stores { get; set; }
         // public DbSet<ProductSeeker.Data.OldModels.AppUserProduct> AppUserProducts { get; set; }
         // public DbSet<ProductSeeker.Data.OldModels.AppUserStore> AppUserStores { get; set; }
-
+        public DbSet<ProductCoreModel> ProductCores { get; set; }
+        public DbSet<ProductSpecModel> ProductSpecs { get; set; }
+        public DbSet<AppUserProductPriceModel> AppUserProductPrices { get; set; }
+        public DbSet<ProductSpecAttributeValue> ProductSpecAttributeValues { get; set; }
+        public DbSet<ProductAliasModel> ProductAliasModel {get; set;}
+        public DbSet<StoreCoreModel> StoreCores { get; set; }
+        public DbSet<StoreSpecModel> StoreSpecs { get; set; }
+        public DbSet<AppUserStoreCoreModel> AppUserStoreCores { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

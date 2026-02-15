@@ -10,7 +10,7 @@ public class StoreSpecModel : BaseEntity
 {
     [Required] public required int StoreCoreId { get; set; }
 
-    [Required] public required StoreCore Store { get; set; }
+    [Required] public required StoreCoreModel Store { get; set; }
 
     [Required] public required string GeoLocation { get; set; }
 

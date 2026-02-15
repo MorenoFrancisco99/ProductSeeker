@@ -1,9 +1,9 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using ProductSeeker.Data.Interfaces;
-using ProductSeeker.Data.OldModels;
+using ProductSeeker.Data.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using ProductSeeker.Data.Interfaces;
 
 namespace ProductSeeker.Data.Services
 {

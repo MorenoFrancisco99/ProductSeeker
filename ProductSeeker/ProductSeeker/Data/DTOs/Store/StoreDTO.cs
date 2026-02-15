@@ -1,6 +1,5 @@
 ﻿using NetTopologySuite.Geometries;
 using ProductSeeker.Data.DTOs.Product;
-using ProductSeeker.Data.OldModels;
 
 namespace ProductSeeker.Data.DTOs.Store
 {

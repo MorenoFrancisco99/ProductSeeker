@@ -1,5 +1,4 @@
-﻿using ProductSeeker.Data.OldModels;
-
+﻿
 namespace ProductSeeker.Data.DTOs
 {
     public class NoStoreReferenceProductDTO

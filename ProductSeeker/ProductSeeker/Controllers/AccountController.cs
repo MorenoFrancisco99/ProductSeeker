@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProductSeeker.Data.DTOs.Account;
 using ProductSeeker.Data.Interfaces;
-using ProductSeeker.Data.OldModels;
+using ProductSeeker.Data.Models;
 
 namespace ProductSeeker.Controllers
 {
@@ -60,7 +60,8 @@ namespace ProductSeeker.Controllers
                 {
                     UserName = registerDTO.Username,
                     Email = registerDTO.Email,
-                    
+                    GeoLocation = default, 
+                    IsActive = true,                    
                 };
 
                 var CreatedUser = await _userManager.CreateAsync(appUser, registerDTO.Password);

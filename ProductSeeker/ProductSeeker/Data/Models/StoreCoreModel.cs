@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ProductSeeker.Data.Models;
 
 [Table("StoreCore")]
-public class StoreCore : BaseEntity
+public class StoreCoreModel : BaseEntity
 {
     [Required, MaxLength(50)]
     public required string Name {get; set;}
