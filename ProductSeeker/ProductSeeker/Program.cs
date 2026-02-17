@@ -17,7 +17,7 @@ namespace ProductSeeker
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<AplicationDBContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("AplicationDBContext") ?? throw new InvalidOperationException("Connections string 'ProductsDBContext' not found")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("LinuxString") ?? throw new InvalidOperationException("Connections string 'ProductsDBContext' not found")));
 
             builder.Services.AddCors(OptionsBuilderConfigurationExtensions =>
             {
@@ -111,11 +111,13 @@ namespace ProductSeeker
 
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IStoreService, StoreService>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
+            
             // builder.Services.AddScoped<IProductRepository, ProductRepository>();
             // builder.Services.AddScoped<IStoreRepository, StoreRepository>();
             // // builder.Services.AddScoped<IAppUserStoreRepository, AppUserStoreRepository>();
             // // builder.Services.AddScoped<IAppUserProductRepository, AppUserProductRepository>();
-            builder.Services.AddScoped<ITokenService, TokenService>();
             // // builder.Services.AddScoped<IStoreService, StoreService>();
             // builder.Services.AddScoped<IProductService, ProductService>();
 

@@ -2,6 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ProductSeeker.Data.Utils;
 
 namespace ProductSeeker.Data.Models;
 
@@ -22,7 +23,7 @@ public class StoreSpecModel : BaseEntity
     
     public DateTime? ValidTo { get; set; }
     
-    [Required]
-    public required DateTime SpecCrationDate {get ; set;}
+    public UnitStateEnum.UnitState State {get; set;}
+
     
 }

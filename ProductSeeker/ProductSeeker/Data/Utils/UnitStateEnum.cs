@@ -4,10 +4,8 @@ public class UnitStateEnum
 {
     public enum UnitState
     {
-        Draft,
         Proposed,
         Verified,
         Deprecated,
-        Merged
     }
 }

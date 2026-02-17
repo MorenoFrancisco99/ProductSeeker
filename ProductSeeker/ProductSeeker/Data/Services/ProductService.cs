@@ -5,7 +5,7 @@ using ProductSeeker.Data.Models;
 
 namespace ProductSeeker;
 
-public class ProductService : IProductService
+public class ProductService : IProductService 
 {
 
     //context is only for saving changes. Any other operations

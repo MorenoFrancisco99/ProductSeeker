@@ -2,6 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ProductSeeker.Data.Utils;
 
 namespace ProductSeeker.Data.Models;
 
@@ -14,7 +15,7 @@ public class StoreCoreModel : BaseEntity
     [Required, MaxLength(50)]
     public required string Field {get; set;}
 
-    
+    public UnitStateEnum.UnitState State {get; set;}
 
     public List<StoreSpecModel> StoreSpecs = [];
 

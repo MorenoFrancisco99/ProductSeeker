@@ -407,12 +407,6 @@ namespace ProductSeeker.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("MergedIntoId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MergedIntoProductCoreId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -424,8 +418,6 @@ namespace ProductSeeker.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IdCreator");
-
-                    b.HasIndex("MergedIntoId");
 
                     b.ToTable("ProductCore");
                 });
@@ -497,12 +489,6 @@ namespace ProductSeeker.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("MergedIntoId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MergedIntoProductSpecId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProductCoreId")
                         .HasColumnType("int");
 
@@ -512,8 +498,6 @@ namespace ProductSeeker.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IdCreator");
-
-                    b.HasIndex("MergedIntoId");
 
                     b.HasIndex("ProductCoreId");
 
@@ -550,6 +534,9 @@ namespace ProductSeeker.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IdCreator");
@@ -585,8 +572,8 @@ namespace ProductSeeker.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("SpecCrationDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("State")
+                        .HasColumnType("int");
 
                     b.Property<int>("StoreCoreId")
                         .HasColumnType("int");
@@ -614,7 +601,7 @@ namespace ProductSeeker.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -623,7 +610,7 @@ namespace ProductSeeker.Migrations
                     b.HasOne("ProductSeeker.Data.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -632,7 +619,7 @@ namespace ProductSeeker.Migrations
                     b.HasOne("ProductSeeker.Data.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -641,13 +628,13 @@ namespace ProductSeeker.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ProductSeeker.Data.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -656,7 +643,7 @@ namespace ProductSeeker.Migrations
                     b.HasOne("ProductSeeker.Data.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -665,19 +652,19 @@ namespace ProductSeeker.Migrations
                     b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
                         .WithMany()
                         .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ProductSeeker.Data.Models.ProductSpecModel", "ProductSpecModel")
                         .WithMany("Prices")
                         .HasForeignKey("ProductSpecModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ProductSeeker.Data.Models.StoreCoreModel", "StoreSpec")
                         .WithMany()
                         .HasForeignKey("StoreSpecId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Creator");
@@ -692,13 +679,13 @@ namespace ProductSeeker.Migrations
                     b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
                         .WithMany()
                         .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ProductSeeker.Data.Models.StoreCoreModel", "StoreCore")
                         .WithMany()
                         .HasForeignKey("StoreCoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Creator");
@@ -711,13 +698,13 @@ namespace ProductSeeker.Migrations
                     b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
                         .WithMany()
                         .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ProductSeeker.Data.Models.ProductCoreModel", "ProductCore")
                         .WithMany("Aliases")
                         .HasForeignKey("ProductCoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Creator");
@@ -730,16 +717,10 @@ namespace ProductSeeker.Migrations
                     b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
                         .WithMany()
                         .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("ProductSeeker.Data.Models.ProductCoreModel", "MergedInto")
-                        .WithMany()
-                        .HasForeignKey("MergedIntoId");
-
                     b.Navigation("Creator");
-
-                    b.Navigation("MergedInto");
                 });
 
             modelBuilder.Entity("ProductSeeker.Data.Models.ProductSpecAttributeValue", b =>
@@ -747,12 +728,13 @@ namespace ProductSeeker.Migrations
                     b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
                         .WithMany()
                         .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ProductSeeker.Data.Models.ProductSpecModel", null)
                         .WithMany("Attributes")
-                        .HasForeignKey("ProductSpecModelId");
+                        .HasForeignKey("ProductSpecModelId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Creator");
                 });
@@ -762,22 +744,16 @@ namespace ProductSeeker.Migrations
                     b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
                         .WithMany()
                         .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("ProductSeeker.Data.Models.ProductSpecModel", "MergedInto")
-                        .WithMany()
-                        .HasForeignKey("MergedIntoId");
 
                     b.HasOne("ProductSeeker.Data.Models.ProductCoreModel", "ProductCore")
                         .WithMany("Specs")
                         .HasForeignKey("ProductCoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Creator");
-
-                    b.Navigation("MergedInto");
 
                     b.Navigation("ProductCore");
                 });
@@ -787,7 +763,7 @@ namespace ProductSeeker.Migrations
                     b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
                         .WithMany()
                         .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Creator");
@@ -798,13 +774,13 @@ namespace ProductSeeker.Migrations
                     b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
                         .WithMany()
                         .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ProductSeeker.Data.Models.StoreCoreModel", "Store")
                         .WithMany()
                         .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Creator");

@@ -52,16 +52,11 @@ namespace ProductSeeker.Controllers
              Later change to a full StoreDTO or another param(maybe standalone ID) to associate the correct store.
              Or maybe not. IDK im not your mother
              */
-            if (productDto == null)
-            {
-                return BadRequest("Product data is null");
-            }
+            if(!ModelState.IsValid) {return BadRequest(ModelState);}
+
             var username = User.GetUsername();
             var user = await _userManager.FindByNameAsync(username);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
+            if (user == null){ return NotFound("User not found");}
 
             var createdProduct = await _productService.CreateNewProduct(productDto);
             

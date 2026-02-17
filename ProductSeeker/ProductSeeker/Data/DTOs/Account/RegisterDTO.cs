@@ -20,5 +20,6 @@ namespace ProductSeeker.Data.DTOs.Account
         /// Email. Example: SomeEmail@SomeEmail.com
         /// </summary>
         [Required] [EmailAddress] public string? Email { get; set;}
+
     }
 }

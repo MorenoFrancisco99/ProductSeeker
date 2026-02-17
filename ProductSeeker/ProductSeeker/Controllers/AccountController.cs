@@ -60,7 +60,7 @@ namespace ProductSeeker.Controllers
                 {
                     UserName = registerDTO.Username,
                     Email = registerDTO.Email,
-                    GeoLocation = default, 
+                    GeoLocation = "default", 
                     IsActive = true,                    
                 };
 
