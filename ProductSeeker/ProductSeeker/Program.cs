@@ -113,7 +113,7 @@ namespace ProductSeeker
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IStoreService, StoreService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
-            
+            builder.Services.AddScoped<IStoreRepository, StoreRepository>();
             // builder.Services.AddScoped<IProductRepository, ProductRepository>();
             // builder.Services.AddScoped<IStoreRepository, StoreRepository>();
             // // builder.Services.AddScoped<IAppUserStoreRepository, AppUserStoreRepository>();

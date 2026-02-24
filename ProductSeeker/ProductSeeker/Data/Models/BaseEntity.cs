@@ -18,6 +18,6 @@ public abstract class BaseEntity
     public required string IdCreator { get; set; }
    
     [Required, ForeignKey(nameof(IdCreator))]
-    public required AppUser Creator { get; set; } = null!;
+    public AppUser Creator { get; set; } = null!;
 
 }

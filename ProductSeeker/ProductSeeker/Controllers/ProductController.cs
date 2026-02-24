@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProductSeeker.Data.DTOs;
+using ProductSeeker.Data.DTOs.Product;
 using Microsoft.AspNetCore.Authorization;
 using ProductSeeker.Services.Extensions;
 using Microsoft.AspNetCore.Identity;

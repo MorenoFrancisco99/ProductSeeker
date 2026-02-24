@@ -8,7 +8,7 @@ namespace ProductSeeker.Data.Repositories;
 //tomado de: https://learn.microsoft.com/en-us/aspnet/mvc/overview/older-versions/getting-started-with-ef-5-using-mvc-4/implementing-the-repository-and-unit-of-work-patterns-in-an-asp-net-mvc-application
 
 /// <summary>
-/// Generic repository. Most entities should not use more than this basic CRUD
+/// Generic repository. Basic CRUD
 /// </summary>
 /// <typeparam name="T">Target entity</typeparam>
 public class GenericRepository<T> : IGenericRepository<T> where T : class
@@ -36,9 +36,12 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return await _dbSet.FindAsync(id);  
     }
 
-    public virtual async Task<T?> Add(T newModel)
+    
+
+    public virtual async Task<T?> Create(T newModel)
     {
         _dbSet.Add(newModel);
+        await _context.SaveChangesAsync();
         return newModel;  
     }
 
