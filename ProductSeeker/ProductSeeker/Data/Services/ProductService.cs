@@ -32,8 +32,9 @@ public class ProductService : IProductService
 
     public async Task<ProductCoreModel?> CreateNewProduct(ProductCoreModel productCore)
     {
-        await _productCores.Add(productCore);
-        await _context.SaveChangesAsync(); 
-        return productCore;       
+        // await _productCores.Add(productCore);
+        // await _context.SaveChangesAsync(); 
+        // return productCore;       
+        throw new NotImplementedException();
     }
 }

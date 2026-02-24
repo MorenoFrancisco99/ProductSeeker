@@ -32,13 +32,16 @@ namespace ProductSeeker.Services.Mappers
             return (storeCore, storeSpec);
         }
 
+
+        
         public static StoreCoreModel FromStoreCoreDTOToStoreCoreModel(this StoreCoreDTO dto, string userID)
         {
             return new StoreCoreModel
             {
                 Name = dto.Name,
                 Field = dto.Field,
-                IdCreator = userID
+                IdCreator = userID,
+                IsActive = true,
             };
         }
         //         /// <summary>

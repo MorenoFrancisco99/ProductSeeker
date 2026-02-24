@@ -9,8 +9,5 @@ public class StoreCoreDTO
 
     [Required(ErrorMessage = "Field has to be submitted"), MaxLength(50)]
     public required string Field { get; set; }
-    [Required(ErrorMessage = "Creator ID must be set")]
-    public required string IdCreator { get; set; }
-
   
 }
