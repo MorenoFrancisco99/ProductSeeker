@@ -18,7 +18,7 @@ public class ProductSpecModel : BaseEntity
     [Required]
     public required int ProductCoreId { get; set; }
 
-    [Required] public required ProductCoreModel ProductCore { get; set; } = null!;
+    [Required] public ProductCoreModel ProductCore { get; set; } = null!;
 
     public ICollection<AppUserProductPriceModel> Prices { get; set; } = new List<AppUserProductPriceModel>();
     public UnitStateEnum.UnitState State {get; set;}

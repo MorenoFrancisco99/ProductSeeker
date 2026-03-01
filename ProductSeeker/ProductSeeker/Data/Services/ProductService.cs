@@ -2,39 +2,53 @@
 using ProductSeeker.Data.Context;
 using ProductSeeker.Data.Interfaces;
 using ProductSeeker.Data.Models;
+using ProductSeeker.Services.Mappers;
 
 namespace ProductSeeker;
 
 public class ProductService : IProductService 
 {
 
-    //context is only for saving changes. Any other operations
-    // has to be done through repos
-    private readonly AplicationDBContext _context;
-    private readonly IGenericRepository<ProductCoreModel> _productCores;
+    private readonly IProductRepository _productRepo;
 
-    public ProductService(AplicationDBContext context,IGenericRepository<ProductCoreModel> productcore)
+    public ProductService(IProductRepository prodRepo)
     {
-        _context = context;
-        _productCores = productcore;
+        _productRepo = prodRepo;
     }
 
-
-    public async Task<IEnumerable<ProductCoreModel>> GetAllProducts()
+    public async Task<ProductCoreModel?> CreateProductCore(ProductCoreDTO productDTO, string userID)
     {
-        return await _productCores.GetAll();
+        var model = productDTO.FromProductCoreDTOToModel(userID);
+        return await _productRepo.CreateCore(model);
     }
 
-    public async Task<ProductCoreModel?> GetByID(int id)
+    public Task<ProductSpecModel?> CreateProductSpec(ProductSpecDTO productDTO, string userID)
     {
-        return await _productCores.GetById(id);
+        
     }
 
-    public async Task<ProductCoreModel?> CreateNewProduct(ProductCoreModel productCore)
+    public Task<IEnumerable<ProductCoreModel>> GetAllProducts()
     {
-        // await _productCores.Add(productCore);
-        // await _context.SaveChangesAsync(); 
-        // return productCore;       
+        throw new NotImplementedException();
+    }
+
+    public async Task<ProductCoreModel?> GetCoreByID(int id)
+    {
+        return await _productRepo.GetCoreByID(id);
+    }
+
+    public async Task<ProductSpecModel?> GetSpecByID(int id)
+    {
+        return await _productRepo.GetSpecByID(id);
+    }
+
+    public Task<bool> IsCoreOwner(int CoreId, string UserId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> IsSpecOwner(int SpecId, string UserId)
+    {
         throw new NotImplementedException();
     }
 }

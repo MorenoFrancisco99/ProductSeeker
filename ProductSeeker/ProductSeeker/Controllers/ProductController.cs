@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProductSeeker.Data.DTOs.Product;
 using Microsoft.AspNetCore.Authorization;
 using ProductSeeker.Services.Extensions;
 using Microsoft.AspNetCore.Identity;
 using ProductSeeker.Data.Models;
+using System.Security.Claims;
 
 namespace ProductSeeker.Controllers
 {
@@ -20,88 +20,87 @@ namespace ProductSeeker.Controllers
             _userManager = userManager;
         }
 
-
-        // GET: api/product
-        [HttpGet]
+        //GET: api/product/core/id
+        [HttpGet("core/{id}")]
         [Authorize]
-        public async Task<ActionResult<List<ProductDTO>>> GetAllProducts()
+        public async Task<ActionResult<ProductCoreModel>> GetCoreByID(int id)
         {
-            var products = await _productService.GetAllProducts();
-          
-            return Ok(products);
+            try
+            {
+                var result = await _productService.GetCoreByID(id);
+                if (result == null) { return NotFound(); }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching product core: ", ex);
+                return StatusCode(500);
+            }
         }
 
-        // GET: api/product/user-products
+        //GET: api/product/spec/id
+        [HttpGet("spec/{id}")]
         [Authorize]
-        [HttpGet("user-products")]
-        public async Task<ActionResult<List<ProductDTO>>> GetUserProducts()
+        public async Task<ActionResult<ProductSpecModel>> GetSpecByID(int id)
         {
-           throw new NotImplementedException();
+            try
+            {
+                var result = await _productService.GetSpecByID(id);
+                if (result == null) { return NotFound(); }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching product core: ", ex);
+                return StatusCode(500);
+            }
         }
 
-
-
-
-        // POST: api/product
-        [HttpPost]
+        //POST: api/product/core
+        [HttpPost("core")]
         [Authorize]
-        public async Task<ActionResult<ProductDTO>> CreateProduct([FromBody] ProductCoreModel productDto)
+        public async Task<ActionResult<ProductCoreModel>> POSTCore(ProductCoreDTO productDTO)
         {
-            /*
-             TODO: The asociated store comes in the DTO in form of an ID. 
-             Later change to a full StoreDTO or another param(maybe standalone ID) to associate the correct store.
-             Or maybe not. IDK im not your mother
-             */
-            if(!ModelState.IsValid) {return BadRequest(ModelState);}
+            string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userID == null) { return Unauthorized(); }
+            try
+            {
+                var result = await _productService.CreateProductCore(productDTO, userID);
 
-            var username = User.GetUsername();
-            var user = await _userManager.FindByNameAsync(username);
-            if (user == null){ return NotFound("User not found");}
+                return CreatedAtAction(nameof(GetCoreByID), new { id = result.Id }, result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating product core: ", ex);
+                return StatusCode(500);
+            }
+        }
 
-            var createdProduct = await _productService.CreateNewProduct(productDto);
+        //POST: api/product/spec
+        [HttpPost("spec")]
+        [Authorize]
+        public async Task<ActionResult<ProductSpecModel>> POSTSpec(ProductSpecDTO productDTO)
+        {
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userID == null) { return Unauthorized(); }
+
+            try
+            {
+                var result = await _productService.CreateProductSpec(productDTO, userID);
+
+                return CreatedAtAction(nameof(GetSpecByID), new {id = result.Id}, result);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Error creating product spec: ", ex);
+                return StatusCode(500);
+            }
             
-            if (createdProduct == null)
-            {
-                return BadRequest("Product creation failed");
-            }
-            return Ok(createdProduct);
         }
 
-        // GET: api/product/{id}
-        [Authorize]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ProductDTO>> GetProductById(int id)
-        {
-            var username = User.GetUsername();
-            var user = await _userManager.FindByNameAsync(username);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-            var product = await _productService.GetByID(id); 
-            if (product == null)
-            {
-                return NotFound("Product does not exist or it doesn't belong to the user");
-            }
-            return Ok(product);
 
-        }
 
-        //PUT : api/product/{id}
-        [Authorize]
-        [HttpPut("{id}")]
-        public async Task<ActionResult<ProductDTO>> UpdateProduct(int id, [FromBody] PUTProductDTO productDto)
-        {
-           throw new NotImplementedException();
-        }
-
-        // GET: api/product/product-history/{id}
-        [Authorize]
-        [HttpGet("product-history/{id}")]
-        public async Task<ActionResult<List<ProductHistoryDTO>>> GetProductHistory(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 
 

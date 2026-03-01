@@ -7,7 +7,10 @@ namespace ProductSeeker.Data.Models;
 public class ProductSpecAttributeValue : BaseEntity
 {
     [Required]
-    public required  int ProductSpecId { get; set; }
+    public  int ProductSpecId { get; set; }
+    [Required]
+    public ProductSpecModel ProductSpec { get; set; } = null!;
+
     [Required]
     public required  string AttributeKey { get; set; }
     [Required]

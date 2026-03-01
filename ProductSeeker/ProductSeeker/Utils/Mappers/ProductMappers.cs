@@ -1,58 +1,52 @@
-﻿// using ProductSeeker.Data.DTOs;
-// using ProductSeeker.Data.OldModels;
-// using System.Runtime.CompilerServices;
+﻿using ProductSeeker.Data.DTOs;
+using ProductSeeker.Data.Models;
+using System.Runtime.CompilerServices;
 
-// namespace ProductSeeker.Services.Mappers
-// {
-//     static class ProductMappers
-//     {
-//         /// <summary>
-//         /// From ProductModel to ProductDTO
-//         /// </summary>
-//         public static ProductDTO toProductDTO(this ProductModel model)
-//         {
-//             return new ProductDTO
-//             {
-//                 Name = model.Name,
-//                 StoreId = model.StoreId,
-//                 Brand = model.Brand,
-//                 Price = model.Price,
-//                 Quantity = model.Quantity,
-//                 UnitType = model.UnitType,
-//                 SubUnitQuantity = model.SubUnitQuantity,
-//                 SubUnitType = model.SubUnitType,
-//                 SubUnitAmount = model.SubUnitAmount,
-//                 ExtraInfo = model.ExtraInfo
+namespace ProductSeeker.Services.Mappers
+{
+    static class ProductMappers
+    {
+        public static ProductCoreModel FromProductCoreDTOToModel(this ProductCoreDTO dto, string userID)
+        {
+            return new ProductCoreModel
+            {
+                ProductName = dto.ProductName,
+                Brand = dto.Brand,
+                IdCreator = userID,
+                IsActive = true
+            };
+        }
 
-//             };
-//         }
 
-//         //Momentarily ProductDTO and PostProductDTO are the same
-//         /// <summary>
-//         /// From PostProductDTO to ProductModel
-//         /// </summary>
-//         /// <param name="product"></param>
-//         /// <param name="storeId"></param>
-//         /// <remarks>The storeID need to be validated beforehand</remarks>
-//         /// <returns></returns>
-//         public static ProductModel fromPostDTOtoModel(this POSTProductDTO product)   
-//         {
-//             return new ProductModel
-//             {
-//                 Name = product.Name,
-//                 StoreId = product.StoreId,
-//                 Brand = product.Brand,
-//                 Price = product.Price,
-//                 Quantity = product.Quantity,
-//                 UnitType = product.UnitType,
-//                 SubUnitQuantity = product.SubUnitQuantity,
-//                 SubUnitType = product.SubUnitType,
-//                 SubUnitAmount = product.SubUnitAmount,
-//                 ExtraInfo = product.ExtraInfo
+        public static ProductSpecModel FromProductSpecDTOToModel( this ProductSpecDTO dto, string userID)
+        {
+            var spec = new ProductSpecModel
+            {
+                Category = dto.Category,
+                ProductCoreId = dto.ProductCoreId,
+                IdCreator = userID,
+                IsActive = true
+            };
 
-//             };
-//         }
+            if (dto.Attributes is not null && dto.Attributes.Count > 0)
+            {
+                spec.Attributes = dto.Attributes
+                    .Select(psav => new ProductSpecAttributeValue
+                    {
+                        AttributeKey = psav.Key,
+                        AttributeValue = psav.Value,
+                        IdCreator = userID
+                    })
+                    .ToList();
+            }
+            else
+            {
+                throw new ArgumentException("Attributes list cannot be empty");
+            }
 
-     
-//     }
-// }
+            return spec;
+        }
+
+
+    }
+}

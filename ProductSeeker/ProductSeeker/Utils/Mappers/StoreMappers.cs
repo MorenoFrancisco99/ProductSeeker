@@ -5,35 +5,22 @@ namespace ProductSeeker.Services.Mappers
 {
     static class StoreMappers
     {
+
+
         /// <summary>
-        /// Maps a StoreWSpecDTO to a StoreCoreModel and StoreSpecModel
+        /// Creates a new StoreCoreModel instance from a StoreCoreDTO.
         /// </summary>
         /// <remarks>
-        /// StoreSpecModel it's initialized with no StoreCoreModelId asigned
+        /// Initializes domain-controlled properties:
+        /// - IdCreator is assigned from the provided userID.
+        /// - IsActive is set to true by default.
+        /// Assumes DTO validation has already been performed.
         /// </remarks>
-        /// <param name="dto"></param>
-        /// <returns>A tuple (StoreCoreModel, StoreSpecModel)</returns>
-        public static (StoreCoreModel, StoreSpecModel) FromStoreWSpecDTOToModels(this StoreWSpecDTO dto)
-        {
-            var storeCore = new StoreCoreModel
-            {
-                Name = dto.Name,
-                Field = dto.Field,
-                IdCreator = dto.IdCreator
-            };
-
-            var storeSpec = new StoreSpecModel
-            {
-                GeoLocation = dto.GeoLocation,
-                BusinessDays = dto.BusinessDays,
-                IdCreator = dto.IdCreator
-            };
-
-            return (storeCore, storeSpec);
-        }
+        /// <param name="dto">Validated data transfer object.</param>
+        /// <param name="userID">Identifier of the user creating the entity.</param>
+        /// <returns>A new StoreCoreModel ready for persistence.</returns>
 
 
-        
         public static StoreCoreModel FromStoreCoreDTOToStoreCoreModel(this StoreCoreDTO dto, string userID)
         {
             return new StoreCoreModel
@@ -42,6 +29,37 @@ namespace ProductSeeker.Services.Mappers
                 Field = dto.Field,
                 IdCreator = userID,
                 IsActive = true,
+            };
+        }
+
+        /// <summary>
+        /// Creates a new StoreSpecModel instance from a StoreSpecDTO.
+        /// </summary>
+        /// <remarks>
+        /// Maps optional properties as provided in the DTO.
+        /// Initializes domain-controlled fields:
+        /// - IdCreator is assigned from the provided userID.
+        /// - IsActive is set to true.
+        /// - ValidFrom defaults to the current UTC time if not specified.
+        /// 
+        /// Requires at least one of BusinessDays or GeoLocation
+        /// Is expected to be handled outside this mapper.
+        /// </remarks>
+        /// <param name="dto">Source data transfer object.</param>
+        /// <param name="userID">Identifier of the user creating the entity.</param>
+        /// <returns>A new StoreSpecModel instance ready for persistence.</returns>
+
+        public static StoreSpecModel FromStoreSpecDTOToStoreSpecModel(this StoreSpecDTO dto, string userID)
+        {
+            return new StoreSpecModel
+            {
+                StoreCoreId = dto.StoreCoreId,
+                IdCreator = userID,
+                BusinessDays = dto.BusinessDays,
+                GeoLocation = dto.GeoLocation,
+                IsActive = true,
+                ValidFrom = dto.ValidFrom ?? DateTime.UtcNow,
+                ValidTo = dto.ValidTo
             };
         }
         //         /// <summary>

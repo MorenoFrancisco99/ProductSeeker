@@ -109,18 +109,22 @@ namespace ProductSeeker
     });
             });
 
+            //DI config
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IStoreService, StoreService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IStoreRepository, StoreRepository>();
-            // builder.Services.AddScoped<IProductRepository, ProductRepository>();
-            // builder.Services.AddScoped<IStoreRepository, StoreRepository>();
-            // // builder.Services.AddScoped<IAppUserStoreRepository, AppUserStoreRepository>();
-            // // builder.Services.AddScoped<IAppUserProductRepository, AppUserProductRepository>();
-            // // builder.Services.AddScoped<IStoreService, StoreService>();
-            // builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
+
+            //Fetchs business rules from Appsettings.json 
+            //Injected in validators
+            builder.Services.Configure<BusinessRulesConfig>(
+                builder.Configuration.GetSection("BusinessRules:V1")
+            );
+            
+          
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -9,14 +9,13 @@ namespace ProductSeeker.Data.Models;
 [Table("StoreSpecs")]
 public class StoreSpecModel : BaseEntity
 {
-    [Required] public int StoreCoreId { get; set; }
+    [Required] required public int StoreCoreId { get; set; }
 
     [Required] public StoreCoreModel Store { get; set; }
 
-    [Required] public string? GeoLocation { get; set; }
+     public string? GeoLocation { get; set; }
 
-    [Required]
-    public required string? BusinessDays {get; set;}
+    public string? BusinessDays {get; set;}
 
     [Required]
     public DateTime ValidFrom { get; set; }

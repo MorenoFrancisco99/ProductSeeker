@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ProductSeeker.Data.Context;
 using ProductSeeker.Data.Interfaces;
 using ProductSeeker.Data.Models;
@@ -8,7 +9,7 @@ namespace ProductSeeker;
 
 public class StoreService : IStoreService
 {
-
+    
     private readonly IStoreRepository _storeRepository;
     private readonly UserManager<AppUser> _userManager;
     private readonly AplicationDBContext _context;
@@ -25,6 +26,11 @@ public class StoreService : IStoreService
     {
         return await _storeRepository.GetCoreByID(id);
     }
+    
+    public async Task<StoreSpecModel?> GetSpecByID(int id)
+    {
+        return await _storeRepository.GetSpecByID(id);
+    }
 
     public async Task<StoreCoreModel?> CreateStoreCore(StoreCoreDTO storeDTO, string userID)
     {
@@ -32,8 +38,8 @@ public class StoreService : IStoreService
         {
             var storeCore = storeDTO.FromStoreCoreDTOToStoreCoreModel(userID);
 
-            var newModel = await _storeRepository.CreateCore(storeCore);
-            return newModel;
+            return await _storeRepository.CreateCore(storeCore);
+           
         }
         catch (Exception ex)
         {
@@ -43,13 +49,28 @@ public class StoreService : IStoreService
     }
 
 
-    public Task<StoreCoreModel?> CreateStoreSpec(StoreSpecDTO storeDTO)
+    public async Task<StoreSpecModel?> CreateStoreSpec(StoreSpecDTO storeDTO, string userID)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(storeDTO.BusinessDays) && string.IsNullOrWhiteSpace(storeDTO.GeoLocation))
+        {
+            throw new ArgumentNullException(
+                "At least BusinessDays or GeoLocation must be provided."
+            );
+        }
+        var storeModel = storeDTO.FromStoreSpecDTOToStoreSpecModel(userID);
+        
+        return await _storeRepository.CreateSpec(storeModel);
+        
     }
 
 
-    public async Task<StoreCoreModel?> CreateStoreWSpec(StoreWSpecDTO storeDTO)
+    public async Task<bool> IsCoreOwner(int id, string UserId)
+    {
+        return await _storeRepository.IsCoreOwner(id, UserId);
+    }
+
+
+    public async Task<StoreCoreModel?> CreateStoreWSpec(StoreWSpecDTO storeDTO, string userID)
     {
         throw new NotImplementedException();
         //NOTE: hard to implement bc storecore has to be inserted first in order to retrieve the ID
@@ -70,14 +91,12 @@ public class StoreService : IStoreService
 
     }
 
-    public Task<IEnumerable<StoreCoreModel>> GetAllProducts()
+    public Task<StoreCoreModel> GetByName(string name)
     {
         throw new NotImplementedException();
     }
 
-
-
-    public Task<StoreCoreModel> GetByName(string name)
+    public Task<bool> IsSpecOwner(int SpecId, string UserID)
     {
         throw new NotImplementedException();
     }
