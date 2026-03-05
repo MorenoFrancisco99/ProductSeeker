@@ -6,7 +6,7 @@ using ProductSeeker.Services.Mappers;
 
 namespace ProductSeeker;
 
-public class ProductService : IProductService 
+public class ProductService : IProductService
 {
 
     private readonly IProductRepository _productRepo;
@@ -22,9 +22,12 @@ public class ProductService : IProductService
         return await _productRepo.CreateCore(model);
     }
 
-    public Task<ProductSpecModel?> CreateProductSpec(ProductSpecDTO productDTO, string userID)
+    public Task<ProductSpecModel?> CreateProductSpec(ProductSpecDTO dto, string userID)
     {
-        
+       var model = dto.ToModel(userID);
+
+       return _productRepo.CreateSpec(model);
+
     }
 
     public Task<IEnumerable<ProductCoreModel>> GetAllProducts()

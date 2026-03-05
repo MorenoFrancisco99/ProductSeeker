@@ -12,10 +12,6 @@ namespace ProductSeeker.Data.Context
         {
         }
 
-        // public DbSet<ProductSeeker.Data.OldModels.ProductModel> Products { get; set; }
-        // public DbSet<ProductSeeker.Data.OldModels.StoreModel> Stores { get; set; }
-        // public DbSet<ProductSeeker.Data.OldModels.AppUserProduct> AppUserProducts { get; set; }
-        // public DbSet<ProductSeeker.Data.OldModels.AppUserStore> AppUserStores { get; set; }
         public DbSet<ProductCoreModel> ProductCores { get; set; }
         public DbSet<ProductSpecModel> ProductSpecs { get; set; }
         public DbSet<AppUserProductPriceModel> AppUserProductPrices { get; set; }
@@ -78,31 +74,11 @@ namespace ProductSeeker.Data.Context
             };
             builder.Entity<IdentityRole>().HasData(roles);
 
+            builder.Entity<ProductSpecModel>()
+            .HasDiscriminator(p => p.Category)
+            .HasValue<FoodProductModel>("Food");
 
 
-
-            // builder.Entity<AppUserStore>()
-            //     .HasKey(x => new { x.AppUserId, x.StoreId });
-            // builder.Entity<AppUserStore>()
-            //     .HasOne(x => x.AppUser)
-            //     .WithMany(x => x.AppUserStores)
-            //     .HasForeignKey(x => x.AppUserId);
-            // builder.Entity<AppUserStore>()
-            //     .HasOne(x => x.StoreModel)
-            //     .WithMany(x => x.AppUserStores)
-            //     .HasForeignKey(x => x.StoreId);
-            //
-            //
-            // builder.Entity<AppUserProduct>()
-            //     .HasKey(x => new { x.AppUserId, x.ProductId });
-            // builder.Entity<AppUserProduct>()
-            //     .HasOne(x => x.AppUser)
-            //     .WithMany(x => x.AppUserProducts)
-            //     .HasForeignKey(x => x.AppUserId);
-            // builder.Entity<AppUserProduct>()
-            //     .HasOne(x => x.ProductModel)
-            //     .WithMany(x => x.AppUserProducts)
-            //     .HasForeignKey(x => x.ProductId);
         }
 
     }

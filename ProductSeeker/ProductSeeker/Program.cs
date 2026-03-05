@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,10 +25,10 @@ namespace ProductSeeker
                 OptionsBuilderConfigurationExtensions.AddPolicy("AllowAllOrigins", policy =>
                 {
                     policy.WithOrigins("http://localhost:5173"
-                        ) 
+                        )
                           .AllowAnyHeader()
                           .AllowAnyMethod()
-                          .AllowCredentials(); 
+                          .AllowCredentials();
                 });
             });
 
@@ -44,13 +45,13 @@ namespace ProductSeeker
                 .AddEntityFrameworkStores<AplicationDBContext>();
 
 
-            
+
             builder.Services.AddAuthentication(options =>
             {
                 //Aparentemente esto aveces se deja en blaco para dejarlo por defecto
                 //Se agrega todo esto para dejarlo explicitamente pero pareciera ser la config default
                 //Esto parece ser solo lo del JWT pero se pueden configurar Cookies aca 
-                options.DefaultAuthenticateScheme =   
+                options.DefaultAuthenticateScheme =
                 options.DefaultChallengeScheme =
                 options.DefaultForbidScheme =
                 options.DefaultScheme =
@@ -68,14 +69,21 @@ namespace ProductSeeker
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(
                         System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]))
-                }; 
+                };
             });
 
 
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters
+            .Add(new JsonStringEnumConverter());
+    });
+
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -123,8 +131,10 @@ namespace ProductSeeker
             builder.Services.Configure<BusinessRulesConfig>(
                 builder.Configuration.GetSection("BusinessRules:V1")
             );
-            
-          
+
+
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -59,7 +59,7 @@ namespace ProductSeeker.Controllers
         //POST: api/product/core
         [HttpPost("core")]
         [Authorize]
-        public async Task<ActionResult<ProductCoreModel>> POSTCore(ProductCoreDTO productDTO)
+        public async Task<ActionResult<ProductCoreModel>> POSTCore([FromBody] ProductCoreDTO productDTO)
         {
             string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userID == null) { return Unauthorized(); }
@@ -79,29 +79,28 @@ namespace ProductSeeker.Controllers
         //POST: api/product/spec
         [HttpPost("spec")]
         [Authorize]
-        public async Task<ActionResult<ProductSpecModel>> POSTSpec(ProductSpecDTO productDTO)
+        public async Task<ActionResult<ProductSpecModel>> POSTSpec([FromBody] ProductSpecDTO dto)
         {
-            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            if (!ModelState.IsValid){ return BadRequest(ModelState);}
+
             string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userID == null) { return Unauthorized(); }
 
             try
             {
-                var result = await _productService.CreateProductSpec(productDTO, userID);
+                var result = await _productService.CreateProductSpec(dto, userID);
 
-                return CreatedAtAction(nameof(GetSpecByID), new {id = result.Id}, result);
+                return CreatedAtAction(nameof(GetSpecByID), new { id = result.Id }, result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Error creating product spec: ", ex);
                 return StatusCode(500);
             }
-            
         }
 
+        //POST: api/product/
 
-
+     
     }
-
-
 }

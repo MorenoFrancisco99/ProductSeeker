@@ -4,15 +4,17 @@ using ProductSeeker.Data.Models;
 
 namespace ProductSeeker;
 
-public class ProductSpecDTO
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
+[JsonDerivedType(typeof(FoodProductDTO), typeDiscriminator: "Food")]
+public abstract class ProductSpecDTO
 {
 
-    [Required]
-    public required string Category { get; set; }
 
-    [Required]
-    public Dictionary<string, string> Attributes { get; set; }
-    
-    [Required]
+    [Required(ErrorMessage ="Core ID must be submitted")]
     public required int ProductCoreId { get; set; }
+
+    //New field in this base DTO required manually mapping in every child 
+    //TODO code a proper maper
+    public abstract ProductSpecModel ToModel(string userID);
+
 }

@@ -10,6 +10,7 @@ public class MergedProductCore : BaseEntity
     public int? MergedIntoProductCoreId { get; set; }
 
     public ProductCoreModel? MergedInto { get; set; }
+    
     public required string ProductName { get; set; }
 
     [Required, MaxLength(50)]
