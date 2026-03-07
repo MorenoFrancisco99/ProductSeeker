@@ -9,7 +9,7 @@ namespace ProductSeeker;
 
 public class StoreService : IStoreService
 {
-    
+
     private readonly IStoreRepository _storeRepository;
     private readonly UserManager<AppUser> _userManager;
     private readonly AplicationDBContext _context;
@@ -22,45 +22,40 @@ public class StoreService : IStoreService
         _context = context;
     }
 
-    public async Task<StoreCoreModel?> GetCoreByID(int id)
+    public async Task<Result<StoreCoreModel>> GetCoreByID(int CoreId, string userID)
     {
-        return await _storeRepository.GetCoreByID(id);
-    }
-    
-    public async Task<StoreSpecModel?> GetSpecByID(int id)
-    {
-        return await _storeRepository.GetSpecByID(id);
+        return await _storeRepository.GetCoreByID(CoreId, userID);
     }
 
-    public async Task<StoreCoreModel?> CreateStoreCore(StoreCoreDTO storeDTO, string userID)
+    public async Task<Result<StoreSpecModel>> GetSpecByID(int SpecId, string userID)
     {
-        try
-        {
-            var storeCore = storeDTO.FromStoreCoreDTOToStoreCoreModel(userID);
+        return await _storeRepository.GetSpecByID(SpecId, userID);
+    }
 
-            return await _storeRepository.CreateCore(storeCore);
-           
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error creating StoreCore: {ex}");
-        }
-        return null;
+    public async Task<Result<StoreCoreModel>> CreateStoreCore(StoreCoreDTO storeDTO, string userID)
+    {
+        var storeCore = storeDTO.FromStoreCoreDTOToStoreCoreModel(userID);
+
+        return await _storeRepository.CreateCore(storeCore);
+
     }
 
 
-    public async Task<StoreSpecModel?> CreateStoreSpec(StoreSpecDTO storeDTO, string userID)
+    public async Task<Result<StoreSpecModel>> CreateStoreSpec(StoreSpecDTO storeDTO, string userID)
     {
+        var coreExistsandBelongsToUser = await _storeRepository.GetCoreByID(storeDTO.StoreCoreId, userID);
+        if (!coreExistsandBelongsToUser.IsSuccess)
+            return coreExistsandBelongsToUser.Error!; //Error.NotFound o Error.Forbidden
+
+
         if (string.IsNullOrWhiteSpace(storeDTO.BusinessDays) && string.IsNullOrWhiteSpace(storeDTO.GeoLocation))
         {
-            throw new ArgumentNullException(
-                "At least BusinessDays or GeoLocation must be provided."
-            );
+            return Errors.FieldsRequired.WithMetadata("MissingFields", ("BussinesDays", "GeoLocation"));
         }
         var storeModel = storeDTO.FromStoreSpecDTOToStoreSpecModel(userID);
-        
+
         return await _storeRepository.CreateSpec(storeModel);
-        
+
     }
 
 
@@ -73,9 +68,7 @@ public class StoreService : IStoreService
     public async Task<StoreCoreModel?> CreateStoreWSpec(StoreWSpecDTO storeDTO, string userID)
     {
         throw new NotImplementedException();
-        //NOTE: hard to implement bc storecore has to be inserted first in order to retrieve the ID
-        // Then a failure in storeSpec can leed to childless cores
-        // not exactly an issue but potentially undesired. Its safer to ask user for core first and specs later
+
 
 
         // try

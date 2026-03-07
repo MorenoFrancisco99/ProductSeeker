@@ -36,14 +36,19 @@ namespace ProductSeeker.Controllers
         [Authorize]
         public async Task<ActionResult<StoreCoreModel>> GetCoreByID(int id)
         {
+            string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userID == null) { return Unauthorized(); }
 
             try
             {
-                var result = await _storeService.GetCoreByID(id);
+                var result = await _storeService.GetCoreByID(id, userID);
+                if (result.IsSuccess) { Ok(result.Value); }
 
-                if (result == null) { return NotFound(); }
-
-                return Ok(result);
+                return result.Error.Type switch
+                {
+                    ErrorType.NotFound => NotFound(result.Error.Description),
+                    ErrorType.Forbidden => Forbid(result.Error.Description)
+                };
 
             }
             catch (Exception ex)
@@ -59,11 +64,18 @@ namespace ProductSeeker.Controllers
         [Authorize]
         public async Task<ActionResult<StoreSpecModel?>> GetSpecByID(int id)
         {
+            string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userID == null) { return Unauthorized(); }
             try
             {
-                var result = await _storeService.GetSpecByID(id);
-                if (result == null) { return NotFound(); }
-                return Ok(result);
+                var result = await _storeService.GetSpecByID(id, userID);
+                if (result.IsSuccess) { Ok(result.Value); }
+
+                return result.Error.Type switch
+                {
+                    ErrorType.NotFound => NotFound(result.Error.Description),
+                    ErrorType.Forbidden => Forbid(result.Error.Description)
+                };
             }
             catch (Exception ex)
             {
@@ -95,10 +107,21 @@ namespace ProductSeeker.Controllers
             string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userID == null) { return Unauthorized(); }
 
-            var result = await _storeService.CreateStoreCore(storeDTO, userID);
             try
             {
-                return CreatedAtAction(nameof(GetSpecByID), new { id = result.Id }, result);
+                var result = await _storeService.CreateStoreCore(storeDTO, userID);
+
+                if (result.IsSuccess) 
+                    return CreatedAtAction(nameof(GetSpecByID), new { id = result.Value.Id }, result.Value); 
+
+
+                //Cnnot return Error here.
+                //For the sake of consistensy and future proofing its still gets managed
+                return result.Error.Type switch
+                {
+                    ErrorType.NotFound => NotFound($"{result.Error.Description} + {result.Error.Metadata}"),
+                    ErrorType.Forbidden => Forbid($"{result.Error.Description} + {result.Error.Metadata}")
+                };
             }
             catch (Exception ex)
             {
@@ -112,26 +135,27 @@ namespace ProductSeeker.Controllers
         public async Task<ActionResult<StoreSpecModel>> POSTSpec([FromBody] StoreSpecDTO storeDTO)
         {
             //Meant only for own stores
-            //POSTing on foreing storecores requires special validations
-            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            //POSTing on foreign storecores requires special validations
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (userID == null) { return Unauthorized(); }
-
-            if (!await _storeService.IsCoreOwner(storeDTO.StoreCoreId, userID))
-            {
-                return Unauthorized("User doesnt own target store");
-            }
+            
+            if (userID == null)
+                return Unauthorized();
 
             try
             {
                 var result = await _storeService.CreateStoreSpec(storeDTO, userID);
-
-                return CreatedAtAction(nameof(GetSpecByID), new { id = result.Id }, result);
-            }
-            catch (ArgumentNullException ex)
-            {
-                return BadRequest(ex.Message);
+                if (result.IsSuccess)
+                    return CreatedAtAction(nameof(GetSpecByID), new { id = result.Value.Id }, result.Value.Id);
+            
+                 return result.Error.Type switch
+                {
+                    ErrorType.NotFound => NotFound($"{result.Error.Description} + {result.Error.Metadata}"),
+                    ErrorType.Forbidden => Forbid($"{result.Error.Description} + {result.Error.Metadata}"),
+                    ErrorType.Validation => UnprocessableEntity($"{result.Error.Description} + {result.Error.Metadata}")
+                };
             }
             catch (Exception ex)
             {

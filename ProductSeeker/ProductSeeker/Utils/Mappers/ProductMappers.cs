@@ -17,8 +17,12 @@ namespace ProductSeeker.Services.Mappers
                 IsActive = true
             };
         }
+
+        [Obsolete]
         public static FoodProductModel MapSpecToModel(this FoodProductDTO dto, string userID)
         {
+            //unusuable at the moment, as dto's are managed as base type dto
+            //and not specific category dto
             return new FoodProductModel
             {
               Category = "Food",
@@ -30,6 +34,17 @@ namespace ProductSeeker.Services.Mappers
             };
         }   
 
+        public static AppUserProductPriceModel MapToModel(this POSTProductPriceDTO dto, string userID)
+        {
+            return new AppUserProductPriceModel
+            {
+                IdCreator = userID,
+                Price = dto.Price,
+                ProductSpecId = dto.ProductSpecId,
+                StoreId = dto.StoreId,
+                ValidFrom = dto.ValidFrom ?? DateTime.UtcNow
+            };
+        }
     }
 
 

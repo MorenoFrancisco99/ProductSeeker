@@ -25,22 +25,33 @@ public class StoreRepository : IStoreRepository
         _context = context;
     }
 
-    public async Task<StoreCoreModel?> GetCoreByID(int id)
+    public async Task<Result<StoreCoreModel>?> GetCoreByID(int CoreId, string userID)
     {
-        return await _context.StoreCores.FirstOrDefaultAsync(x => x.Id == id);
+        var result = await _context.StoreCores.FirstOrDefaultAsync(x => x.Id == CoreId);
+        return result == null
+        ? Errors.StoreCoreNotFound
+        : result.IdCreator != userID
+            ? Errors.NotOwner
+            : result;
     }
 
-     public async Task<StoreSpecModel?> GetSpecByID(int id)
+    public async Task<Result<StoreSpecModel>?> GetSpecByID(int SpecId, string userID)
     {
-        return await _context.StoreSpecs.FirstOrDefaultAsync(x => x.Id == id);
+        var result = await _context.StoreSpecs.FirstOrDefaultAsync(x => x.Id == SpecId);
+        return result == null
+        ? Errors.StoreSpecNotFound
+        : result.IdCreator != userID
+            ? Errors.NotOwner
+            : result;
     }
 
-    public async Task<StoreCoreModel?> CreateCore(StoreCoreModel storeCore)
+    public async Task<Result<StoreCoreModel>> CreateCore(StoreCoreModel storeCore)
     {
-        //TODO change this sht
-        return await _storeCoreRepo.Create(storeCore);
+        _context.StoreCores.Add(storeCore);
+        await _context.SaveChangesAsync();
+        return storeCore;
     }
-    public async Task<StoreSpecModel?> CreateSpec(StoreSpecModel storeSpec)
+    public async Task<Result<StoreSpecModel>> CreateSpec(StoreSpecModel storeSpec)
     {
         _context.StoreSpecs.Add(storeSpec);
         await _context.SaveChangesAsync();

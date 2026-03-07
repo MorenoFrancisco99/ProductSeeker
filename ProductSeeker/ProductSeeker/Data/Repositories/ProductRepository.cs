@@ -17,46 +17,83 @@ public class ProductRepository : IProductRepository
     public async Task<bool> CoreExist(int coreID)
     {
         var result = _context.ProductCores.FirstOrDefaultAsync(x => x.Id == coreID);
-        if(result == null) {return false;}
+        if (result == null) { return false; }
         return true;
     }
 
     public async Task<ProductCoreModel?> CreateCore(ProductCoreModel productCore)
     {
-        _context.Add(productCore);
+        _context.ProductCores.Add(productCore);
         await _context.SaveChangesAsync();
         return productCore;
     }
 
+    public async Task<AppUserProductPriceModel> CreatePrice(AppUserProductPriceModel model)
+    {
+        _context.AppUserProductPrices.Add(model);
+        await _context.SaveChangesAsync();
+        return model;
+    }
+
     public async Task<ProductSpecModel?> CreateSpec(ProductSpecModel productSpec)
     {
-        _context.Add(productSpec);
+        _context.ProductSpecs.Add(productSpec);
         await _context.SaveChangesAsync();
         return productSpec;
     }
 
-    public async Task<ProductCoreModel?> GetCoreByID(int id)
+    public async Task<Result<ProductCoreModel>?> GetCoreByID(int CoreId, string userID)
     {
-        return await _context.ProductCores.FirstOrDefaultAsync(x => x.Id == id);
+        var result = await _context.ProductCores.FirstOrDefaultAsync(x => x.Id == CoreId);
+
+        return result == null
+                    ? Errors.ProductCoreNotFound
+                    : result.IdCreator != userID
+                        ? Errors.NotOwner 
+                        : result;
+
     }
 
-    public async Task<ProductSpecModel?> GetSpecByID(int id)
+    public async Task<Result<AppUserProductPriceModel>> GetPriceByID(int priceID, string userID)
     {
-        return await _context.ProductSpecs.FirstOrDefaultAsync(x => x.Id == id);
-        
+        var result = await _context.AppUserProductPrices.FirstOrDefaultAsync(x => x.Id == priceID);
+        return result == null
+                    ? Errors.ProductSpecNotFound
+                    : result.IdCreator != userID
+                        ? Errors.NotOwner
+                        : result;
     }
 
-    public async Task<bool> IsCoreOwner(int CoreId, string UserId)
+    public async Task<Result<ProductSpecModel>?> GetSpecByID(int SpecId, string userID)
     {
-        var result = await _context.ProductCores.FirstOrDefaultAsync(p => p.Id == CoreId && p.IdCreator == UserId);
-        if(result == null) { return false;}
-        return true;
+
+        var result = await _context.ProductSpecs.FirstOrDefaultAsync(x => x.Id == SpecId);
+        return result == null
+                    ? Errors.ProductSpecNotFound
+                    : result.IdCreator != userID
+                        ? Errors.NotOwner
+                        : result;
+
+    }
+
+    public async Task<Result> IsCoreOwner(int CoreId, string UserId)
+    {
+        var result = await _context.ProductCores.FirstOrDefaultAsync(p => p.Id == CoreId);
+        if (result == null)
+        {
+            return Errors.ProductCoreNotFound;
+        }
+        else if (!(result.IdCreator == UserId))
+        {
+            return Errors.NotOwner;
+        }
+        return Result.Success();
     }
 
     public async Task<bool> IsSpecOwner(int SpecId, string UserId)
     {
         var result = await _context.ProductSpecs.FirstOrDefaultAsync(p => p.Id == SpecId && p.IdCreator == UserId);
-        if(result == null) { return false;}
+        if (result == null) { return false; }
         return true;
     }
 
