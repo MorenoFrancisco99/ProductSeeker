@@ -35,7 +35,6 @@ namespace ProductSeeker
             builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                 //Configuracion de la password
-                //TODO Configurar bien la password
                 options.Password.RequireDigit = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
@@ -77,11 +76,11 @@ namespace ProductSeeker
             // Add services to the container.
 
             builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.Converters
-            .Add(new JsonStringEnumConverter());
-    });
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters
+                        .Add(new JsonStringEnumConverter());
+                });
 
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
