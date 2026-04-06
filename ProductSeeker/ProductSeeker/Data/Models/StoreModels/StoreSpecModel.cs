@@ -9,7 +9,8 @@ namespace ProductSeeker.Data.Models;
 [Table("StoreSpecs")]
 public class StoreSpecModel : BaseEntity
 {
-    [Required] required public int StoreCoreId { get; set; }
+    [Required]
+     public int StoreCoreId { get; set; }
 
     [Required] public StoreCoreModel Store { get; set; }
 

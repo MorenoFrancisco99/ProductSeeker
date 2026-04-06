@@ -1,0 +1,17 @@
+﻿using ProductSeeker.Data.Models;
+
+namespace ProductSeeker;
+
+public interface IProductService
+{
+    Task<IEnumerable<ProductCoreModel>> GetAllProducts();
+    Task<Result<ProductCoreModel>> GetCoreByID(int CoreId, string userID);
+    Task<Result<GETProductSpecDTO>>  GetSpecByID(int SpecId, string userID);
+    Task<Result<AppUserProductPriceModel>> GetPriceByID(int priceId, string userID);
+    Task<Result<ProductCoreModel>> CreateProductCore(POSTProductCoreDTO productDTO, string userID);
+    Task<Result<ProductSpecModel>> CreateProductSpec(POSTProductSpecDTO productDTO, string userID);
+    Task<Result<AppUserProductPriceModel>> CreateProductPrice(POSTProductPriceDTO dto, string userID);
+    Task<Result<ProductSpecModel>> ADMINCreateProductWCore(POSTProductWCoreDTO dto, string userID);
+   
+
+}

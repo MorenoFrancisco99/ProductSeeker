@@ -6,6 +6,32 @@ namespace ProductSeeker.Services.Mappers
     static class StoreMappers
     {
 
+        public static StoreCoreModel FromStoreWSpecDTOToStoreCoreModel(this StoreWSpecDTO dto, string userID)
+        {
+
+            return new StoreCoreModel
+            {
+                Name = dto.Name,
+                Field = dto.Field,
+                IdCreator = userID,
+                IsActive = true,
+                CreationSource = CreationSourceEnum.CreationSource.Admin,
+                StoreSpecs = new List<StoreSpecModel>
+                {
+                    new StoreSpecModel
+                    {
+                        BusinessDays = dto.BusinessDays,
+                        GeoLocation = dto.GeoLocation,
+                        ValidFrom = dto.ValidFrom ?? DateTime.UtcNow,
+                        ValidTo = dto.ValidTo,
+                        IdCreator = userID,
+                        IsActive = true,
+                CreationSource = CreationSourceEnum.CreationSource.Admin
+
+                    }
+                }
+            };
+        }
 
         /// <summary>
         /// Creates a new StoreCoreModel instance from a StoreCoreDTO.
@@ -29,6 +55,7 @@ namespace ProductSeeker.Services.Mappers
                 Field = dto.Field,
                 IdCreator = userID,
                 IsActive = true,
+                CreationSource = CreationSourceEnum.CreationSource.Admin,
             };
         }
 
@@ -59,7 +86,9 @@ namespace ProductSeeker.Services.Mappers
                 GeoLocation = dto.GeoLocation,
                 IsActive = true,
                 ValidFrom = dto.ValidFrom ?? DateTime.UtcNow,
-                ValidTo = dto.ValidTo
+                ValidTo = dto.ValidTo,
+                CreationSource = CreationSourceEnum.CreationSource.Admin
+
             };
         }
         //         /// <summary>

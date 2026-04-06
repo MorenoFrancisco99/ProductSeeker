@@ -6,13 +6,14 @@ namespace ProductSeeker;
  
 public class FoodProductModel :ProductSpecModel
 {
-    [Required]
-    [Range(0, 100000)]
-    public required int NetContent {get; set;}
 
-    [Required]
-    public required UnitOfMeasureEnum.Unit UnitOfMeasure {get; set; }
-    public bool? TACC {get; set;}
+    //Same value aplied as constrain in Validator
+    //Modification here should be reflected in the validator and vice versa
+    [Range(1, 100000)]
+    public int NetContent {get; set;}
 
    
+    public UnitOfMeasureEnum.Unit UnitOfMeasure {get; set; }
+    public bool? TACC {get; set;}
+
 }

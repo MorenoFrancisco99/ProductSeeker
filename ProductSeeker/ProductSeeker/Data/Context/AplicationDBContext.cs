@@ -15,7 +15,6 @@ namespace ProductSeeker.Data.Context
         public DbSet<ProductCoreModel> ProductCores { get; set; }
         public DbSet<ProductSpecModel> ProductSpecs { get; set; }
         public DbSet<AppUserProductPriceModel> AppUserProductPrices { get; set; }
-        public DbSet<ProductSpecAttributeValue> ProductSpecAttributeValues { get; set; }
         public DbSet<ProductAliasModel> ProductAliasModel { get; set; }
         public DbSet<StoreCoreModel> StoreCores { get; set; }
         public DbSet<StoreSpecModel> StoreSpecs { get; set; }
@@ -76,7 +75,7 @@ namespace ProductSeeker.Data.Context
 
             builder.Entity<ProductSpecModel>()
             .HasDiscriminator(p => p.Category)
-            .HasValue<FoodProductModel>("Food");
+            .HasValue<FoodProductModel>(CategoriesEnum.ProductCategories.Food);
 
 
         }

@@ -2,31 +2,75 @@
 using FluentValidation;
 using Microsoft.Extensions.Options;
 using System.Data;
+using Microsoft.AspNetCore.Identity;
 namespace ProductSeeker;
 
-public class ProductSpecValidator : AbstractValidator<ProductSpecModel>
+public class ProductSpecValidator<T> : BaseEntityValidator<T> where T : ProductSpecModel
 {
-    private readonly BusinessRulesConfig _rules;
     private readonly IProductRepository _prodRepo;
-    public ProductSpecValidator(IOptions<BusinessRulesConfig> options, IProductRepository prodrepo)
+    public ProductSpecValidator(IProductRepository prodrepo, UserManager<AppUser> userManager) : base(userManager)
     {
-        _rules = options.Value;
-        _prodRepo = prodrepo;
 
-        string _msgError = "";
+        _prodRepo = prodrepo;
 
         RuleFor(x => x.Category)
         .NotNull()
-        .Must(Category => _rules.Categories.ContainsKey(Category))
-        .WithMessage("Product must have a valid category");
+        .Must(Category => CategoriesEnum.ProductCategories.IsDefined(typeof(CategoriesEnum.ProductCategories), Category))
+        .WithMessage("Product must have a valid category")
+        .NotEqual(CategoriesEnum.ProductCategories.Unknown)
+        .WithMessage("Product category is unknown");
+
 
         RuleFor(x => x.ProductCoreId)
         .NotNull()
-        .MustAsync(async (prodID, cancellation) =>
+        .MustAsync(async (product, prodCoreId, context, cancellation) =>
         {
-            bool exist = await _prodRepo.CoreExist(prodID);
-            return exist;
-        }).WithMessage("Target product does not exist");
+            var core = await _prodRepo.GetCoreByID(prodCoreId);
+
+            if (core == null)
+            {
+                context.MessageFormatter.AppendArgument("ErrorMessage", "Target product does not exist");
+                return false;
+            }
+
+            if (core.Category != product.Category)
+            {
+                context.MessageFormatter.AppendArgument("ErrorMessage",
+                    $"The category of the spec must match the category of the core. " +
+                    $"Core: {core.Category}, Spec: {product.Category}");
+                return false;
+            }
+
+            return true;
+        })
+        .WithMessage("{ErrorMessage}");
+
+
+
+        RuleFor(x => x.EAN)
+        .NotNull()
+        .MustAsync(async (ean, cancellation) =>
+           {
+               var exist = await _prodRepo.GetSpecByEAN(ean);
+               if (exist != null)
+               {
+                   return false;
+               }
+               return true;
+           }).WithMessage("Another product with the same EAN already exists");
+
+
+        // _rules = options.Value;
+        // _prodRepo = prodrepo;
+
+        // string _msgError = "";
+
+        // RuleFor(x => x.Category)
+        // .NotNull()
+        // .Must(Category => _rules.Categories.ContainsKey(Category))
+        // .WithMessage("Product must have a valid category");
+
+
 
 
         //1. Each attribute must have a valid key, that means, existing for the given category
@@ -66,19 +110,19 @@ public class ProductSpecValidator : AbstractValidator<ProductSpecModel>
         //         _msgError =$"Invalid attributes for the category received: {string.Join(",", invalidAtt)}";
         //         return false;
         //     }
-            
-            
-            
+
+
+
 
 
         //     return true;
         // })
         // .WithMessage(_msgError);
 
-        
 
-        
-        
+
+
+
 
 
 

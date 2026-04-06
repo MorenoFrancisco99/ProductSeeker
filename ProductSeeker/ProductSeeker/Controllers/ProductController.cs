@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using ProductSeeker.Services.Extensions;
+using ProductSeeker;
 using Microsoft.AspNetCore.Identity;
 using ProductSeeker.Data.Models;
 using System.Security.Claims;
-
 namespace ProductSeeker.Controllers
 {
     [Route("api/[controller]")]
@@ -32,11 +31,7 @@ namespace ProductSeeker.Controllers
                 var result = await _productService.GetCoreByID(id, userID);
                 if (result.IsSuccess) { return Ok(result.Value); }
 
-                return result.Error.Type switch
-                {
-                    ErrorType.NotFound => NotFound(result.Error.Description),
-                    ErrorType.Forbidden => Forbid(result.Error.Description)
-                };
+                return result.Error!.ToActionResult();
             }
             catch (Exception ex)
             {
@@ -48,7 +43,7 @@ namespace ProductSeeker.Controllers
         //GET: api/product/spec/{specID}
         [HttpGet("spec/{id}")]
         [Authorize]
-        public async Task<ActionResult<ProductSpecModel>> GetSpecByID(int id)
+        public async Task<ActionResult<GETProductSpecDTO>> GetSpecByID(int id)
         {
             string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userID == null) { return Unauthorized(); }
@@ -57,11 +52,7 @@ namespace ProductSeeker.Controllers
                 var result = await _productService.GetSpecByID(id, userID);
                 if (result.IsSuccess) { return Ok(result.Value); }
 
-                return result.Error.Type switch
-                {
-                    ErrorType.NotFound => NotFound(result.Error.Description),
-                    ErrorType.Forbidden => Forbid(result.Error.Description)
-                };
+                return result.Error!.ToActionResult();
             }
             catch (Exception ex)
             {
@@ -73,7 +64,7 @@ namespace ProductSeeker.Controllers
         //POST: api/product/core
         [HttpPost("core")]
         [Authorize]
-        public async Task<ActionResult<ProductCoreModel>> POSTCore([FromBody] ProductCoreDTO productDTO)
+        public async Task<ActionResult<ProductCoreModel>> POSTCore([FromBody] POSTProductCoreDTO productDTO)
         {
             string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userID == null) { return Unauthorized(); }
@@ -81,13 +72,9 @@ namespace ProductSeeker.Controllers
             {
                 var result = await _productService.CreateProductCore(productDTO, userID);
 
-               if(result.IsSuccess ) {return CreatedAtAction(nameof(GetCoreByID), new { id = result.Value.Id }, result.Value);}
+                if (result.IsSuccess) { return CreatedAtAction(nameof(GetCoreByID), new { id = result.Value.Id }, result.Value); }
 
-                return result.Error.Type switch
-                {
-                    ErrorType.NotFound => NotFound(result.Error.Description),
-                    ErrorType.Forbidden => Forbid(result.Error.Description)
-                };
+                return result.Error!.ToActionResult();
             }
             catch (Exception ex)
             {
@@ -99,7 +86,7 @@ namespace ProductSeeker.Controllers
         //POST: api/product/spec
         [HttpPost("spec")]
         [Authorize]
-        public async Task<ActionResult<ProductSpecModel>> POSTSpec([FromBody] ProductSpecDTO dto)
+        public async Task<ActionResult<ProductSpecModel>> POSTSpec([FromBody] POSTProductSpecDTO dto)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
@@ -112,11 +99,7 @@ namespace ProductSeeker.Controllers
 
                 if (result.IsSuccess) { return CreatedAtAction(nameof(GetSpecByID), new { id = result.Value.Id }, result.Value); }
 
-                return result.Error.Type switch
-                {
-                    ErrorType.NotFound => NotFound(result.Error.Description),
-                    ErrorType.Forbidden => Forbid(result.Error.Description)
-                };
+                return result.Error!.ToActionResult();
             }
             catch (Exception ex)
             {
@@ -125,8 +108,36 @@ namespace ProductSeeker.Controllers
             }
         }
 
+
+        // POST: api/product
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult<ProductSpecModel>> POSTProductWCore([FromBody] POSTProductWCoreDTO dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userID == null) return Unauthorized();
+
+            try
+            {
+                //var result = await _productService.ADMINCreateProductWCore(dto, userID);
+
+                // if (result.IsSuccess)
+                //     return CreatedAtAction(nameof(GetSpecByID), new { id = result.Value!.Id }, result.Value);
+
+                // return result.Error!.ToActionResult();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating product with core: {ex}");
+                return StatusCode(500);
+            }
+        }
+
         //GET: api/product/price/{id}
-        [HttpGet("{id}")]
+        [HttpGet("price/{id}")]
         [Authorize]
         public async Task<ActionResult<AppUserProductPriceModel?>> GETPriceByID(int id)
         {
@@ -138,11 +149,7 @@ namespace ProductSeeker.Controllers
                 var result = await _productService.GetPriceByID(id, userID);
                 if (result.IsSuccess) { return Ok(result.Value); }
 
-                return result.Error.Type switch
-                {
-                    ErrorType.NotFound => NotFound(result.Error.Description),
-                    ErrorType.Forbidden => Forbid(result.Error.Description)
-                };
+                return result.Error!.ToActionResult();
             }
             catch (Exception ex)
             {
@@ -168,12 +175,7 @@ namespace ProductSeeker.Controllers
                 if (result!.IsSuccess) { return CreatedAtAction(nameof(GETPriceByID), new { id = result.Value.Id }, result.Value); }
 
 
-                return result.Error.Type switch
-                {
-                    ErrorType.NotFound => NotFound(result.Error.Description),
-                    ErrorType.Forbidden => Forbid(result.Error.Description)
-
-                };
+                return result.Error!.ToActionResult();
 
             }
             catch (Exception ex)
@@ -181,6 +183,45 @@ namespace ProductSeeker.Controllers
                 return StatusCode(500);
             }
 
+        }
+
+
+        // POST: api/product/scrape
+        [HttpPost("scrape")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ProductSpecModel>> POSTScrapedProduct([FromBody] POSTProductWCoreDTO dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userID == null) return Unauthorized();
+
+            try
+            {
+                var result = await _productService.ADMINCreateProductWCore(dto, userID);
+
+                if (result.IsSuccess)
+                    return Ok();
+
+                return result.Error!.ToActionResult();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating scraped product: {ex}");
+                return StatusCode(500);
+            }
+        }
+
+
+             // POST: api/product/scrape
+        [HttpPost("test")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<PCoreWSpecDTOTEST>> TestCreateProduct([FromBody] PCoreWSpecDTOTEST dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            return Ok(ModelState);
+           
         }
 
 

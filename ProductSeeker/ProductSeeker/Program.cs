@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ namespace ProductSeeker
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<AplicationDBContext>(options =>
@@ -80,6 +81,13 @@ namespace ProductSeeker
                 {
                     options.JsonSerializerOptions.Converters
                         .Add(new JsonStringEnumConverter());
+                        
+                    options.JsonSerializerOptions.UnmappedMemberHandling =
+                        JsonUnmappedMemberHandling.Disallow; 
+                        //Esto hace que si el cliente manda un campo que no existe en el DTO, 
+                        // el deserializador va a tirar error en vez de ignorarlo, 
+                        // lo cual es util para evitar errores silenciosos por typos o 
+                        // cambios en el DTO que el cliente no actualizo.
                 });
 
 
@@ -124,17 +132,39 @@ namespace ProductSeeker
             builder.Services.AddScoped<IStoreRepository, StoreRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
-
-            //Fetchs business rules from Appsettings.json 
-            //Injected in validators
-            builder.Services.Configure<BusinessRulesConfig>(
-                builder.Configuration.GetSection("BusinessRules:V1")
-            );
-
+            builder.Services.AddValidatorsFromAssemblyContaining<FoodValidator>();
 
 
 
             var app = builder.Build();
+
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+
+                var adminUsername = builder.Configuration["AdminSeed:Username"]!;
+                var adminEmail = builder.Configuration["AdminSeed:Email"]!;
+                var adminPassword = builder.Configuration["AdminSeed:Password"]!;
+
+                var existing = await userManager.FindByNameAsync(adminUsername);
+                if (existing == null)
+                {
+                    var adminUser = new AppUser
+                    {
+                        UserName = adminUsername,
+                        Email = adminEmail,
+                        GeoLocation = null,
+                        IsActive = true,
+                    };
+
+                    var result = await userManager.CreateAsync(adminUser, adminPassword);
+                    if (result.Succeeded)
+                        await userManager.AddToRoleAsync(adminUser, "Admin");
+                    else
+                        Console.WriteLine($"Error creando admin: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+                }
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

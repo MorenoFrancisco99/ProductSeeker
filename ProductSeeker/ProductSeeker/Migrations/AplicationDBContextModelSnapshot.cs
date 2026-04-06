@@ -260,6 +260,13 @@ namespace ProductSeeker.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
+                    b.Property<int>("CreationSource")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IdCreator")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -270,9 +277,6 @@ namespace ProductSeeker.Migrations
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 4)
                         .HasColumnType("decimal(18,4)");
-
-                    b.Property<DateTime>("PriceCreationDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("ProductSpecId")
                         .HasColumnType("int");
@@ -316,6 +320,9 @@ namespace ProductSeeker.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
+                    b.Property<int>("CreationSource")
+                        .HasColumnType("int");
+
                     b.Property<string>("IdCreator")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -353,6 +360,9 @@ namespace ProductSeeker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.Property<int>("CreationSource")
+                        .HasColumnType("int");
 
                     b.Property<string>("IdCreator")
                         .IsRequired()
@@ -394,10 +404,17 @@ namespace ProductSeeker.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.Property<int>("CreationSource")
+                        .HasColumnType("int");
 
                     b.Property<string>("IdCreator")
                         .IsRequired()
@@ -421,46 +438,6 @@ namespace ProductSeeker.Migrations
                     b.ToTable("ProductCore");
                 });
 
-            modelBuilder.Entity("ProductSeeker.Data.Models.ProductSpecAttributeValue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AttributeKey")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AttributeValue")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("SYSUTCDATETIME()");
-
-                    b.Property<string>("IdCreator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ProductSpecId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdCreator");
-
-                    b.HasIndex("ProductSpecId");
-
-                    b.ToTable("ProductSpecAttributeValue");
-                });
-
             modelBuilder.Entity("ProductSeeker.Data.Models.ProductSpecModel", b =>
                 {
                     b.Property<int>("Id")
@@ -478,6 +455,12 @@ namespace ProductSeeker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.Property<int>("CreationSource")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EAN")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdCreator")
                         .IsRequired()
@@ -517,6 +500,9 @@ namespace ProductSeeker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.Property<int>("CreationSource")
+                        .HasColumnType("int");
 
                     b.Property<string>("Field")
                         .IsRequired()
@@ -560,6 +546,9 @@ namespace ProductSeeker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.Property<int>("CreationSource")
+                        .HasColumnType("int");
 
                     b.Property<string>("GeoLocation")
                         .HasColumnType("nvarchar(max)");
@@ -740,25 +729,6 @@ namespace ProductSeeker.Migrations
                     b.Navigation("Creator");
                 });
 
-            modelBuilder.Entity("ProductSeeker.Data.Models.ProductSpecAttributeValue", b =>
-                {
-                    b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("ProductSeeker.Data.Models.ProductSpecModel", "ProductSpec")
-                        .WithMany()
-                        .HasForeignKey("ProductSpecId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("ProductSpec");
-                });
-
             modelBuilder.Entity("ProductSeeker.Data.Models.ProductSpecModel", b =>
                 {
                     b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
@@ -798,7 +768,7 @@ namespace ProductSeeker.Migrations
                         .IsRequired();
 
                     b.HasOne("ProductSeeker.Data.Models.StoreCoreModel", "Store")
-                        .WithMany()
+                        .WithMany("StoreSpecs")
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -818,6 +788,11 @@ namespace ProductSeeker.Migrations
             modelBuilder.Entity("ProductSeeker.Data.Models.ProductSpecModel", b =>
                 {
                     b.Navigation("Prices");
+                });
+
+            modelBuilder.Entity("ProductSeeker.Data.Models.StoreCoreModel", b =>
+                {
+                    b.Navigation("StoreSpecs");
                 });
 #pragma warning restore 612, 618
         }

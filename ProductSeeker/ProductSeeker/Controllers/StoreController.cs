@@ -42,19 +42,15 @@ namespace ProductSeeker.Controllers
             try
             {
                 var result = await _storeService.GetCoreByID(id, userID);
-                if (result.IsSuccess) { Ok(result.Value); }
+                if (result.IsSuccess) { return Ok(result.Value); }
 
-                return result.Error.Type switch
-                {
-                    ErrorType.NotFound => NotFound(result.Error.Description),
-                    ErrorType.Forbidden => Forbid(result.Error.Description)
-                };
+                return result.Error!.ToActionResult();
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error fetching Store core by ID: {ex}");
-                return StatusCode(500);
+                return StatusCode(500, "Internal server error.");
             }
 
         }
@@ -69,30 +65,40 @@ namespace ProductSeeker.Controllers
             try
             {
                 var result = await _storeService.GetSpecByID(id, userID);
-                if (result.IsSuccess) { Ok(result.Value); }
+                if (result.IsSuccess) { return Ok(result.Value); }
 
-                return result.Error.Type switch
-                {
-                    ErrorType.NotFound => NotFound(result.Error.Description),
-                    ErrorType.Forbidden => Forbid(result.Error.Description)
-                };
+                return result.Error!.ToActionResult();
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error fetching store spec by ID", ex);
-                return StatusCode(500);
+                return StatusCode(500, "Internal Server Error");
             }
         }
 
         //POST: api/store
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> POSTStoreWSPec([FromBody] StoreWSpecDTO storeDTO)
+        public async Task<ActionResult<StoreCoreModel>> POSTStoreWSPec([FromBody] StoreWSpecDTO storeDTO)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            var userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userID == null) { return Unauthorized(); }
 
+            try
+            {
+                var result = await _storeService.CreateStoreWSpec(storeDTO, userID);
+                if (result.IsSuccess) { return CreatedAtAction(nameof(GetCoreByID), new { id = result.Value.Id }, result.Value); }
 
-            return null;
+                return result.Error!.ToActionResult();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating store with spec: ", ex);
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         //POST: api/store/core
@@ -111,22 +117,18 @@ namespace ProductSeeker.Controllers
             {
                 var result = await _storeService.CreateStoreCore(storeDTO, userID);
 
-                if (result.IsSuccess) 
-                    return CreatedAtAction(nameof(GetSpecByID), new { id = result.Value.Id }, result.Value); 
+                if (result.IsSuccess)
+                    return CreatedAtAction(nameof(GetSpecByID), new { id = result.Value.Id }, result.Value);
 
 
-                //Cnnot return Error here.
-                //For the sake of consistensy and future proofing its still gets managed
-                return result.Error.Type switch
-                {
-                    ErrorType.NotFound => NotFound($"{result.Error.Description} + {result.Error.Metadata}"),
-                    ErrorType.Forbidden => Forbid($"{result.Error.Description} + {result.Error.Metadata}")
-                };
+
+                return result.Error!.ToActionResult();
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error creating store core: ", ex);
-                return StatusCode(500);
+                return StatusCode(500, "Internal server error.");
             }
         }
         //GET: api/store/spec
@@ -140,7 +142,7 @@ namespace ProductSeeker.Controllers
                 return BadRequest(ModelState);
 
             string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            
+
             if (userID == null)
                 return Unauthorized();
 
@@ -149,20 +151,15 @@ namespace ProductSeeker.Controllers
                 var result = await _storeService.CreateStoreSpec(storeDTO, userID);
                 if (result.IsSuccess)
                     return CreatedAtAction(nameof(GetSpecByID), new { id = result.Value.Id }, result.Value.Id);
-            
-                 return result.Error.Type switch
-                {
-                    ErrorType.NotFound => NotFound($"{result.Error.Description} + {result.Error.Metadata}"),
-                    ErrorType.Forbidden => Forbid($"{result.Error.Description} + {result.Error.Metadata}"),
-                    ErrorType.Validation => UnprocessableEntity($"{result.Error.Description} + {result.Error.Metadata}")
-                };
+
+                return result.Error!.ToActionResult();
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error creating store spec:", ex);
-                return StatusCode(500);
+                return StatusCode(500, "Internal Server Error");
             }
-
         }
     }
 }

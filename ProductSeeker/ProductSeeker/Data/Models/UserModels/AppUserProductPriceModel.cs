@@ -16,12 +16,12 @@ public class AppUserProductPriceModel :BaseEntity
     [Required, Precision(18,4), Range(0, 100000)]
     public required decimal Price { get; set; }
 
-    public string Currency = "ARS";
+    public string Currency {get; set;}= "ARS";
         
     [Required]
     public required int ProductSpecId { get; set; }
     [Required]
-    public  ProductSpecModel ProductSpecModel { get; set; }
+    public ProductSpecModel ProductSpecModel { get; set; }
     
     [Required]
     public required int StoreId  { get; set; }

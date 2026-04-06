@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
@@ -22,9 +23,11 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Core" />
     <PackageReference Include="NetTopologySuite" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
+
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Frontend\package-lock.json" />
     <_ContentIncludedByDefault Remove="Frontend\package.json" />
   </ItemGroup>
+
 </Project>

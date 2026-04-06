@@ -17,6 +17,6 @@ public class StoreCoreModel : BaseEntity
 
     public UnitStateEnum.UnitState State {get; set;}
 
-    public List<StoreSpecModel> StoreSpecs = [];
+    public List<StoreSpecModel> StoreSpecs {get; set;}= [];
 
 }

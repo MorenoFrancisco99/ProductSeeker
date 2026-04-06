@@ -39,7 +39,7 @@ namespace ProductSeeker.Controllers
                 {
                     Username = user.UserName,
                     Email = user.Email,
-                    Token = _tokenService.CreateToken(user)
+                    Token = await _tokenService.CreateToken(user)
                 });
             }
             catch (Exception ex)
@@ -76,7 +76,7 @@ namespace ProductSeeker.Controllers
                             {
                                 Username = appUser.UserName,
                                 Email = appUser.Email,
-                                Token = _tokenService.CreateToken(appUser)
+                                Token = await _tokenService.CreateToken(appUser)
                             }); 
                     
                     }

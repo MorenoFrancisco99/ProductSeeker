@@ -2,37 +2,26 @@
 using ProductSeeker.Data.Models;
 using System.IO.IsolatedStorage;
 using System.Runtime.CompilerServices;
-
+using ProductSeeker;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static ProductSeeker.CreationSourceEnum;
 namespace ProductSeeker.Services.Mappers
 {
     static class ProductMappers
     {
-        public static ProductCoreModel FromProductCoreDTOToModel(this ProductCoreDTO dto, string userID)
+        public static ProductCoreModel FromProductCoreDTOToModel(this POSTProductCoreDTO dto, string userID, CreationSource userRole)
         {
             return new ProductCoreModel
             {
+                Category = dto.Category,
                 ProductName = dto.ProductName,
                 Brand = dto.Brand,
                 IdCreator = userID,
-                IsActive = true
+                IsActive = true,
+                CreationSource = userRole
             };
         }
 
-        [Obsolete]
-        public static FoodProductModel MapSpecToModel(this FoodProductDTO dto, string userID)
-        {
-            //unusuable at the moment, as dto's are managed as base type dto
-            //and not specific category dto
-            return new FoodProductModel
-            {
-              Category = "Food",
-              ProductCoreId = dto.ProductCoreId,
-              NetContent = dto.NetContent,
-              UnitOfMeasure = dto.UnitOfMeasure,
-              TACC = dto.TACC,
-              IdCreator = userID
-            };
-        }   
 
         public static AppUserProductPriceModel MapToModel(this POSTProductPriceDTO dto, string userID)
         {
@@ -42,40 +31,67 @@ namespace ProductSeeker.Services.Mappers
                 Price = dto.Price,
                 ProductSpecId = dto.ProductSpecId,
                 StoreId = dto.StoreId,
-                ValidFrom = dto.ValidFrom ?? DateTime.UtcNow
+                ValidFrom = dto.ValidFrom ?? DateTime.UtcNow,
+                CreationSource = CreationSourceEnum.CreationSource.Admin
+
             };
         }
+
+
+        public static GETProductSpecDTO FromModelToGETDTO(this ProductSpecModel model)
+        {
+            return model.Category switch
+            {
+                CategoriesEnum.ProductCategories.Food => new GETFoodProductDTO
+                {
+                    Id = model.Id,
+                    IsActive = model.IsActive,
+                    CreationDate = model.CreationDate,
+                    CreationSource = model.CreationSource,
+                    IdCreator = model.IdCreator,
+                    Category = model.Category,
+                    EAN = model.EAN,
+                    ProductCoreId = model.ProductCoreId,
+                    UnitOfMeasure = ((FoodProductModel)model).UnitOfMeasure,
+                    TACC = ((FoodProductModel)model).TACC
+                },
+                _ => new GETProductSpecDTO
+                {
+                    Id = model.Id,
+                    IsActive = model.IsActive,
+                    CreationDate = model.CreationDate,
+                    CreationSource = model.CreationSource,
+                    IdCreator = model.IdCreator,
+                    Category = model.Category,
+                    EAN = model.EAN,
+                    ProductCoreId = model.ProductCoreId
+                }
+            };
+        }
+
+        public static ProductSpecModel FromDTOToModel(this POSTProductSpecDTO dto, string userID, CreationSource creationSource)
+        {
+            return dto.Category switch
+            {
+                CategoriesEnum.ProductCategories.Food => new FoodProductModel
+                {
+                    IdCreator = userID,
+                    ProductCoreId = dto.ProductCoreId,
+                    EAN = dto.EAN,
+                    Category = dto.Category,
+                    UnitOfMeasure = ((POSTFoodProductDTO)dto).UnitOfMeasure,
+                    NetContent = ((POSTFoodProductDTO)dto).NetContent,
+                    TACC = ((POSTFoodProductDTO)dto).TACC,
+                    CreationSource = creationSource,
+                    IsActive = true
+                },
+                _ => throw new NotImplementedException("Category not implemented in mapper")
+            };
+        }
+
+
+
+
     }
-
-
-    // public static ProductSpecModel FromProductSpecDTOToModel( this ProductSpecDTO dto, string userID)
-    // {
-    //     var spec = new ProductSpecModel
-    //     {
-    //         Category = dto.Category,
-    //         ProductCoreId = dto.ProductCoreId,
-    //         IdCreator = userID,
-    //         IsActive = true
-    //     };
-
-    //     if (dto.Attributes is not null && dto.Attributes.Count > 0)
-    //     {
-    //         spec.Attributes = dto.Attributes
-    //             .Select(psav => new ProductSpecAttributeValue
-    //             {
-    //                 AttributeKey = psav.Key,
-    //                 AttributeValue = psav.Value,
-    //                 IdCreator = userID
-    //             })
-    //             .ToList();
-    //     }
-    //     else
-    //     {
-    //         throw new ArgumentException("Attributes list cannot be empty");
-    //     }
-
-    //     return spec;
-    // }
-
 
 }

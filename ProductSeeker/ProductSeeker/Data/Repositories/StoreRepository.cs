@@ -7,60 +7,45 @@ using ProductSeeker.Data.Repositories;
 
 namespace ProductSeeker;
 
-/// <summary>
-/// Repositories for store domain. Manages both Cores and Specs
-/// </summary>
+
 
 public class StoreRepository : IStoreRepository
 {
-    private readonly IGenericRepository<StoreCoreModel> _storeCoreRepo;
-    private readonly IGenericRepository<StoreSpecModel> _storeSpecRepo;
     private readonly AplicationDBContext _context;
     public StoreRepository(IGenericRepository<StoreCoreModel> storeCoreRepo,
                         IGenericRepository<StoreSpecModel> storeSpecRepo,
                         AplicationDBContext context)
     {
-        _storeCoreRepo = storeCoreRepo;
-        _storeSpecRepo = storeSpecRepo;
         _context = context;
     }
 
-    public async Task<Result<StoreCoreModel>?> GetCoreByID(int CoreId, string userID)
+    public async Task<StoreCoreModel?> GetCoreByID(int coreId)
     {
-        var result = await _context.StoreCores.FirstOrDefaultAsync(x => x.Id == CoreId);
-        return result == null
-        ? Errors.StoreCoreNotFound
-        : result.IdCreator != userID
-            ? Errors.NotOwner
-            : result;
+        return await _context.StoreCores.FirstOrDefaultAsync(x => x.Id == coreId);
+       
     }
 
-    public async Task<Result<StoreSpecModel>?> GetSpecByID(int SpecId, string userID)
+    public async Task<StoreSpecModel?> GetSpecByID(int specId)
     {
-        var result = await _context.StoreSpecs.FirstOrDefaultAsync(x => x.Id == SpecId);
-        return result == null
-        ? Errors.StoreSpecNotFound
-        : result.IdCreator != userID
-            ? Errors.NotOwner
-            : result;
+        return await _context.StoreSpecs.FirstOrDefaultAsync(x => x.Id == specId);
     }
 
-    public async Task<Result<StoreCoreModel>> CreateCore(StoreCoreModel storeCore)
+    public async Task<StoreCoreModel> CreateCore(StoreCoreModel storeCore)
     {
         _context.StoreCores.Add(storeCore);
         await _context.SaveChangesAsync();
         return storeCore;
     }
-    public async Task<Result<StoreSpecModel>> CreateSpec(StoreSpecModel storeSpec)
+    public async Task<StoreSpecModel> CreateSpec(StoreSpecModel storeSpec)
     {
         _context.StoreSpecs.Add(storeSpec);
         await _context.SaveChangesAsync();
         return storeSpec;
     }
 
-    public async Task<StoreCoreModel?> GetStoreByName(string name)
+    public async Task<StoreCoreModel?> GetByName(string name)
     {
-        throw new NotImplementedException();
+        return await _context.StoreCores.FirstOrDefaultAsync(x => x.Name == name);
     }
 
     public async Task<bool> IsCoreOwner(int CoreId, string UserId)
