@@ -75,6 +75,8 @@ public class ProductServiceTest
     {
         var productService = new ProductService(_mockProductRepo, _mockStoreRepo, _serviceProvider, _mockCoreValidator);
         var asd = "";
+
+        var asdas = "";
     }
 
 
