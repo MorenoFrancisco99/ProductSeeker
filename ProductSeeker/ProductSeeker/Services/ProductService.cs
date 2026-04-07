@@ -176,7 +176,7 @@ public class ProductService : IProductService
     /// </summary>
     /// <returns></returns>
     /// <exception cref="Exception">Validator not found for the given spec type</exception>
-    public IValidator GetValidatorForSpec(ProductSpecModel spec)
+    private IValidator GetValidatorForSpec(ProductSpecModel spec)
     {
 
 

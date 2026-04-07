@@ -53,20 +53,29 @@ public class ProductServiceTest
 
 
     //NOTE: this method is private in the actual service, but I made it public here just for testing purposes. You can test it indirectly through the CreateProductSpec method, which uses it internally to get the appropriate validator for the spec being created.
-     [Fact]
-     public async Task GetValidatorForSpec_FoodCategory_ReturnsFoodValidator()
-     {
-         // Arrange
-         var productService = new ProductService(_mockProductRepo, _mockStoreRepo, _serviceProvider, _mockCoreValidator);
-         var foodSpec = new FoodProductModel
-         {
-             Category = CategoriesEnum.ProductCategories.Food
-         };
-        // Act
-         var validator = productService.GetValidatorForSpec(foodSpec);
-        // Assert
-         Assert.IsType<FoodValidator>(validator);
-     }
+    // [Fact]
+    //  public async Task GetValidatorForSpec_FoodCategory_ReturnsFoodValidator()
+    //  {
+    //      // Arrange
+    //      var productService = new ProductService(_mockProductRepo, _mockStoreRepo, _serviceProvider, _mockCoreValidator);
+    //      var foodSpec = new FoodProductModel
+    //      {
+    //          Category = CategoriesEnum.ProductCategories.Food
+    //      };
+    //     // Act
+    //      var validator = productService.GetValidatorForSpec(foodSpec);
+    //     // Assert
+    //      Assert.IsType<FoodValidator>(validator);
+    //  }
+
+/*----------------CreateProductCore Tests-----------------*/
+
+    [Fact]
+    public async Task CreateProductCore_ValidData_ReturnSuccess()
+    {
+        var productService = new ProductService(_mockProductRepo, _mockStoreRepo, _serviceProvider, _mockCoreValidator);
+        
+    }
 
 
     [Fact]
@@ -119,6 +128,9 @@ public class ProductServiceTest
         // Assert
         Assert.True(result.IsSuccess);
     }
+
+
+
 
    
 }
