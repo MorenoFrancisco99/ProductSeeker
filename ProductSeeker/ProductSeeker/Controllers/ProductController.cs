@@ -220,9 +220,13 @@ namespace ProductSeeker.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
+
             return Ok(ModelState);
            
         }
+
+
+
 
 
     }

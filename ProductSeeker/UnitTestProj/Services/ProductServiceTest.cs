@@ -74,7 +74,7 @@ public class ProductServiceTest
     public async Task CreateProductCore_ValidData_ReturnSuccess()
     {
         var productService = new ProductService(_mockProductRepo, _mockStoreRepo, _serviceProvider, _mockCoreValidator);
-        
+        var asd = "";
     }
 
 
