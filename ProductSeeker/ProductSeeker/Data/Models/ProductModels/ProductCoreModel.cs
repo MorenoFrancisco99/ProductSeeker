@@ -15,12 +15,12 @@ public class ProductCoreModel : BaseEntity
     
     [Required]
     [MaxLength(100)]
-    public required string ProductName { get; set; }
+    public string ProductName { get; set; }
 
     [Required, MaxLength(50)]
-    public required string Brand { get; set; }
+    public string Brand { get; set; }
      [Required]
-    public required CategoriesEnum.ProductCategories Category { get; set; }
+    public CategoriesEnum.ProductCategories Category { get; set; }
 
     public List<ProductSpecModel> Specs { get; set; } = new List<ProductSpecModel>();
     

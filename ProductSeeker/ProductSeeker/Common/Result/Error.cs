@@ -38,6 +38,12 @@ public static class Errors
 
     public static Error UnauthorizedAccess { get; } = new("UnauthorizedAccess", ErrorType.Forbidden, "Unauthorized access. ");
     public static Error Duplicate { get; } = new("Duplicate", ErrorType.Conflict, "Resource already exists.");
+    
+    //Validation error its used in ResultValidationExtensions to convert the 
+    // FluentValidation errors into a Result failure, so it needs to be generic 
+    // enough to be used in any validation scenario. The specific validation 
+    // errors are added as metadata with the "fields" key, followed by
+    // a Dict with the field name as key and the list of errors for that field as value.
     public static Error ValidationError { get; } = new("ResourceValidationError", ErrorType.Validation, "Validation error with the resource.");
 
 

@@ -1,9 +1,10 @@
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using ProductSeeker.Data.Models;
 
-public class ProductCoreValidator : AbstractValidator<ProductCoreModel>
+public class ProductCoreValidator : BaseEntityValidator<ProductCoreModel> 
 {
-    public ProductCoreValidator()
+    public ProductCoreValidator(UserManager<AppUser> userManager) : base(userManager)
     {
         RuleFor(x => x.ProductName)
             .NotEmpty()
