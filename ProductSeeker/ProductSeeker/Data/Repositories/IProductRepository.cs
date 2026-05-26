@@ -81,9 +81,9 @@ public interface IProductRepository
     /// <param name="coreId"></param>
     /// <param name="specIdentifier"></param>
     /// <returns>The corresponding ProductSpec entity if found; otherwise, <c>null</c>.</returns>
-    Task<ProductSpecModel?> FindSpec(int coreId, List<object> specIdentifier);
+    Task<ProductSpecModel?> FindSpecByIdentifiers(int coreId, List<object> specIdentifier);
 
 
-    Task<ProductSpecModel?> GetSpecByEAN(string ean);
+    Task<ProductSpecModel?> GetSpecByEAN(string? ean);
 
 }

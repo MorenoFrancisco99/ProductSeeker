@@ -15,6 +15,9 @@ public class StoreCoreModel : BaseEntity
     [Required, MaxLength(50)]
     public required string Field {get; set;}
 
+    [MaxLength(500)]
+    public string? Description {get; set;}
+
     public UnitStateEnum.UnitState State {get; set;}
 
     public List<StoreSpecModel> StoreSpecs {get; set;}= [];

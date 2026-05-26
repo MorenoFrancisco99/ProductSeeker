@@ -34,5 +34,16 @@ namespace ProductSeeker.Utils.NetTopologySuite
             var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
             return geometryFactory.CreatePoint( new Coordinate(lon, lat));
         }
+
+        public static bool AreLocationsClose(Point point1, Point point2, double thresholdInMeters = 100)
+        {
+            if (point1 == null || point2 == null)
+                return false;
+
+            // Calculate the distance in meters between the two points
+            var distance = point1.Distance(point2) * 111319.9; // Convert degrees to meters (approximation)
+
+            return distance <= thresholdInMeters;
+        }
     }
 }

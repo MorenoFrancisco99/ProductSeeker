@@ -1,5 +1,6 @@
 ﻿using ProductSeeker.Data.DTOs;
 using ProductSeeker.Data.Models;
+using ProductSeeker.Utils.NetTopologySuite;
 
 namespace ProductSeeker.Services.Mappers
 {
@@ -13,6 +14,7 @@ namespace ProductSeeker.Services.Mappers
             {
                 Name = dto.Name,
                 Field = dto.Field,
+                Description = dto.Description,
                 IdCreator = userID,
                 IsActive = true,
                 CreationSource = CreationSourceEnum.CreationSource.Admin,
@@ -21,7 +23,7 @@ namespace ProductSeeker.Services.Mappers
                     new StoreSpecModel
                     {
                         BusinessDays = dto.BusinessDays,
-                        GeoLocation = dto.GeoLocation,
+                        GeoLocation = LocationUtils.ConvertToPoint(dto.Latitude, dto.Longitude),
                         ValidFrom = dto.ValidFrom ?? DateTime.UtcNow,
                         ValidTo = dto.ValidTo,
                         IdCreator = userID,
@@ -53,6 +55,7 @@ namespace ProductSeeker.Services.Mappers
             {
                 Name = dto.Name,
                 Field = dto.Field,
+                Description = dto.Description,
                 IdCreator = userID,
                 IsActive = true,
                 CreationSource = CreationSourceEnum.CreationSource.Admin,
@@ -83,7 +86,7 @@ namespace ProductSeeker.Services.Mappers
                 StoreCoreId = dto.StoreCoreId,
                 IdCreator = userID,
                 BusinessDays = dto.BusinessDays,
-                GeoLocation = dto.GeoLocation,
+                GeoLocation = LocationUtils.ConvertToPoint(dto.Latitude, dto.Longitude),
                 IsActive = true,
                 ValidFrom = dto.ValidFrom ?? DateTime.UtcNow,
                 ValidTo = dto.ValidTo,

@@ -119,11 +119,7 @@ namespace ProductSeeker.Controllers
 
                 if (result.IsSuccess)
                     return CreatedAtAction(nameof(GetSpecByID), new { id = result.Value.Id }, result.Value);
-
-
-
                 return result.Error!.ToActionResult();
-
             }
             catch (Exception ex)
             {
@@ -142,7 +138,6 @@ namespace ProductSeeker.Controllers
                 return BadRequest(ModelState);
 
             string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
             if (userID == null)
                 return Unauthorized();
 

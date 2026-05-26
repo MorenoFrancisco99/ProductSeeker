@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using NetTopologySuite.Geometries;
 using ProductSeeker.Data.Context;
 
 #nullable disable
@@ -269,9 +270,9 @@ namespace ProductSeeker.Migrations
 
                     b.Property<string>("IdCreator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("Price")
@@ -298,8 +299,6 @@ namespace ProductSeeker.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdCreator");
-
                     b.HasIndex("ProductSpecModelId");
 
                     b.HasIndex("StoreSpecId");
@@ -325,9 +324,9 @@ namespace ProductSeeker.Migrations
 
                     b.Property<string>("IdCreator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<int>("StoreCoreId")
@@ -340,8 +339,6 @@ namespace ProductSeeker.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdCreator");
 
                     b.HasIndex("StoreCoreId");
 
@@ -366,9 +363,9 @@ namespace ProductSeeker.Migrations
 
                     b.Property<string>("IdCreator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<int>("ProductCoreId")
@@ -383,8 +380,6 @@ namespace ProductSeeker.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdCreator");
 
                     b.HasIndex("ProductCoreId");
 
@@ -401,12 +396,11 @@ namespace ProductSeeker.Migrations
 
                     b.Property<string>("Brand")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
@@ -418,22 +412,20 @@ namespace ProductSeeker.Migrations
 
                     b.Property<string>("IdCreator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdCreator");
 
                     b.ToTable("ProductCore");
                 });
@@ -446,10 +438,8 @@ namespace ProductSeeker.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
@@ -464,9 +454,9 @@ namespace ProductSeeker.Migrations
 
                     b.Property<string>("IdCreator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<int>("ProductCoreId")
@@ -477,13 +467,11 @@ namespace ProductSeeker.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdCreator");
-
                     b.HasIndex("ProductCoreId");
 
                     b.ToTable("ProductSpecs");
 
-                    b.HasDiscriminator<string>("Category").HasValue("ProductSpecModel");
+                    b.HasDiscriminator<int>("Category");
 
                     b.UseTphMappingStrategy();
                 });
@@ -504,6 +492,10 @@ namespace ProductSeeker.Migrations
                     b.Property<int>("CreationSource")
                         .HasColumnType("int");
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("Field")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -511,9 +503,9 @@ namespace ProductSeeker.Migrations
 
                     b.Property<string>("IdCreator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -525,8 +517,6 @@ namespace ProductSeeker.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdCreator");
 
                     b.ToTable("StoreCore");
                 });
@@ -550,14 +540,14 @@ namespace ProductSeeker.Migrations
                     b.Property<int>("CreationSource")
                         .HasColumnType("int");
 
-                    b.Property<string>("GeoLocation")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Point>("GeoLocation")
+                        .HasColumnType("geography");
 
                     b.Property<string>("IdCreator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<int>("State")
@@ -577,8 +567,6 @@ namespace ProductSeeker.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdCreator");
-
                     b.HasIndex("StoreId");
 
                     b.ToTable("StoreSpecs");
@@ -588,8 +576,8 @@ namespace ProductSeeker.Migrations
                 {
                     b.HasBaseType("ProductSeeker.Data.Models.ProductSpecModel");
 
-                    b.Property<int>("NetContent")
-                        .HasColumnType("int");
+                    b.Property<float>("NetContent")
+                        .HasColumnType("real");
 
                     b.Property<bool?>("TACC")
                         .HasColumnType("bit");
@@ -599,7 +587,7 @@ namespace ProductSeeker.Migrations
 
                     b.ToTable("ProductSpecs");
 
-                    b.HasDiscriminator().HasValue("Food");
+                    b.HasDiscriminator().HasValue(1);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -655,12 +643,6 @@ namespace ProductSeeker.Migrations
 
             modelBuilder.Entity("ProductSeeker.Data.Models.AppUserProductPriceModel", b =>
                 {
-                    b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("ProductSeeker.Data.Models.ProductSpecModel", "ProductSpecModel")
                         .WithMany("Prices")
                         .HasForeignKey("ProductSpecModelId")
@@ -673,8 +655,6 @@ namespace ProductSeeker.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Creator");
-
                     b.Navigation("ProductSpecModel");
 
                     b.Navigation("StoreSpec");
@@ -682,98 +662,44 @@ namespace ProductSeeker.Migrations
 
             modelBuilder.Entity("ProductSeeker.Data.Models.AppUserStoreCoreModel", b =>
                 {
-                    b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("ProductSeeker.Data.Models.StoreCoreModel", "StoreCore")
                         .WithMany()
                         .HasForeignKey("StoreCoreId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Creator");
-
                     b.Navigation("StoreCore");
                 });
 
             modelBuilder.Entity("ProductSeeker.Data.Models.ProductAliasModel", b =>
                 {
-                    b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("ProductSeeker.Data.Models.ProductCoreModel", "ProductCore")
                         .WithMany("Aliases")
                         .HasForeignKey("ProductCoreId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Creator");
-
                     b.Navigation("ProductCore");
-                });
-
-            modelBuilder.Entity("ProductSeeker.Data.Models.ProductCoreModel", b =>
-                {
-                    b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("ProductSeeker.Data.Models.ProductSpecModel", b =>
                 {
-                    b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("ProductSeeker.Data.Models.ProductCoreModel", "ProductCore")
                         .WithMany("Specs")
                         .HasForeignKey("ProductCoreId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Creator");
-
                     b.Navigation("ProductCore");
-                });
-
-            modelBuilder.Entity("ProductSeeker.Data.Models.StoreCoreModel", b =>
-                {
-                    b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("ProductSeeker.Data.Models.StoreSpecModel", b =>
                 {
-                    b.HasOne("ProductSeeker.Data.Models.AppUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("IdCreator")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("ProductSeeker.Data.Models.StoreCoreModel", "Store")
                         .WithMany("StoreSpecs")
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Creator");
 
                     b.Navigation("Store");
                 });

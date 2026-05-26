@@ -213,20 +213,6 @@ namespace ProductSeeker.Controllers
         }
 
 
-             // POST: api/product/scrape
-        [HttpPost("test")]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<PCoreWSpecDTOTEST>> TestCreateProduct([FromBody] PCoreWSpecDTOTEST dto)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-
-            return Ok(ModelState);
-           
-        }
-
-
-
 
 
     }

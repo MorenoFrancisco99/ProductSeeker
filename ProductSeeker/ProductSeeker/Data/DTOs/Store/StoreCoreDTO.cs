@@ -9,5 +9,7 @@ public class StoreCoreDTO
 
     [Required(ErrorMessage = "Field has to be submitted"), MaxLength(50)]
     public required string Field { get; set; }
+
+    public string? Description { get; set; }
   
 }

@@ -9,8 +9,11 @@ public class StoreWSpecDTO
 
     [Required(ErrorMessage = "Field has to be submitted"), MaxLength(50)]
     public required string Field { get; set; }
+
+    public string? Description { get; set; }
     [Required(ErrorMessage = "Creator ID must be set")]
-    public string? GeoLocation { get; set; }
+    public double? Latitude { get; set; }
+    public double? Longitude { get; set; }
 
     public string? BusinessDays { get; set; }
     public DateTime? ValidFrom { get; set; }

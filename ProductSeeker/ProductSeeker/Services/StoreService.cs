@@ -4,6 +4,7 @@ using ProductSeeker.Data.Context;
 using ProductSeeker.Data.Interfaces;
 using ProductSeeker.Data.Models;
 using ProductSeeker.Services.Mappers;
+using ProductSeeker.Utils.NetTopologySuite;
 
 namespace ProductSeeker;
 
@@ -11,12 +12,9 @@ public class StoreService : IStoreService
 {
 
     private readonly IStoreRepository _storeRepository;
-    private readonly UserManager<AppUser> _userManager;
-    public StoreService(IStoreRepository storeRepo,
-                        UserManager<AppUser> userManager)
+    public StoreService(IStoreRepository storeRepo)
     {
         _storeRepository = storeRepo;
-        _userManager = userManager;
     }
 
     public async Task<Result<StoreCoreModel>> GetCoreByID(int CoreId, string userID)
@@ -44,6 +42,14 @@ public class StoreService : IStoreService
 
     public async Task<Result<StoreCoreModel>> CreateStoreCore(StoreCoreDTO storeDTO, string userID)
     {
+        if(string.IsNullOrWhiteSpace(storeDTO.Name) || string.IsNullOrWhiteSpace(storeDTO.Field))
+            return Errors.FieldsRequired.WithMetadata("EmptyFields", "Name and Field are required fields and cannot be empty.");
+
+        if(storeDTO.Name.Length > 50 || storeDTO.Field.Length > 50)
+            return Errors.ValidationError.WithMetadata("ValidationErrors", "Name and Field must be at most 50 characters long.");
+        
+        
+        
         var storeCore = storeDTO.FromStoreCoreDTOToStoreCoreModel(userID);
 
         return await _storeRepository.CreateCore(storeCore);
@@ -55,13 +61,14 @@ public class StoreService : IStoreService
     {
         var core = await _storeRepository.GetCoreByID(storeDTO.StoreCoreId);
 
-
         if (core == null)
             return Errors.StoreCoreNotFound;
-        if (string.IsNullOrWhiteSpace(storeDTO.BusinessDays) && string.IsNullOrWhiteSpace(storeDTO.GeoLocation))
-        {
-            return Errors.FieldsRequired.WithMetadata("MissingFields", ("BussinesDays", "GeoLocation"));
-        }
+
+        if ((storeDTO.Latitude == null || storeDTO.Longitude == null) && string.IsNullOrWhiteSpace(storeDTO.BusinessDays))
+            return Errors.FieldsRequired.WithMetadata("EmptyFields", "Must provide either geolocation (latitude and longitude) or business days information.");
+
+
+
         var storeModel = storeDTO.FromStoreSpecDTOToStoreSpecModel(userID);
 
         return await _storeRepository.CreateSpec(storeModel);
@@ -77,9 +84,12 @@ public class StoreService : IStoreService
 
     public async Task<Result<StoreCoreModel>> CreateStoreWSpec(StoreWSpecDTO storeDTO, string userID)
     {
-        //TODO search and return existing store if name already exists, to avoid duplicates
-        //Check geolocation to confirm if it's the same store or a different one with the same name
-        //For the time being, we will assume that the combination of name and geolocation is unique
+        var existingStore = await _storeRepository.GetByName(storeDTO.Name);
+
+        //If the name is the same but the geolocation is different, we can assume it's a different store and allow the creation, otherwise we return a duplicate error
+        if (storeDTO.Name == existingStore.Name && LocationUtils.AreLocationsClose(LocationUtils.ConvertToPoint(storeDTO.Latitude, storeDTO.Longitude)!,
+                                            existingStore.StoreSpecs.LastOrDefault()?.GeoLocation!))
+            return Errors.Duplicate.WithMetadata("ExistingStoreId", existingStore.Id).WithMetadata("ExistingStoreName", existingStore.Name);
 
         var storeCore = storeDTO.FromStoreWSpecDTOToStoreCoreModel(userID);
         return await _storeRepository.CreateCore(storeCore);

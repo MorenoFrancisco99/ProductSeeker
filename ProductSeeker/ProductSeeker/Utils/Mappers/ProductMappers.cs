@@ -5,11 +5,13 @@ using System.Runtime.CompilerServices;
 using ProductSeeker;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static ProductSeeker.CreationSourceEnum;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using static CategoriesEnum;
 namespace ProductSeeker.Services.Mappers
 {
     static class ProductMappers
     {
-        public static ProductCoreModel FromProductCoreDTOToModel(this POSTProductCoreDTO dto, string userID, CreationSource userRole)
+        public static ProductCoreModel FromPOSTCoreDTOToModel(this POSTProductCoreDTO dto, string userID, CreationSource userRole)
         {
             return new ProductCoreModel
             {
@@ -19,6 +21,27 @@ namespace ProductSeeker.Services.Mappers
                 IdCreator = userID,
                 IsActive = true,
                 CreationSource = userRole
+            };
+        }
+
+
+        public static ProductSpecModel FromPOSTSpecDTOToModel(this POSTProductSpecDTO dto, string userID, CreationSource creationSource)
+        {
+            return dto.Category switch
+            {
+                CategoriesEnum.ProductCategories.Food => new FoodProductModel
+                {
+                    IdCreator = userID,
+                    ProductCoreId = dto.ProductCoreId,
+                    EAN = dto.EAN,
+                    Category = dto.Category,
+                    UnitOfMeasure = ((POSTFoodProductDTO)dto).UnitOfMeasure,
+                    NetContent = ((POSTFoodProductDTO)dto).NetContent,
+                    TACC = ((POSTFoodProductDTO)dto).TACC,
+                    CreationSource = creationSource,
+                    IsActive = true
+                },
+                _ => throw new NotImplementedException("Category not implemented in mapper")
             };
         }
 
@@ -42,7 +65,7 @@ namespace ProductSeeker.Services.Mappers
         {
             return model.Category switch
             {
-                CategoriesEnum.ProductCategories.Food => new GETFoodProductDTO
+                ProductCategories.Food => new GETFoodProductDTO
                 {
                     Id = model.Id,
                     IsActive = model.IsActive,
@@ -55,41 +78,32 @@ namespace ProductSeeker.Services.Mappers
                     UnitOfMeasure = ((FoodProductModel)model).UnitOfMeasure,
                     TACC = ((FoodProductModel)model).TACC
                 },
-                _ => new GETProductSpecDTO
-                {
-                    Id = model.Id,
-                    IsActive = model.IsActive,
-                    CreationDate = model.CreationDate,
-                    CreationSource = model.CreationSource,
-                    IdCreator = model.IdCreator,
-                    Category = model.Category,
-                    EAN = model.EAN,
-                    ProductCoreId = model.ProductCoreId
-                }
+                _ => throw new NotImplementedException("Category not implemented in mapper")
+
             };
         }
 
-        public static ProductSpecModel FromDTOToModel(this POSTProductSpecDTO dto, string userID, CreationSource creationSource)
+        public static ProductSpecModel FromPOSTFoodWCoreDTOToSpecModel(this POSTProductWCoreDTO dto, string userId, CreationSource creationSource,
+                                                                       int coreID)
         {
             return dto.Category switch
             {
-                CategoriesEnum.ProductCategories.Food => new FoodProductModel
+                ProductCategories.Food => new FoodProductModel
                 {
-                    IdCreator = userID,
-                    ProductCoreId = dto.ProductCoreId,
-                    EAN = dto.EAN,
+                    IdCreator = userId,
+                    ProductCoreId = coreID,
+                    EAN = ((POSTFoodProductWCoreDTO)dto).EAN,
                     Category = dto.Category,
-                    UnitOfMeasure = ((POSTFoodProductDTO)dto).UnitOfMeasure,
-                    NetContent = ((POSTFoodProductDTO)dto).NetContent,
-                    TACC = ((POSTFoodProductDTO)dto).TACC,
+                    UnitOfMeasure = ((POSTFoodProductWCoreDTO)dto).UnitOfMeasure,
+                    NetContent = ((POSTFoodProductWCoreDTO)dto).NetContent,
+                    TACC = ((POSTFoodProductWCoreDTO)dto).TACC,
                     CreationSource = creationSource,
                     IsActive = true
                 },
                 _ => throw new NotImplementedException("Category not implemented in mapper")
+
             };
         }
-
-
 
 
     }

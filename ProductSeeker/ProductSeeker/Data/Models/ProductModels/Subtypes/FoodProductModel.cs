@@ -10,7 +10,7 @@ public class FoodProductModel :ProductSpecModel
     //Same value aplied as constrain in Validator
     //Modification here should be reflected in the validator and vice versa
     [Range(1, 100000)]
-    public int NetContent {get; set;}
+    public float NetContent {get; set;}
 
    
     public UnitOfMeasureEnum.Unit UnitOfMeasure {get; set; }

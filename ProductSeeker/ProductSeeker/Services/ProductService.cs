@@ -23,15 +23,17 @@ public class ProductService : IProductService
         _storeRepo = storeRepo;
         _serviceProvider = serviceProvider;
         _coreValidator = coreValidator;
-    
+
     }
 
+
+
     public async Task<Result<ProductCoreModel>> CreateProductCore(POSTProductCoreDTO productDTO, string userID)
-    {   
+    {
         //Hardcode CreationSource to user
-        //Any other source should be used only by admins, and that will be handled in a different method
-        var model = productDTO.FromProductCoreDTOToModel(userID, CreationSource.User);
-        
+        //Any other source should be used only by admins or system, and that will be handled in a different method
+        var model = productDTO.FromPOSTCoreDTOToModel(userID, CreationSource.User);
+
         var validationResult = await _coreValidator.ValidateAsync(model);
         if (!validationResult.IsValid)
         {
@@ -40,12 +42,15 @@ public class ProductService : IProductService
         return await _productRepo.CreateCore(model);
     }
 
+
+
+
     public async Task<Result<ProductSpecModel>> CreateProductSpec(POSTProductSpecDTO dto, string userID)
     {
-      
+
         //Hardcode CreationSource to user
         //Any other source should be used only by admins, and that will be handled in a different method
-        var model = dto.FromDTOToModel(userID, CreationSource.User);
+        var model = dto.FromPOSTSpecDTOToModel(userID, CreationSource.User);
 
         var validator = GetValidatorForSpec(model);
         var modelValidationResult = await validator.ValidateAsync(new ValidationContext<object>(model));
@@ -71,7 +76,7 @@ public class ProductService : IProductService
 
     }
 
-    
+
 
     public Task<IEnumerable<ProductCoreModel>> GetAllProducts()
     {
@@ -102,7 +107,7 @@ public class ProductService : IProductService
         return result.FromModelToGETDTO();
     }
 
- 
+
 
     public async Task<Result<ProductSpecModel>> ADMINCreateProductWCore(POSTProductWCoreDTO dto, string userID)
     {
@@ -123,7 +128,8 @@ public class ProductService : IProductService
                 ProductName = dto.ProductName,
                 Brand = dto.Brand,
                 IdCreator = userID,
-                CreationSource = CreationSourceEnum.CreationSource.Scrapped
+                CreationSource = CreationSourceEnum.CreationSource.Scrapped,
+                IsActive = true
             };
 
             var coreValidationResult = await _coreValidator.ValidateAsync(newCore);
@@ -136,10 +142,18 @@ public class ProductService : IProductService
             core = createdCore;
         }
 
-        var existingSpec = await _productRepo.FindSpec(core.Id, dto.GetSpecIdentifier());
-        if (existingSpec != null)
-            return Errors.Duplicate.WithMetadata("Spec Product Already Exists, ID: ", existingSpec.Id);
-        var spec = dto.SpecToModel(userID, core.Id);
+
+        //Check if the specs exists
+        //Sometimes specs may have the same Identifiers but not the same EA
+        var specByIdentifiers = await _productRepo.FindSpecByIdentifiers(core.Id, dto.GetSpecIdentifier());
+        if (specByIdentifiers != null) //Exists by identifiers
+        {
+            var specByEAN = await _productRepo.GetSpecByEAN(dto?.EAN);
+            if (specByEAN != null) //Exist by EAN
+                return Errors.Duplicate.WithMetadata("Spec Product Already Exists, ID: ", specByIdentifiers.Id);
+        }
+
+        var spec = dto.FromPOSTFoodWCoreDTOToSpecModel(userID, CreationSource.Scrapped, core.Id);
 
 
 
@@ -156,7 +170,7 @@ public class ProductService : IProductService
         return await _productRepo.CreateSpec(spec);
 
     }
-    
+
 
 
 

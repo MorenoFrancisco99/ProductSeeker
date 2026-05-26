@@ -10,6 +10,7 @@ using ProductSeeker.Data.Interfaces;
 using ProductSeeker.Data.Models;
 using ProductSeeker.Data.Repositories;
 using ProductSeeker.Data.Services;
+using NetTopologySuite.Geometries;
 
 namespace ProductSeeker
 {
@@ -19,8 +20,11 @@ namespace ProductSeeker
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<AplicationDBContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("LinuxString") ?? throw new InvalidOperationException("Connections string 'ProductsDBContext' not found")));
-
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("LinuxString") ?? throw new InvalidOperationException("Connection string 'ProductsDBContext' not found"),
+                     x => x.UseNetTopologySuite()));
+           
+           
             builder.Services.AddCors(OptionsBuilderConfigurationExtensions =>
             {
                 OptionsBuilderConfigurationExtensions.AddPolicy("AllowAllOrigins", policy =>
@@ -81,13 +85,13 @@ namespace ProductSeeker
                 {
                     options.JsonSerializerOptions.Converters
                         .Add(new JsonStringEnumConverter());
-                        
+
                     options.JsonSerializerOptions.UnmappedMemberHandling =
-                        JsonUnmappedMemberHandling.Disallow; 
-                        //Esto hace que si el cliente manda un campo que no existe en el DTO, 
-                        // el deserializador va a tirar error en vez de ignorarlo, 
-                        // lo cual es util para evitar errores silenciosos por typos o 
-                        // cambios en el DTO que el cliente no actualizo.
+                        JsonUnmappedMemberHandling.Disallow;
+                    //Esto hace que si el cliente manda un campo que no existe en el DTO, 
+                    // el deserializador va a tirar error en vez de ignorarlo, 
+                    // lo cual es util para evitar errores silenciosos por typos o 
+                    // cambios en el DTO que el cliente no actualizo.
                 });
 
 

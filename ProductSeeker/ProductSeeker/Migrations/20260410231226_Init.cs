@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using NetTopologySuite.Geometries;
 
 #nullable disable
 
@@ -53,6 +54,46 @@ namespace ProductSeeker.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductCore",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Brand = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Category = table.Column<int>(type: "int", nullable: false),
+                    State = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
+                    CreationSource = table.Column<int>(type: "int", nullable: false),
+                    IdCreator = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductCore", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StoreCore",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Field = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    State = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
+                    CreationSource = table.Column<int>(type: "int", nullable: false),
+                    IdCreator = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StoreCore", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,55 +197,6 @@ namespace ProductSeeker.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductCore",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Brand = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    State = table.Column<int>(type: "int", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
-                    CreationSource = table.Column<int>(type: "int", nullable: false),
-                    IdCreator = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductCore", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductCore_AspNetUsers_IdCreator",
-                        column: x => x.IdCreator,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StoreCore",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Field = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    State = table.Column<int>(type: "int", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
-                    CreationSource = table.Column<int>(type: "int", nullable: false),
-                    IdCreator = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StoreCore", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StoreCore_AspNetUsers_IdCreator",
-                        column: x => x.IdCreator,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProductAliasesModel",
                 columns: table => new
                 {
@@ -213,19 +205,14 @@ namespace ProductSeeker.Migrations
                     ProductCoreId = table.Column<int>(type: "int", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Source = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
                     CreationSource = table.Column<int>(type: "int", nullable: false),
-                    IdCreator = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    IdCreator = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductAliasesModel", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductAliasesModel_AspNetUsers_IdCreator",
-                        column: x => x.IdCreator,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ProductAliasesModel_ProductCore_ProductCoreId",
                         column: x => x.ProductCoreId,
@@ -241,24 +228,19 @@ namespace ProductSeeker.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EAN = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProductCoreId = table.Column<int>(type: "int", nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
+                    Category = table.Column<int>(type: "int", nullable: false),
                     State = table.Column<int>(type: "int", nullable: false),
-                    NetContent = table.Column<int>(type: "int", nullable: true),
+                    NetContent = table.Column<float>(type: "real", nullable: true),
                     UnitOfMeasure = table.Column<int>(type: "int", nullable: true),
                     TACC = table.Column<bool>(type: "bit", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
                     CreationSource = table.Column<int>(type: "int", nullable: false),
-                    IdCreator = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    IdCreator = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductSpecs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductSpecs_AspNetUsers_IdCreator",
-                        column: x => x.IdCreator,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ProductSpecs_ProductCore_ProductCoreId",
                         column: x => x.ProductCoreId,
@@ -275,19 +257,14 @@ namespace ProductSeeker.Migrations
                     StoreId = table.Column<int>(type: "int", nullable: false),
                     StoreCoreId = table.Column<int>(type: "int", nullable: false),
                     UserRating = table.Column<bool>(type: "bit", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
                     CreationSource = table.Column<int>(type: "int", nullable: false),
-                    IdCreator = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    IdCreator = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppUserStoreCores", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AppUserStoreCores_AspNetUsers_IdCreator",
-                        column: x => x.IdCreator,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_AppUserStoreCores_StoreCore_StoreCoreId",
                         column: x => x.StoreCoreId,
@@ -303,24 +280,19 @@ namespace ProductSeeker.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StoreCoreId = table.Column<int>(type: "int", nullable: false),
                     StoreId = table.Column<int>(type: "int", nullable: false),
-                    GeoLocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GeoLocation = table.Column<Point>(type: "geography", nullable: true),
                     BusinessDays = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ValidFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ValidTo = table.Column<DateTime>(type: "datetime2", nullable: true),
                     State = table.Column<int>(type: "int", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
                     CreationSource = table.Column<int>(type: "int", nullable: false),
-                    IdCreator = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    IdCreator = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StoreSpecs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StoreSpecs_AspNetUsers_IdCreator",
-                        column: x => x.IdCreator,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_StoreSpecs_StoreCore_StoreId",
                         column: x => x.StoreId,
@@ -342,19 +314,14 @@ namespace ProductSeeker.Migrations
                     StoreSpecId = table.Column<int>(type: "int", nullable: false),
                     ValidFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ValidTo = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
                     CreationSource = table.Column<int>(type: "int", nullable: false),
-                    IdCreator = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    IdCreator = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppUserProductPrice", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AppUserProductPrice_AspNetUsers_IdCreator",
-                        column: x => x.IdCreator,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_AppUserProductPrice_ProductSpecs_ProductSpecModelId",
                         column: x => x.ProductSpecModelId,
@@ -377,11 +344,6 @@ namespace ProductSeeker.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppUserProductPrice_IdCreator",
-                table: "AppUserProductPrice",
-                column: "IdCreator");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AppUserProductPrice_ProductSpecModelId",
                 table: "AppUserProductPrice",
                 column: "ProductSpecModelId");
@@ -390,11 +352,6 @@ namespace ProductSeeker.Migrations
                 name: "IX_AppUserProductPrice_StoreSpecId",
                 table: "AppUserProductPrice",
                 column: "StoreSpecId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppUserStoreCores_IdCreator",
-                table: "AppUserStoreCores",
-                column: "IdCreator");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppUserStoreCores_StoreCoreId",
@@ -441,39 +398,14 @@ namespace ProductSeeker.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductAliasesModel_IdCreator",
-                table: "ProductAliasesModel",
-                column: "IdCreator");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductAliasesModel_ProductCoreId",
                 table: "ProductAliasesModel",
                 column: "ProductCoreId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductCore_IdCreator",
-                table: "ProductCore",
-                column: "IdCreator");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductSpecs_IdCreator",
-                table: "ProductSpecs",
-                column: "IdCreator");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductSpecs_ProductCoreId",
                 table: "ProductSpecs",
                 column: "ProductCoreId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StoreCore_IdCreator",
-                table: "StoreCore",
-                column: "IdCreator");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StoreSpecs_IdCreator",
-                table: "StoreSpecs",
-                column: "IdCreator");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StoreSpecs_StoreId",
@@ -518,13 +450,13 @@ namespace ProductSeeker.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "StoreCore");
 
             migrationBuilder.DropTable(
                 name: "ProductCore");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }

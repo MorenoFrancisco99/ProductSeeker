@@ -4,7 +4,7 @@ using ProductSeeker;
 
 namespace ProductSeeker
 {
-   public class GETProductSpecDTO
+   public abstract class GETProductSpecDTO
     {
         public int Id { get; set; }
         public bool? IsActive { get; set; }

@@ -3,25 +3,23 @@ using System.Text.Json.Serialization;
 using ProductSeeker;
 using ProductSeeker.Data.Models;
 
+
+/// <summary>
+/// DTO
+/// </summary>
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
-[JsonDerivedType(typeof(FoodProductWCoreDTO), typeDiscriminator: "Food")]
+[JsonDerivedType(typeof(POSTFoodProductWCoreDTO), typeDiscriminator: "Food")]
 public abstract class POSTProductWCoreDTO
 {
-    [Required, MaxLength(50)]
+    //Changes in MaxLength here has to be reflected on models 
+    [Required, MaxLength(200)]
     public required string ProductName { get; set; }
 
-    [Required, MaxLength(50)]
+    [Required, MaxLength(200)]
     public required string Brand { get; set; }
     public string? EAN { get; set; }
     
-    /// <summary>
-    /// Converts the ProductSpecDTO to a ProductSpecModel, using the provided userID and coreId. The userID is used to set the IdCreator of the ProductSpecModel, and the coreId is used to set the ProductCoreId of the ProductSpecModel.
-    /// </summary>
-    /// <param name="userID"></param>
-    /// <param name="coreId"></param>
-    /// <returns>A ProductSpecModel instance</returns>
-    public abstract ProductSpecModel SpecToModel(string userID, int coreId);
-    
+   
     public abstract CategoriesEnum.ProductCategories Category {get;}
 
     /// <summary>

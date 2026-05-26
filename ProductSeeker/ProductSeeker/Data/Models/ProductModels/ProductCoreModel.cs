@@ -14,10 +14,10 @@ public class ProductCoreModel : BaseEntity
    
     
     [Required]
-    [MaxLength(100)]
+    [MaxLength(200)]
     public string ProductName { get; set; }
 
-    [Required, MaxLength(50)]
+    [Required, MaxLength(200)]
     public string Brand { get; set; }
      [Required]
     public CategoriesEnum.ProductCategories Category { get; set; }

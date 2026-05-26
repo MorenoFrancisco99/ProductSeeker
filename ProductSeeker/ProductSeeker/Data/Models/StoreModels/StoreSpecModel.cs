@@ -2,6 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using NetTopologySuite.Geometries;
 using ProductSeeker.Data.Utils;
 
 namespace ProductSeeker.Data.Models;
@@ -14,7 +15,7 @@ public class StoreSpecModel : BaseEntity
 
     [Required] public StoreCoreModel Store { get; set; }
 
-     public string? GeoLocation { get; set; }
+     public Point? GeoLocation { get; set; }
 
     public string? BusinessDays {get; set;}
 

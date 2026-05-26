@@ -8,6 +8,7 @@ using NSubstitute;
 using ProductSeeker;
 using ProductSeeker.Controllers;
 using ProductSeeker.Data.Models;
+using NetTopologySuite.Geometries;
 
 public class StoreControllerTest
 {
@@ -143,7 +144,6 @@ public class StoreControllerTest
             Name = "Test Store",
             Field = "Test Field",
             BusinessDays = "Mon-Fri",
-            GeoLocation = "Test Location",
             ValidFrom = DateTime.UtcNow,
             ValidTo = DateTime.UtcNow.AddYears(1)
         };
@@ -161,7 +161,7 @@ public class StoreControllerTest
                 new StoreSpecModel 
                 {
                         BusinessDays = storeDTO.BusinessDays,
-                        GeoLocation = storeDTO.GeoLocation,
+                        GeoLocation = new Point(0,0),
                         ValidFrom = (DateTime) storeDTO.ValidFrom,
                         ValidTo = (DateTime) storeDTO.ValidTo,
                         IdCreator = userId,

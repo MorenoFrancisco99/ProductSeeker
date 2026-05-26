@@ -45,7 +45,7 @@ public class ProductRepository : IProductRepository
             x.Brand.ToLower() == brand.ToLower());
     }
 
-    public async Task<ProductSpecModel?> FindSpec(int coreId, List<object> specIdentifier)
+    public async Task<ProductSpecModel?> FindSpecByIdentifiers(int coreId, List<object> specIdentifier)
     {   
         var specs = await _context.ProductSpecs.Where(x => x.ProductCoreId == coreId).ToListAsync();
 
@@ -75,8 +75,10 @@ public class ProductRepository : IProductRepository
 
     }
 
-    public async Task<ProductSpecModel?> GetSpecByEAN(string ean)
+    public async Task<ProductSpecModel?> GetSpecByEAN(string? ean)
     {
+        if (ean == null)
+            return null;
         return await _context.ProductSpecs.FirstOrDefaultAsync(x => x.EAN == ean);
     }
 
