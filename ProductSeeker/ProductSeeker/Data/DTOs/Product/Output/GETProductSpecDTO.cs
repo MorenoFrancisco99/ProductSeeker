@@ -15,7 +15,7 @@ namespace ProductSeeker
         public CategoriesEnum.ProductCategories Category { get; set; }
         public string? EAN { get; set; }
 
-        public int ProductCoreId { get; set; }
+        public int? ProductCoreId { get; set; }
 
     }
 

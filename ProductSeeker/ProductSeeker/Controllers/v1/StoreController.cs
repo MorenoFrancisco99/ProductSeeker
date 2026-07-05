@@ -10,17 +10,15 @@ using ProductSeeker.Services.Extensions;
 
 namespace ProductSeeker.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class StoreController : ControllerBase
     {
         private readonly IStoreService _storeService;
-        private readonly UserManager<AppUser> _userManager;
 
-        public StoreController(IStoreService storeService, UserManager<AppUser> userManager)
+        public StoreController(IStoreService storeService)
         {
             _storeService = storeService;
-            _userManager = userManager;
         }
 
         //GET: api/store

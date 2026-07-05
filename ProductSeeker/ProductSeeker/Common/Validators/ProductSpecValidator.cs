@@ -8,7 +8,7 @@ namespace ProductSeeker;
 public class ProductSpecValidator<T> : BaseEntityValidator<T> where T : ProductSpecModel
 {
     private readonly IProductRepository _prodRepo;
-    public ProductSpecValidator(IProductRepository prodrepo, UserManager<AppUser> userManager) : base(userManager)
+    public ProductSpecValidator(IProductRepository prodrepo, UserManager<AppUser> userManager, bool IsJointCreation) : base(userManager)
     {
 
         _prodRepo = prodrepo;
@@ -20,30 +20,33 @@ public class ProductSpecValidator<T> : BaseEntityValidator<T> where T : ProductS
         .NotEqual(CategoriesEnum.ProductCategories.Unknown)
         .WithMessage("Product category is unknown");
 
-
-        RuleFor(x => x.ProductCoreId)
-        .NotNull()
-        .MustAsync(async (product, prodCoreId, context, cancellation) =>
+        if(!IsJointCreation)
         {
-            var core = await _prodRepo.GetCoreByID(prodCoreId);
+            RuleFor(x => x.ProductCoreId)
+                .NotNull()
+                .MustAsync(async (product, prodCoreId, context, cancellation) =>
+                {
+                    var core = await _prodRepo.GetCoreByID((int)prodCoreId!);
 
-            if (core == null)
-            {
-                context.MessageFormatter.AppendArgument("ErrorMessage", "Target product does not exist");
-                return false;
-            }
+                    if (core == null)
+                    {
+                        context.MessageFormatter.AppendArgument("ErrorMessage", "Target product does not exist");
+                        return false;
+                    }
 
-            if (core.Category != product.Category)
-            {
-                context.MessageFormatter.AppendArgument("ErrorMessage",
-                    $"The category of the spec must match the category of the core. " +
-                    $"Core: {core.Category}, Spec: {product.Category}");
-                return false;
-            }
+                    if (core.Category != product.Category)
+                    {
+                        context.MessageFormatter.AppendArgument("ErrorMessage",
+                            $"The category of the spec must match the category of the core. " +
+                            $"Core: {core.Category}, Spec: {product.Category}");
+                        return false;
+                    }
 
-            return true;
-        })
-        .WithMessage("{ErrorMessage}");
+                    return true;
+                })
+                .WithMessage("{ErrorMessage}");
+        }
+        
 
 
 

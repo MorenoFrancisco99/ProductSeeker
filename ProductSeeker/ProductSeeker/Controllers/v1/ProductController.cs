@@ -6,7 +6,7 @@ using ProductSeeker.Data.Models;
 using System.Security.Claims;
 namespace ProductSeeker.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
     {

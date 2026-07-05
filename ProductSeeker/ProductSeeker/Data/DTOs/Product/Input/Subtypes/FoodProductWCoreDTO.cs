@@ -3,6 +3,10 @@ using System.Text.Json.Serialization;
 using ProductSeeker;
 using ProductSeeker.Data.Models;
 
+
+/// <summary>
+/// DTO that inherits from ProductWCoreDTO
+/// </summary>
 public class POSTFoodProductWCoreDTO : POSTProductWCoreDTO
 {
     [Required]

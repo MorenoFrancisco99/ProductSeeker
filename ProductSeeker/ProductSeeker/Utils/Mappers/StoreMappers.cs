@@ -1,20 +1,21 @@
 ﻿using ProductSeeker.Data.DTOs;
 using ProductSeeker.Data.Models;
 using ProductSeeker.Utils.NetTopologySuite;
+using static ProductSeeker.CreationSourceEnum;
+
 
 namespace ProductSeeker.Services.Mappers
 {
     static class StoreMappers
     {
 
-        public static StoreCoreModel FromStoreWSpecDTOToStoreCoreModel(this StoreWSpecDTO dto, string userID)
+        public static StoreCoreModel FromStoreWSpecDTOToStoreCoreModel(this StoreWSpecDTO dto, string userID, CreationSource userRole)
         {
 
             return new StoreCoreModel
             {
                 Name = dto.Name,
                 Field = dto.Field,
-                Description = dto.Description,
                 IdCreator = userID,
                 IsActive = true,
                 CreationSource = CreationSourceEnum.CreationSource.Admin,
@@ -22,13 +23,15 @@ namespace ProductSeeker.Services.Mappers
                 {
                     new StoreSpecModel
                     {
+                                        Description = dto.Description,
+
                         BusinessDays = dto.BusinessDays,
                         GeoLocation = LocationUtils.ConvertToPoint(dto.Latitude, dto.Longitude),
                         ValidFrom = dto.ValidFrom ?? DateTime.UtcNow,
                         ValidTo = dto.ValidTo,
                         IdCreator = userID,
                         IsActive = true,
-                CreationSource = CreationSourceEnum.CreationSource.Admin
+                        CreationSource = userRole
 
                     }
                 }
@@ -55,7 +58,6 @@ namespace ProductSeeker.Services.Mappers
             {
                 Name = dto.Name,
                 Field = dto.Field,
-                Description = dto.Description,
                 IdCreator = userID,
                 IsActive = true,
                 CreationSource = CreationSourceEnum.CreationSource.Admin,
@@ -84,6 +86,7 @@ namespace ProductSeeker.Services.Mappers
             return new StoreSpecModel
             {
                 StoreCoreId = dto.StoreCoreId,
+                Description = dto.Description,
                 IdCreator = userID,
                 BusinessDays = dto.BusinessDays,
                 GeoLocation = LocationUtils.ConvertToPoint(dto.Latitude, dto.Longitude),

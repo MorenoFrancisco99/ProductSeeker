@@ -1,5 +1,6 @@
 // Utils/Extensions/ValidationResultExtensions.cs
 using FluentValidation.Results;
+using ProductSeeker.Data.Models;
 
 namespace ProductSeeker;
 
@@ -47,10 +48,9 @@ public static class ValidationResultExtensions
     /// A successful <see cref="Result{T}"/> wrapping <paramref name="value"/> if validation passed;
     /// a failed <see cref="Result{T}"/> with a <see cref="ErrorType.Validation"/> error otherwise.
     /// </returns>
-    public static Result<T> ToResult<T>(this ValidationResult validationResult, T value)
+    public static Result<T> ToResult<T>(this ValidationResult validationResult)
     {
-        if (validationResult.IsValid)
-            return value; // implicit operator
+       
 
         return validationResult.ToValidationError(); // implicit operator
     }
@@ -84,4 +84,5 @@ public static class ValidationResultExtensions
 
         return Errors.ValidationError.WithMetadata("fields", fieldErrors);
     }
+
 }

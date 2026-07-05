@@ -46,6 +46,20 @@ namespace ProductSeeker.Services.Mappers
         }
 
 
+        public static ProductCoreModel FromPOSTWCoreDTOtoCoreModel(this POSTProductWCoreDTO dto, string userID, CreationSource userRole)
+        {
+            return new ProductCoreModel
+            {
+                Category = dto.Category,
+                ProductName = dto.ProductName,
+                Brand = dto.Brand,
+                IdCreator = userID,
+                IsActive = true,
+                CreationSource = userRole
+            };
+        }
+
+
         public static AppUserProductPriceModel MapToModel(this POSTProductPriceDTO dto, string userID)
         {
             return new AppUserProductPriceModel
@@ -74,7 +88,7 @@ namespace ProductSeeker.Services.Mappers
                     IdCreator = model.IdCreator,
                     Category = model.Category,
                     EAN = model.EAN,
-                    ProductCoreId = model.ProductCoreId,
+                    ProductCoreId = model.ProductCoreId!,
                     UnitOfMeasure = ((FoodProductModel)model).UnitOfMeasure,
                     TACC = ((FoodProductModel)model).TACC
                 },
@@ -83,8 +97,22 @@ namespace ProductSeeker.Services.Mappers
             };
         }
 
-        public static ProductSpecModel FromPOSTFoodWCoreDTOToSpecModel(this POSTProductWCoreDTO dto, string userId, CreationSource creationSource,
-                                                                       int coreID)
+
+        /// <summary>
+        /// Maps a POSTCoreWSpecDTO to SpecModel
+        /// </summary>
+        /// <remarks>
+        /// The resulting Spec lacks coreId reference unless explicitly given.
+        /// It may be necessary for POSTing along with a CORE and let the engine manage the relationship
+        /// </remarks>
+        /// <param name="dto"></param>
+        /// <param name="userId"></param>
+        /// <param name="creationSource"></param>
+        /// <param name="coreID"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static ProductSpecModel FromPOSTCoreWSpecDTOToSpecModel(this POSTProductWCoreDTO dto, string userId, CreationSource creationSource,
+                                                                       int? coreID = null)
         {
             return dto.Category switch
             {

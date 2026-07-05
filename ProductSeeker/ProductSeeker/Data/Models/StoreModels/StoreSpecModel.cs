@@ -11,20 +11,23 @@ namespace ProductSeeker.Data.Models;
 public class StoreSpecModel : BaseEntity
 {
     [Required]
-     public int StoreCoreId { get; set; }
+    public int StoreCoreId { get; set; }
 
     [Required] public StoreCoreModel Store { get; set; }
 
-     public Point? GeoLocation { get; set; }
+    public Point? GeoLocation { get; set; }
 
-    public string? BusinessDays {get; set;}
+    public string? BusinessDays { get; set; }
 
     [Required]
     public DateTime ValidFrom { get; set; }
-    
-    public DateTime? ValidTo { get; set; }
-    
-    public UnitStateEnum.UnitState State {get; set;}
 
-    
+    public DateTime? ValidTo { get; set; }
+
+    public UnitStateEnum.UnitState State { get; set; }
+
+    [MaxLength(500)]
+    public string? Description { get; set; }
+
+
 }

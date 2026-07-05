@@ -11,8 +11,10 @@ public class StoreWSpecDTO
     public required string Field { get; set; }
 
     public string? Description { get; set; }
-    [Required(ErrorMessage = "Creator ID must be set")]
+
+    [Required(ErrorMessage = "Latituded must be submitted")]
     public double? Latitude { get; set; }
+    [Required(ErrorMessage = "Longitude must be submitted")]
     public double? Longitude { get; set; }
 
     public string? BusinessDays { get; set; }

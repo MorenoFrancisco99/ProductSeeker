@@ -5,6 +5,8 @@ using ProductSeeker.Data.Interfaces;
 using ProductSeeker.Data.Models;
 using ProductSeeker.Services.Mappers;
 using ProductSeeker.Utils.NetTopologySuite;
+using static ProductSeeker.CreationSourceEnum;
+
 
 namespace ProductSeeker;
 
@@ -87,11 +89,14 @@ public class StoreService : IStoreService
         var existingStore = await _storeRepository.GetByName(storeDTO.Name);
 
         //If the name is the same but the geolocation is different, we can assume it's a different store and allow the creation, otherwise we return a duplicate error
-        if (storeDTO.Name == existingStore.Name && LocationUtils.AreLocationsClose(LocationUtils.ConvertToPoint(storeDTO.Latitude, storeDTO.Longitude)!,
-                                            existingStore.StoreSpecs.LastOrDefault()?.GeoLocation!))
+        if (storeDTO.Name == existingStore.Name && 
+            LocationUtils.AreLocationsClose(LocationUtils.ConvertToPoint(storeDTO.Latitude, storeDTO.Longitude)!, existingStore.StoreSpecs.LastOrDefault()?.GeoLocation!))
             return Errors.Duplicate.WithMetadata("ExistingStoreId", existingStore.Id).WithMetadata("ExistingStoreName", existingStore.Name);
 
-        var storeCore = storeDTO.FromStoreWSpecDTOToStoreCoreModel(userID);
+
+        //Spec is mapped along core and POSTed together
+        //Hardcoded user role. Any other method of creation is handled separatly
+        var storeCore = storeDTO.FromStoreWSpecDTOToStoreCoreModel(userID, CreationSource.User);
         return await _storeRepository.CreateCore(storeCore);
 
     }

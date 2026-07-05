@@ -4,7 +4,7 @@ using ProductSeeker.Data.Models;
 public static class ModelDTOExtension
 {
 
-    
+
     public static List<object> GetIdentifier(this ProductSpecModel spec)
     {
         //Fragil
@@ -19,4 +19,14 @@ public static class ModelDTOExtension
                 throw new ArgumentException("Tipo de especificación no reconocido");
         }
     }
+
+    /// <summary>
+    /// Adds a <see cref="ProductSpecModel"/> to the <see cref="ProductCoreModel.Specs"/> collection.
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <param name="core">The core model whose <c>Specs</c> collection will be modified.</param>
+    /// <param name="spec">The specification to add.</param>
+    public static void AddSpec(this ProductCoreModel core, ProductSpecModel spec) => core.Specs.Add(spec);
+
 }

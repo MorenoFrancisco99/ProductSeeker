@@ -11,8 +11,9 @@ public abstract class ProductSpecModel : BaseEntity
 
     public string? EAN { get; set; }
 
+
     [Required]
-    public int ProductCoreId { get; set; }
+    public int? ProductCoreId { get; set; }
     [Required]
     public CategoriesEnum.ProductCategories Category { get; set; }
 

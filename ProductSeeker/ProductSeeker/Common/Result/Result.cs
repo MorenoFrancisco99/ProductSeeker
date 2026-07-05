@@ -1,4 +1,6 @@
-﻿namespace ProductSeeker;
+﻿using ProductSeeker.Data.Models;
+
+namespace ProductSeeker;
 
 //Tomado de: https://medium.com/@aseem2372005/the-result-pattern-in-c-a-smarter-way-to-handle-errors-c6dee28a0ef0
 public record Result
