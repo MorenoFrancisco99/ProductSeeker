@@ -1,4 +1,4 @@
-namespace UnitTestProj;
+namespace UnitTestProj.Controllers;
 
 using FluentAssertions;
 using System.Security.Claims;
@@ -22,7 +22,7 @@ public class StoreControllerTest
         string userId = "test-user-id";
         var _storeService = Substitute.For<IStoreService>();
         _storeService.GetCoreByID(coreId, userId).Returns(new StoreCoreModel { Id = coreId, Name = "Test Store", IdCreator = userId, Field = "Test Field", CreationSource = CreationSourceEnum.CreationSource.Scrapped });
-        var controller = new StoreController(_storeService, null!)
+        var controller = new StoreController(_storeService)
         {
             //Simular usuario
             ControllerContext = new ControllerContext
@@ -54,7 +54,7 @@ public class StoreControllerTest
     {
         int coreId = 1;
         var _storeService = Substitute.For<IStoreService>();
-        var controller = new StoreController(_storeService, null!)
+        var controller = new StoreController(_storeService)
         {
             ControllerContext = new ControllerContext
             {
@@ -78,7 +78,7 @@ public class StoreControllerTest
         string userId = "test-user-id";
         var _storeService = Substitute.For<IStoreService>();
         _storeService.GetCoreByID(coreId, userId).Returns(Errors.StoreCoreNotFound);
-        var controller = new StoreController(_storeService, null!)
+        var controller = new StoreController(_storeService)
         {
             ControllerContext = new ControllerContext
             {
@@ -108,7 +108,7 @@ public class StoreControllerTest
         int coreId = 1;
         string userId = "test-user-id";
         _storeService.GetCoreByID(coreId, userId).Returns(Errors.UnauthorizedAccess);
-        var controller = new StoreController(_storeService, null!)
+        var controller = new StoreController(_storeService)
         {
             ControllerContext = new ControllerContext
             {
@@ -171,7 +171,7 @@ public class StoreControllerTest
         };
 
         _storeService.CreateStoreWSpec(storeDTO, userId).Returns(createdStoreCore);
-        var controller = new StoreController(_storeService, null!)
+        var controller = new StoreController(_storeService)
         {
             ControllerContext = new ControllerContext
             {

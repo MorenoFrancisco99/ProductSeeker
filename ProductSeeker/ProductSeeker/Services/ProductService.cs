@@ -6,6 +6,7 @@ using ProductSeeker.Data.Context;
 using ProductSeeker.Data.Interfaces;
 using ProductSeeker.Data.Models;
 using ProductSeeker.Services.Mappers;
+using static CategoriesEnum;
 using static ProductSeeker.CreationSourceEnum;
 
 namespace ProductSeeker;
@@ -26,9 +27,6 @@ public class ProductService : IProductService
         _coreValidator = coreValidator;
 
     }
-
-
-
     public async Task<Result<ProductCoreModel>> CreateProductCore(POSTProductCoreDTO productDTO, string userID)
     {
         //Hardcode CreationSource to user
@@ -43,35 +41,76 @@ public class ProductService : IProductService
         return await _productRepo.CreateCore(model);
     }
 
-
-    public async Task<Result<ProductCoreModel>> CreateProductCoreWSpec(POSTProductWCoreDTO dto, string userID)
+    public async Task<Result<ProductCoreModel>> CreateProductCoreWSpec(POSTProductWCoreDTObase dto, string userId)
     {
-        var coreModel = dto.FromPOSTWCoreDTOtoCoreModel(userID, CreationSource.User);
-        var coreExists = await _productRepo.FindCore(dto.ProductName, dto.Brand);
+        var existingCore = await _productRepo.FindCore(dto.ProductName, dto.Brand);
+        var coreModel = existingCore ?? dto.FromPOSTWCoreDTOtoCoreModel(userId, CreationSource.User);
 
-        var specModel = dto.FromPOSTCoreWSpecDTOToSpecModel(userID, CreationSource.User, null);
-        
-        
-        var specValidation = await GetValidationForSpec(specModel);
-        var coreValidation = await _coreValidator.ValidateAsync(coreModel);
 
-        if(!specValidation.IsValid || !coreValidation.IsValid)
+        ProductSpecModel? specExists = null;
+        if (existingCore is not null) //if the core exist in the DB we check if the spec exists for this Core
         {
-            var coreResult =  coreValidation.ToResult<ProductCoreModel>();
-            var specResult = specValidation.ToResult<ProductSpecModel>();
-            return coreResult.Error.AppendValidationMetadata(specResult.Error);
+            specExists = dto.Category switch
+            {
+                ProductCategories.Food => await _productRepo.GetSpecByPredicate(
+                    existingCore.Id,
+                    ((POSTFoodProductWCoreDTO)dto).MatchPredicate),
+                _ => throw new NotSupportedException($"Categoría no soportada: {dto.Category}")
+            };
         }
-        
+        var specModel = specExists ?? dto.FromPOSTCoreWSpecDTOToSpecModel(userId, CreationSource.User, null);
+
+
+        //Spec and Core already exists
+        if (existingCore is not null && specExists is not null)
+        {
+            existingCore.AddSpec(specExists);
+            return Errors.Duplicate.WithMetadata("Resource", existingCore);
+        }
+
+        var coreValidation = existingCore is not null
+            ? new ValidationResult()
+            : await _coreValidator.ValidateAsync(coreModel);
+
+        var specValidation = specExists is not null
+            ? new ValidationResult()
+            : await GetValidationForSpec(specModel, true);
+
+
+        if (!coreValidation.IsValid || !specValidation.IsValid)
+        {
+            var coreResult = coreValidation.ToResult(coreModel);
+            var specResult = specValidation.ToResult(specModel);
+
+            if (!coreResult.IsSuccess && !specResult.IsSuccess)
+                return coreResult.Error.AppendValidationMetadata(specResult.Error);
+
+            return !coreResult.IsSuccess ? coreResult.Error : specResult.Error;
+        }
+
+        //Core exists but not Spec
+        if (existingCore is not null && specExists is null)
+        {
+            specModel.Id = existingCore.Id;
+            await _productRepo.CreateSpec(specModel);
+            existingCore.AddSpec(specModel);
+
+            Result<ProductCoreModel> result = existingCore;
+            return result.WithMetadata("Message", "Core ya existente, spec agregado al core existente");
+        }
+
         coreModel.AddSpec(specModel);
         return await _productRepo.CreateCore(coreModel);
     }
 
-    public async Task<Result<ProductSpecModel>> CreateProductSpec(POSTProductSpecDTO dto, string userID)
+    public async Task<Result<ProductSpecModel>> CreateProductSpec(POSTProductSpecDTObase dto, string userID)
     {
 
         //Hardcode CreationSource to user
         //Any other source should be used only by admins, and that will be handled in a different method
         var model = dto.FromPOSTSpecDTOToModel(userID, CreationSource.User);
+
+        //spc exist
 
         var specValidation = await GetValidationForSpec(model);
 
@@ -132,68 +171,67 @@ public class ProductService : IProductService
 
 
 
-    public async Task<Result<ProductSpecModel>> ADMINCreateProductWCore(POSTProductWCoreDTO dto, string userID)
-    {
+    //     public async Task<Result<ProductSpecModel>> DEPRECATEDADMINCreateProductWCore(POSTProductWCoreDTO dto, string userID)
+    //     {
 
-        var existingCore = await _productRepo.FindCore(dto.ProductName, dto.Brand);
-
-
-        ProductCoreModel core;
-        if (existingCore != null)
-        {
-            core = existingCore;
-        }
-        else
-        {
-            var newCore = new ProductCoreModel
-            {
-                Category = dto.Category,
-                ProductName = dto.ProductName,
-                Brand = dto.Brand,
-                IdCreator = userID,
-                CreationSource = CreationSourceEnum.CreationSource.Scrapped,
-                IsActive = true
-            };
-
-            var coreValidationResult = await _coreValidator.ValidateAsync(newCore);
-            if (!coreValidationResult.IsValid)
-            //  WRONG. MANAGE ERROR METADATA IN VALIDATRIO ERROR WITH ToResult()
-                return Errors.ValidationError.WithMetadata("ValidationErrors", coreValidationResult.Errors.Select(e => e.ErrorMessage));
+    //         var existingCore = await _productRepo.FindCore(dto.ProductName, dto.Brand);
 
 
-            var createdCore = await _productRepo.CreateCore(newCore);
-            if (createdCore == null) return Errors.ProductCoreNotFound;
-            core = createdCore;
-        }
+    //         ProductCoreModel core;
+    //         if (existingCore != null)
+    //         {
+    //             core = existingCore;
+    //         }
+    //         else
+    //         {
+    //             var newCore = new ProductCoreModel
+    //             {
+    //                 Category = dto.Category,
+    //                 ProductName = dto.ProductName,
+    //                 Brand = dto.Brand,
+    //                 IdCreator = userID,
+    //                 CreationSource = CreationSourceEnum.CreationSource.Scrapped,
+    //                 IsActive = true
+    //             };
+
+    //             var coreValidationResult = await _coreValidator.ValidateAsync(newCore);
+    //             if (!coreValidationResult.IsValid)
+    //             //  WRONG. MANAGE ERROR METADATA IN VALIDATRIO ERROR WITH ToResult()
+    //                 return Errors.ValidationError.WithMetadata("ValidationErrors", coreValidationResult.Errors.Select(e => e.ErrorMessage));
 
 
-        //Check if the specs exists
-        //Sometimes specs may have the same Identifiers but not the same EA
-        var specByIdentifiers = await _productRepo.FindSpecByIdentifiers(core.Id, dto.GetSpecIdentifier());
-        if (specByIdentifiers != null) //Exists by identifiers
-        {
-            var specByEAN = await _productRepo.GetSpecByEAN(dto?.EAN);
-            if (specByEAN != null) //Exist by EAN
-                return Errors.Duplicate.WithMetadata("Spec Product Already Exists, ID: ", specByIdentifiers.Id);
-        }
-
-        var spec = dto.FromPOSTCoreWSpecDTOToSpecModel(userID, CreationSource.Scrapped, core.Id);
+    //             var createdCore = await _productRepo.CreateCore(newCore);
+    //             if (createdCore == null) return Errors.ProductCoreNotFound;
+    //             core = createdCore;
+    //         }
 
 
-
-
-        var specValidation = await GetValidationForSpec(spec);
-
-        if (!specValidation.IsValid)
-            return Errors.ValidationError.WithMetadata("ValidationErrors", specValidation.Errors.Select(e => e.ErrorMessage));
+    //         //Check if the specs exists
+    //         //Sometimes specs may have the same Identifiers but not the same EA
+    //         //var specByIdentifiers = await _productRepo.FindSpecByIdentifiers(core.Id, dto.GetSpecIdentifier());
+    //         //if (specByIdentifiers != null) //Exists by identifiers
+    //         //{
+    //         //    var specByEAN = await _productRepo.GetSpecByEAN(dto?.EAN);
+    //         //    if (specByEAN != null) //Exist by EAN
+    //         //        return Errors.Duplicate.WithMetadata("Spec Product Already Exists, ID: ", specByIdentifiers.Id);
+    //         //}
+    // //
+    //         //var spec = dto.FromPOSTCoreWSpecDTOToSpecModel(userID, CreationSource.Scrapped, core.Id);
 
 
 
 
-        return await _productRepo.CreateSpec(spec);
+    //        // var specValidation = await GetValidationForSpec(spec);
+    // //
+    //        // if (!specValidation.IsValid)
+    //        //     return Errors.ValidationError.WithMetadata("ValidationErrors", specValidation.Errors.Select(e => e.ErrorMessage));
+    // //
+    // //
+    // //
+    // //
+    //        // return await _productRepo.CreateSpec(spec);
 
-    }
-
+    //     }
 
 
 
@@ -204,15 +242,24 @@ public class ProductService : IProductService
 
 
     /// <summary>
-    /// This method uses reflection to get the appropriate validation for the given product spec. 
-    /// The validators must be registered in the DI container for this to work. 
-    /// If no validator is found for the given spec type, an exception is thrown.
-    /// 
+    /// Resolves and executes the appropriate <see cref="IValidator{T}"/> for the runtime type of <paramref name="spec"/> using reflection,
+    /// since the concrete spec type is only known at runtime and cannot be resolved via a generic type parameter.
+    /// The validator must be registered in the DI container for the spec's concrete type; validators are not created manually.
     /// </summary>
-    /// <param name="spec">The product spec model to validate.</param>
-    /// <param name="isJointCreation">Indicates whether the spec is being created in conjunction with another entity.</param>
-    /// <returns>A ValidationResult with the outcome of the validation.</returns>
-    /// <exception cref="Exception">Validator not found for the given spec type</exception>
+    /// <remarks>
+    /// <see cref="FluentValidation.ValidatorFactory"/> is deprecated; resolving <see cref="IValidator{T}"/> instances via
+    /// <see cref="IServiceProvider"/> with reflection is the approach currently recommended by the library's author
+    /// (see https://github.com/FluentValidation/FluentValidation/issues/1961).
+    /// </remarks>
+    /// <param name="spec">The product spec model to validate. Its runtime type determines which validator is resolved.</param>
+    /// <param name="isJointCreation">
+    /// Indicates that the spec is being validated alongside the creation of another entity (e.g. a Core),
+    /// meaning some fields such as <c>CoreId</c> may not yet exist or are not suitable for validation.
+    /// Propagated to the validator via <see cref="ValidationContext{T}.RootContextData"/> under the key <c>"IsJointCreation"</c>,
+    /// so rulesets can conditionally skip or adjust rules that depend on entities not yet created.
+    /// </param>
+    /// <returns>The <see cref="ValidationResult"/> produced by running the resolved validator against <paramref name="spec"/>.</returns>
+    /// <exception cref="Exception">Thrown when no <see cref="IValidator{T}"/> is registered for the runtime type of <paramref name="spec"/>.</exception>
     private async Task<ValidationResult> GetValidationForSpec(ProductSpecModel spec, bool isJointCreation = false)
     {
         //Dynamic validations used to be done with ValidatorFactory but that has now been deprecated
@@ -226,13 +273,13 @@ public class ProductService : IProductService
 
 
         /// Note that for validator to work, the argument need to be wrapped in a ValidationContext<object>( ), so the validation can be executed with the correct ruleset. 
-        /// This is specially important for the spec validators, as they need to execute the rules that depend on the category of the product, and that information is stored in the context.
         /// The IsJointCreation flag is passed via RootContextData to allow validators to conditionally apply rules when the spec is being created alongside another entity.
         var context = new ValidationContext<object>(spec);
         context.RootContextData["IsJointCreation"] = isJointCreation;
 
         return await validator.ValidateAsync(context);
     }
+
 
 
 }

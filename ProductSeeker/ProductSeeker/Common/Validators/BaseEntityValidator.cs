@@ -10,7 +10,7 @@ public class BaseEntityValidator<T> : AbstractValidator<T> where T : BaseEntity
 {
     private readonly UserManager<AppUser> _userManager;
 
-
+   
     public BaseEntityValidator(UserManager<AppUser> userManager)
     {
         _userManager = userManager;

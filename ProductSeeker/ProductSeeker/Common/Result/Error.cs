@@ -9,7 +9,7 @@ namespace ProductSeeker;
 
 /*
    Every new Error type has to be added to Utils/Extesions/ActionResultHandlerExtensions.cs in order to return the correct HTTP status code.
-   Otherwise, it will return 500 Internal Server Error by default, which is not ideal for client error handling.
+   Otherwise, it will return 500 Internal Server Error by default
 */
 public enum ErrorType { NotFound, Forbidden, Validation, Conflict }
 
@@ -51,18 +51,6 @@ public static class Errors
     //Otherwise it would lead to lost of error info
     public static Error ValidationError { get; } = new("ResourceValidationError", ErrorType.Validation, "Validation error with the resource.");
 
-
-    public static Error WithMetadata(this Error err, string key, object value)
-    {
-        var metadata = err.Metadata is null
-       ? new Dictionary<string, object>()
-       : new Dictionary<string, object>(err.Metadata);
-
-        metadata[key] = value;
-
-        return err with { Metadata = metadata };
-    }
-
     public static Dictionary<string, object>? GetMetadata(this Error err) => err.Metadata;
 
 
@@ -78,7 +66,9 @@ public static class Errors
     /// </code>
     /// Field errors from both sides are merged; if the same field appears in both, its messages are concatenated.
     /// The returned error is based on <paramref name="rightError"/> with its <c>Metadata</c> replaced by the merged result.
-    /// Though not purposefully intended, any metadata keys other than <c>fields</c> present in <paramref name="rightError"/> are preserved.
+    /// Though not purposefully intended, any metadata keys other than <c>fields</c> present in <paramref name="rightError"/> are preserved. 
+    /// Consequentially, any metadata keys other than <c>fields</c> present in <paramref name="leftError"/> is lost.
+    /// But that kind of pattern is non-existant at the current time.
     ///
     /// <para><b>Assumptions:</b> This method assumes a single validation error shape across the codebase.
     /// If a second validation error type with a different metadata structure is introduced,
@@ -105,7 +95,7 @@ public static class Errors
         //If another Val error is added it may lead to lost of error information
 
         if (rightError.Type != ErrorType.Validation || leftError.Type != ErrorType.Validation)
-            throw new ArgumentException("Errors must be Validation type"); 
+            throw new ArgumentException("Errors must be Validation type");
         if (rightError.Metadata == null)
             return leftError;
         if (leftError.Metadata == null)
@@ -113,15 +103,27 @@ public static class Errors
 
         var metadata = new Dictionary<string, object>();
 
-        var rDict = (Dictionary<string, string[]>)rightError.Metadata["fields"];
-        var lDict = (Dictionary<string, string[]>)leftError.Metadata["fields"];
+        var merged = new Dictionary<string, string[]>();
+        try
+        {
+            var rDict = ((Dictionary<string, object>)rightError.Metadata["fields"])
+                .ToDictionary(kv => kv.Key, kv => (string[])kv.Value);                //Briefly cast dicts to string,string[] to merge
 
-        var merged = rDict.Concat(lDict)
-                        .GroupBy(x => x.Key)
-                        .ToDictionary(
-                            g => g.Key,
-                            g => g.SelectMany(x => x.Value).ToArray()
-                        );
+            var lDict = ((Dictionary<string, object>)leftError.Metadata["fields"])
+                .ToDictionary(kv => kv.Key, kv => (string[])kv.Value);
+
+            merged = rDict.Concat(lDict)
+                .GroupBy(x => x.Key)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.SelectMany(x => x.Value).ToArray()
+                );
+        }
+        catch (InvalidOperationException ex)
+        {
+            //LOG 
+            throw new InvalidOperationException("Unable to merge validation error metadata");
+        }
 
         metadata["fields"] = merged;
         return rightError with { Metadata = metadata };

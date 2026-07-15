@@ -23,8 +23,7 @@ public class StoreServiceTest
         {
             Name = "Test Store",
             Field = "Retail",
-            Description = "A test store for unit testing."
-        };
+            };
         var userID = "test-user-id";
 
         _storeRepository.CreateCore(Arg.Any<StoreCoreModel>()).Returns(new StoreCoreModel
@@ -32,7 +31,6 @@ public class StoreServiceTest
             Id = 1,
             Name = storeDTO.Name,
             Field = storeDTO.Field,
-            Description = storeDTO.Description,
             IdCreator = userID,
             IsActive = true
         }
@@ -44,7 +42,6 @@ public class StoreServiceTest
         Assert.True(result.IsSuccess);
         Assert.NotNull(result.Value);
         Assert.Equal(storeDTO.Name, result.Value.Name);
-        Assert.Equal(storeDTO.Description, result.Value.Description);
     }
 
 

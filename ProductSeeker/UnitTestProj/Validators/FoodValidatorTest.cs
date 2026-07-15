@@ -1,4 +1,4 @@
-namespace UnitTestProj;
+namespace UnitTestProj.Validators;
 
 using FluentValidation.TestHelper;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +9,6 @@ using ProductSeeker.Data.Models;
 public class FoodValidatorTests
 {
     private readonly IProductRepository _repoMock;
-    private readonly FoodValidator _validator;
     private readonly UserManager<AppUser> _userManagerMock;
 
     public FoodValidatorTests()
@@ -29,7 +28,6 @@ public class FoodValidatorTests
             null        // ILogger<UserManager<AppUser>>
         );
 
-        _validator = new FoodValidator(_repoMock, _userManagerMock);
         /*
        Validator internally uses productrepo and usermanager to validate the existence of the core and the user.
        Along with validating the equality of the category of the core with the product's category, these are all required validations for the validator to work properly.
@@ -69,6 +67,7 @@ public class FoodValidatorTests
 
         _userManagerMock.FindByIdAsync("user123").Returns(new AppUser { Id = "user123", UserName = "testuser", GeoLocation = "TestLocation" });
 
+        var _validator = new FoodValidator(_repoMock, _userManagerMock);
 
         var result = await _validator.TestValidateAsync(food);
 
@@ -82,8 +81,11 @@ public class FoodValidatorTests
     {
         var food = new FoodProductModel(); // Todo vacío
 
+        //A core could be returned, but this validation is done in ProductSpecValidatorTest
         _repoMock.GetCoreByID(Arg.Any<int>()).Returns((ProductCoreModel?)null);
         _userManagerMock.FindByIdAsync("user123").Returns(new AppUser { Id = "user123", UserName = "testuser", GeoLocation = "TestLocation" });
+
+        var _validator = new FoodValidator(_repoMock, _userManagerMock);
 
         var result = await _validator.TestValidateAsync(food);
 
@@ -92,10 +94,8 @@ public class FoodValidatorTests
         result.ShouldHaveValidationErrorFor(x => x.NetContent);
 
         // UoM  cannot be null. As an enum, it will default to Unknown
-        //So it will never be null, but it can be an invalid value (Unknown or any value not defined in the enum).
         //It is managed separately in the tests for invalid and unknown values
         //result.ShouldHaveValidationErrorFor(x => x.UnitOfMeasure); 
-
     }
 
 
@@ -114,7 +114,7 @@ public class FoodValidatorTests
             TACC = false
         };
 
-        _repoMock.GetCoreByID(food.ProductCoreId).Returns(new ProductCoreModel
+        _repoMock.GetCoreByID((int)food.ProductCoreId).Returns(new ProductCoreModel
         {
             Id = 1,
             Category = CategoriesEnum.ProductCategories.Food,
@@ -124,6 +124,7 @@ public class FoodValidatorTests
             Brand = "MarcaAgua"
         });
         _userManagerMock.FindByIdAsync("user123").Returns(new AppUser { Id = "user123", UserName = "testuser", GeoLocation = "TestLocation" });
+        var _validator = new FoodValidator(_repoMock, _userManagerMock);
 
         var result = await _validator.TestValidateAsync(food);
 
@@ -147,7 +148,7 @@ public class FoodValidatorTests
             TACC = false
         };
 
-        _repoMock.GetCoreByID(food.ProductCoreId).Returns(new ProductCoreModel
+        _repoMock.GetCoreByID((int)food.ProductCoreId).Returns(new ProductCoreModel
         {
             Id = 1,
             Category = CategoriesEnum.ProductCategories.Food,
@@ -157,6 +158,7 @@ public class FoodValidatorTests
             Brand = "MarcaLeche"
         });
         _userManagerMock.FindByIdAsync("user123").Returns(new AppUser { Id = "user123", UserName = "testuser", GeoLocation = "TestLocation" });
+        var _validator = new FoodValidator(_repoMock, _userManagerMock);
 
         var result = await _validator.TestValidateAsync(food);
 
@@ -179,7 +181,7 @@ public class FoodValidatorTests
             TACC = false
         };
 
-        _repoMock.GetCoreByID(food.ProductCoreId).Returns(new ProductCoreModel
+        _repoMock.GetCoreByID((int)food.ProductCoreId).Returns(new ProductCoreModel
         {
             Id = 1,
             Category = CategoriesEnum.ProductCategories.Food,
@@ -189,6 +191,7 @@ public class FoodValidatorTests
             Brand = "MarcaLeche"
         });
         _userManagerMock.FindByIdAsync("user123").Returns(new AppUser { Id = "user123", UserName = "testuser", GeoLocation = "TestLocation" });
+        var _validator = new FoodValidator(_repoMock, _userManagerMock);
 
         var result = await _validator.TestValidateAsync(food);
 

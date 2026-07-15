@@ -86,7 +86,7 @@ namespace ProductSeeker.Controllers
         //POST: api/product/spec
         [HttpPost("spec")]
         [Authorize]
-        public async Task<ActionResult<ProductSpecModel>> POSTSpec([FromBody] POSTProductSpecDTO dto)
+        public async Task<ActionResult<ProductSpecModel>> POSTSpec([FromBody] POSTProductSpecDTObase dto)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
@@ -112,7 +112,7 @@ namespace ProductSeeker.Controllers
         // POST: api/product
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<ProductSpecModel>> POSTProductWCore([FromBody] POSTProductWCoreDTO dto)
+        public async Task<ActionResult<ProductSpecModel>> POSTProductWCore([FromBody] POSTProductWCoreDTObase dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -121,13 +121,12 @@ namespace ProductSeeker.Controllers
 
             try
             {
-                //var result = await _productService.ADMINCreateProductWCore(dto, userID);
+                var result = await _productService.CreateProductCoreWSpec(dto, userID);
 
-                // if (result.IsSuccess)
-                //     return CreatedAtAction(nameof(GetSpecByID), new { id = result.Value!.Id }, result.Value);
+                if (result.IsSuccess) { return Ok("Placeholder until we have a proper GET method"); } //Should be CreatedAtAction
 
-                // return result.Error!.ToActionResult();
-                return Ok();
+
+                return result.Error!.ToActionResult();
             }
             catch (Exception ex)
             {
@@ -189,7 +188,7 @@ namespace ProductSeeker.Controllers
         // POST: api/product/scrape
         [HttpPost("scrape")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ProductSpecModel>> POSTScrapedProduct([FromBody] POSTProductWCoreDTO dto)
+        public async Task<ActionResult<ProductSpecModel>> POSTScrapedProduct([FromBody] POSTProductWCoreDTObase dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -198,12 +197,12 @@ namespace ProductSeeker.Controllers
 
             try
             {
-                var result = await _productService.ADMINCreateProductWCore(dto, userID);
+                // var result = await _productService.ADMINCreateProductWCore(dto, userID);
 
-                if (result.IsSuccess)
-                    return Ok();
+                //if (result.IsSuccess)
+                return Ok();
 
-                return result.Error!.ToActionResult();
+                //return result.Error!.ToActionResult();
             }
             catch (Exception ex)
             {

@@ -1,4 +1,4 @@
-namespace UnitTestProj;
+namespace UnitTestProj.Validators;
 
 using FluentValidation.TestHelper;
 using Microsoft.AspNetCore.Identity;

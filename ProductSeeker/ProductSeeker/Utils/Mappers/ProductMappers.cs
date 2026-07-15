@@ -25,7 +25,7 @@ namespace ProductSeeker.Services.Mappers
         }
 
 
-        public static ProductSpecModel FromPOSTSpecDTOToModel(this POSTProductSpecDTO dto, string userID, CreationSource creationSource)
+        public static ProductSpecModel FromPOSTSpecDTOToModel(this POSTProductSpecDTObase dto, string userID, CreationSource creationSource)
         {
             return dto.Category switch
             {
@@ -46,7 +46,7 @@ namespace ProductSeeker.Services.Mappers
         }
 
 
-        public static ProductCoreModel FromPOSTWCoreDTOtoCoreModel(this POSTProductWCoreDTO dto, string userID, CreationSource userRole)
+        public static ProductCoreModel FromPOSTWCoreDTOtoCoreModel(this POSTProductWCoreDTObase dto, string userID, CreationSource userRole)
         {
             return new ProductCoreModel
             {
@@ -111,7 +111,7 @@ namespace ProductSeeker.Services.Mappers
         /// <param name="coreID"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static ProductSpecModel FromPOSTCoreWSpecDTOToSpecModel(this POSTProductWCoreDTO dto, string userId, CreationSource creationSource,
+        public static ProductSpecModel FromPOSTCoreWSpecDTOToSpecModel(this POSTProductWCoreDTObase dto, string userId, CreationSource creationSource,
                                                                        int? coreID = null)
         {
             return dto.Category switch

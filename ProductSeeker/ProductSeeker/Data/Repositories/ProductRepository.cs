@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using ProductSeeker.Data.Context;
 using ProductSeeker.Data.Models;
 
@@ -45,24 +46,16 @@ public class ProductRepository : IProductRepository
             x.Brand.ToLower() == brand.ToLower());
     }
 
-    public async Task<ProductSpecModel?> FindSpecByIdentifiers(int coreId, List<object> specIdentifier)
-    {   
-        var specs = await _context.ProductSpecs.Where(x => x.ProductCoreId == coreId).ToListAsync();
 
 
-        foreach (var spec in specs)
-        {
-            if (spec.GetIdentifier().SequenceEqual(specIdentifier))
-            {
-                return spec;
-            }
-        }
-
-        return null;
-
+    public async Task<TSpec?> GetSpecByPredicate<TSpec>(int coreId, Expression<Func<TSpec, bool>> predicate) where TSpec : ProductSpecModel
+    {
+        return await _context.Set<TSpec>()
+            .Where(x => x.ProductCoreId == coreId)
+            .Where(predicate)
+            .FirstOrDefaultAsync();
     }
 
- 
 
     public async Task<ProductCoreModel?> GetCoreByID(int CoreId)
     {

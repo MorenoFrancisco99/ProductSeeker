@@ -1,4 +1,4 @@
-namespace UnitTestProj;
+namespace UnitTestProj.Validators;
 
 using FluentValidation.TestHelper;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +8,6 @@ using ProductSeeker.Data.Models;
 
 public class ProductSpecValidatorTest
 {
-    private readonly FoodValidator _validator;
     private readonly IProductRepository _repoMock;
     private readonly UserManager<AppUser> _userManagerMock;
 
@@ -19,7 +18,6 @@ public class ProductSpecValidatorTest
             Substitute.For<IUserStore<AppUser>>(),
             null, null, null, null, null, null, null, null);
 
-        _validator = new FoodValidator(_repoMock, _userManagerMock);
 
     }
 
@@ -47,8 +45,9 @@ public class ProductSpecValidatorTest
         };
 
         // El core no existe
-        _repoMock.GetCoreByID(food.ProductCoreId).Returns((ProductCoreModel?)null);
+        _repoMock.GetCoreByID((int)food.ProductCoreId).Returns((ProductCoreModel?)null);
         _userManagerMock.FindByIdAsync("user123").Returns(new AppUser { Id = "user123", UserName = "testuser", GeoLocation = "TestLocation" });
+        var _validator = new FoodValidator(_repoMock, _userManagerMock);
 
         var result = await _validator.TestValidateAsync(food);
 
@@ -74,7 +73,7 @@ public class ProductSpecValidatorTest
         };
 
         // El core existe pero tiene otra categoría
-        _repoMock.GetCoreByID(food.ProductCoreId).Returns(new ProductCoreModel
+        _repoMock.GetCoreByID((int)food.ProductCoreId).Returns(new ProductCoreModel
         {
             Id = 1,
             Category = CategoriesEnum.ProductCategories.Unknown,
@@ -85,6 +84,7 @@ public class ProductSpecValidatorTest
         });
         _userManagerMock.FindByIdAsync("user123").Returns(new AppUser { Id = "user123", UserName = "testuser", GeoLocation = "TestLocation" });
 
+        var _validator = new FoodValidator(_repoMock, _userManagerMock);
 
         var result = await _validator.TestValidateAsync(food);
 
@@ -102,7 +102,7 @@ public class ProductSpecValidatorTest
 
         _repoMock.GetCoreByID(Arg.Any<int>()).Returns((ProductCoreModel?)null);
         _userManagerMock.FindByIdAsync("user123").Returns(new AppUser { Id = "user123", UserName = "testuser", GeoLocation = "TestLocation" });
-
+        var _validator = new FoodValidator(_repoMock, _userManagerMock);
         var result = await _validator.TestValidateAsync(food);
 
         // ProductSpecValidator errors

@@ -8,8 +8,15 @@ namespace ProductSeeker;
 public class ProductSpecValidator<T> : BaseEntityValidator<T> where T : ProductSpecModel
 {
     private readonly IProductRepository _prodRepo;
-    public ProductSpecValidator(IProductRepository prodrepo, UserManager<AppUser> userManager, bool IsJointCreation) : base(userManager)
+    public ProductSpecValidator(IProductRepository prodrepo, UserManager<AppUser> userManager) : base(userManager)
     {
+        /*
+        IsJointCreation is meant for situation where a creaton of Core+Spec is requested
+        In this case, CoreId do not yet exist and we cant validate it.
+        false: coreId is checked
+        true: coreId is not checked
+        other fields may be subject to this behavior in the future
+        */
 
         _prodRepo = prodrepo;
 
@@ -20,33 +27,37 @@ public class ProductSpecValidator<T> : BaseEntityValidator<T> where T : ProductS
         .NotEqual(CategoriesEnum.ProductCategories.Unknown)
         .WithMessage("Product category is unknown");
 
-        if(!IsJointCreation)
-        {
-            RuleFor(x => x.ProductCoreId)
-                .NotNull()
-                .MustAsync(async (product, prodCoreId, context, cancellation) =>
+        RuleFor(x => x.ProductCoreId)
+            .Cascade(CascadeMode.Stop)
+            .NotNull()
+            .MustAsync(async (product, prodCoreId, context, cancellation) =>
+            {
+                var core = await _prodRepo.GetCoreByID((int)prodCoreId!);
+
+                if (core == null)
                 {
-                    var core = await _prodRepo.GetCoreByID((int)prodCoreId!);
+                    context.MessageFormatter.AppendArgument("ErrorMessage", "Target product does not exist");
+                    return false;
+                }
 
-                    if (core == null)
-                    {
-                        context.MessageFormatter.AppendArgument("ErrorMessage", "Target product does not exist");
-                        return false;
-                    }
+                if (core.Category != product.Category)
+                {
+                    context.MessageFormatter.AppendArgument("ErrorMessage",
+                        $"The category of the spec must match the category of the core. " +
+                        $"Core: {core.Category}, Spec: {product.Category}");
+                    return false;
+                }
 
-                    if (core.Category != product.Category)
-                    {
-                        context.MessageFormatter.AppendArgument("ErrorMessage",
-                            $"The category of the spec must match the category of the core. " +
-                            $"Core: {core.Category}, Spec: {product.Category}");
-                        return false;
-                    }
+                return true;
+            })
+            .WithMessage("{ErrorMessage}")
+            .When((product, context) => //Checks the given context to verify if ProductCoreId should be validates
+            {
+                var isJointCreation = context.RootContextData.TryGetValue("IsJointCreation", out var val)
+                                       && val is bool b && b;
+                return !isJointCreation;
+            });
 
-                    return true;
-                })
-                .WithMessage("{ErrorMessage}");
-        }
-        
 
 
 

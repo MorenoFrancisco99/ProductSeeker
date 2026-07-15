@@ -1,4 +1,5 @@
-﻿using ProductSeeker.Data.Models;
+﻿using System.Linq.Expressions;
+using ProductSeeker.Data.Models;
 
 namespace ProductSeeker;
 
@@ -9,7 +10,7 @@ public interface IProductRepository
     Task<AppUserProductPriceModel?> GetPriceByID(int priceID);
 
     Task<AppUserProductPriceModel> CreatePrice(AppUserProductPriceModel model);
-   
+
 
     /// <summary>
     /// Retrieves a ProductCore by its unique identifier.
@@ -65,25 +66,17 @@ public interface IProductRepository
     /// <returns>The corresponding ProductCore entity if found; otherwise, <c>null</c>.</returns>
     Task<ProductCoreModel?> FindCore(string productName, string brand);
 
-    
-  
+
+
+
+    Task<TSpec?> GetSpecByPredicate<TSpec>(int coreId, Expression<Func<TSpec, bool>> predicate)
+            where TSpec : ProductSpecModel;
+
     /// <summary>
-    /// Retrieves a ProductSpec entity based on the provided coreId and a list of values that uniquely identify the spec.
+    /// Retrieves ProductSpec entity based on the provided EAN
     /// </summary>
-    /// <remarks>
-    /// Inteded to be used for finding a spec before creating it, to avoid duplicates. 
-    /// The specIdentifier parameter should contain the values of the attributes that, in combination, uniquely identify a spec within a product core. 
-    /// The implementation should determine how to use these values to query the database for an existing ProductSpec that matches the given criteria.
-    /// 
-    /// Another alternative is finding the spec by EAN, but not all products have EANs, and for some categories, 
-    /// the combination of attributes is a more natural unique identifier.
-    /// </remarks>
-    /// <param name="coreId"></param>
-    /// <param name="specIdentifier"></param>
-    /// <returns>The corresponding ProductSpec entity if found; otherwise, <c>null</c>.</returns>
-    Task<ProductSpecModel?> FindSpecByIdentifiers(int coreId, List<object> specIdentifier);
-
-
+    /// <param name="ean"></param>
+    /// <returns>The corresponding ProductCore entity if found; otherwise, <c>null</c>.</returns>
     Task<ProductSpecModel?> GetSpecByEAN(string? ean);
 
 }

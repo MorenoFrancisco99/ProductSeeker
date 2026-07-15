@@ -8,7 +8,7 @@ namespace ProductSeeker;
 /// <summary>
 /// DTO that inherits from polimorphic ProductSpectDTO
 /// </summary>
-public class POSTFoodProductDTO : POSTProductSpecDTO
+public class POSTFoodProductDTO : POSTProductSpecDTObase
 {
     [Required(ErrorMessage = "Food attribute error: NetContent attribute must be submitted")]
     [Range(0, 100000)]

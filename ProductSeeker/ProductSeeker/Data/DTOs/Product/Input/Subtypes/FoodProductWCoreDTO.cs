@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 using System.Text.Json.Serialization;
 using ProductSeeker;
 using ProductSeeker.Data.Models;
@@ -7,7 +8,7 @@ using ProductSeeker.Data.Models;
 /// <summary>
 /// DTO that inherits from ProductWCoreDTO
 /// </summary>
-public class POSTFoodProductWCoreDTO : POSTProductWCoreDTO
+public class POSTFoodProductWCoreDTO : POSTProductWCoreDTObase, IHasSpecPredicate<FoodProductModel>
 {
     [Required]
     [Range(0, 100000)]
@@ -22,6 +23,11 @@ public class POSTFoodProductWCoreDTO : POSTProductWCoreDTO
 
     public override CategoriesEnum.ProductCategories Category => CategoriesEnum.ProductCategories.Food;
 
-    public override List<object> GetSpecIdentifier() => new List<object> { NetContent, UnitOfMeasure};
- 
+    public Expression<Func<FoodProductModel, bool>> MatchPredicate =>
+            spec => spec.NetContent == NetContent
+                 && spec.UnitOfMeasure == UnitOfMeasure;
+    public FoodProductModel ToEntity(int coreId)
+    {
+        throw new NotImplementedException();
+    }
 }
