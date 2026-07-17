@@ -19,7 +19,7 @@ public class GETProductCoreDTO
     public string Brand { get; set; }
     public CategoriesEnum.ProductCategories Category { get; set; }
 
-    public List<ProductSpecModel> Specs { get; set; } = new List<ProductSpecModel>();
+    public List<GETProductSpecDTO> Specs { get; set; } = new List<GETProductSpecDTO>();
     
     public ICollection<ProductAliasModel> Aliases { get; set; } = new List<ProductAliasModel>();    
 

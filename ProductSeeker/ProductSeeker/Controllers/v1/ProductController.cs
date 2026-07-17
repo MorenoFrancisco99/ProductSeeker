@@ -11,12 +11,10 @@ namespace ProductSeeker.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        private readonly UserManager<AppUser> _userManager;
 
-        public ProductController(IProductService productService, UserManager<AppUser> userManager)
+        public ProductController(IProductService productService)
         {
             _productService = productService;
-            _userManager = userManager;
         }
 
         //GET: api/product/core/{coreID}
@@ -57,6 +55,27 @@ namespace ProductSeeker.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"Error fetching product core: ", ex);
+                return StatusCode(500);
+            }
+        }
+
+        //GET: api/product/core/{coreId}/specs/{specId}
+        [HttpGet("core/{coreId}/specs/{specId}")]
+        [Authorize]
+        public async Task<ActionResult<ProductSpecModel>> GetSpecByCoreIDAndSpecID(int coreId, int specId)
+        {
+            string? userID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userID == null) { return Unauthorized(); }
+            try
+            {
+                var result = await _productService.GetCoreWithSpecByIDs(coreId, specId, userID);
+                if (result.IsSuccess) { return Ok(result.Value); }
+
+                return result.Error!.ToActionResult();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching product spec: ", ex);
                 return StatusCode(500);
             }
         }
@@ -112,7 +131,7 @@ namespace ProductSeeker.Controllers
         // POST: api/product
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<ProductSpecModel>> POSTProductWCore([FromBody] POSTProductWCoreDTObase dto)
+        public async Task<ActionResult<ProductCoreModel>> POSTProductWCore([FromBody] POSTProductWCoreDTObase dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -123,7 +142,7 @@ namespace ProductSeeker.Controllers
             {
                 var result = await _productService.CreateProductCoreWSpec(dto, userID);
 
-                if (result.IsSuccess) { return Ok("Placeholder until we have a proper GET method"); } //Should be CreatedAtAction
+                if (result.IsSuccess) { return CreatedAtAction(nameof(GetSpecByCoreIDAndSpecID), new { codeId = result.Value.Id, specId = result.Value.Specs.First().Id }, result.Value); } //Should be CreatedAtAction
 
 
                 return result.Error!.ToActionResult();

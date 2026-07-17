@@ -30,6 +30,8 @@ public interface IProductRepository
     /// </returns>
     Task<ProductSpecModel?> GetSpecByID(int SpecId);
 
+    Task<ProductCoreModel?> GetCoreWithSpecByIDs(int CoreId, int specId);
+
     /// <summary>
     /// Creates a new ProductCore entity in the database.
     /// </summary>

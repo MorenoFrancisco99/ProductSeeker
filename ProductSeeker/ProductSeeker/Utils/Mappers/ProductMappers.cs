@@ -75,6 +75,22 @@ namespace ProductSeeker.Services.Mappers
         }
 
 
+        public static GETProductCoreDTO FromModelToGETDTO(this ProductCoreModel model)
+        {
+            return new GETProductCoreDTO
+            {
+                Id = model.Id,
+                ProductName = model.ProductName,
+                Brand = model.Brand,
+                Category = model.Category,
+                IsActive = model.IsActive,
+                CreationDate = model.CreationDate,
+                CreationSource = model.CreationSource,
+                IdCreator = model.IdCreator,
+                Specs = model.Specs.Select(x => x.FromModelToGETDTO()).ToList()
+            };
+        }
+
         public static GETProductSpecDTO FromModelToGETDTO(this ProductSpecModel model)
         {
             return model.Category switch

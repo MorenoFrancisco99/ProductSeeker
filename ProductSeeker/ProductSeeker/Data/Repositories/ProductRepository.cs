@@ -80,4 +80,18 @@ public class ProductRepository : IProductRepository
         return await _context.ProductSpecs.FirstOrDefaultAsync(x => x.Id == SpecId);
     }
 
+    public async Task<ProductCoreModel?> GetCoreWithSpecByIDs(int CoreId, int specId)
+    {
+        return await _context.ProductCores
+            .Include(core => core.Specs)
+            .Where(core => core.Id == CoreId)
+            .Select(core => new ProductCoreModel
+            {
+                Id = core.Id,
+                ProductName = core.ProductName,
+                Brand = core.Brand,
+                Specs = core.Specs.Where(spec => spec.Id == specId).ToList()
+            })
+            .FirstOrDefaultAsync();
+    }
 }

@@ -150,13 +150,7 @@ public class ProductService : IProductService
         return result;
     }
 
-    public async Task<Result<AppUserProductPriceModel>> GetPriceByID(int priceId, string userID)
-    {
-        var result = await _productRepo.GetPriceByID(priceId);
-        if (result == null)
-            return Errors.UserPriceNotFound;
-        return result;
-    }
+
 
     public async Task<Result<GETProductSpecDTO>> GetSpecByID(int SpecId, string userID)
     {
@@ -167,9 +161,25 @@ public class ProductService : IProductService
     }
 
 
+    public async Task<Result<GETProductCoreDTO>> GetCoreWithSpecByIDs(int CoreId, int specId,string userID)
+    {
+        var result = await _productRepo.GetCoreWithSpecByIDs(CoreId, specId);
 
+        if (!result.Specs.Any())
+            return Errors.ProductSpecNotFound.WithMetadata("SpecId", specId);
+        if(result == null)
+            return Errors.ProductCoreNotFound.WithMetadata("CoreId", CoreId);
+        
+        return result.FromModelToGETDTO();
+    }
 
-
+    public async Task<Result<AppUserProductPriceModel>> GetPriceByID(int priceId, string userID)
+    {
+        var result = await _productRepo.GetPriceByID(priceId);
+        if (result == null)
+            return Errors.UserPriceNotFound;
+        return result;
+    }
 
     //     public async Task<Result<ProductSpecModel>> DEPRECATEDADMINCreateProductWCore(POSTProductWCoreDTO dto, string userID)
     //     {
@@ -279,7 +289,6 @@ public class ProductService : IProductService
 
         return await validator.ValidateAsync(context);
     }
-
 
 
 }
